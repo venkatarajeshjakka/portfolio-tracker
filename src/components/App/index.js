@@ -1,5 +1,5 @@
 import React from "react";
-import './styles.css'
+import "./styles.css";
 import HomePage from "../HomePage";
 import Login from "../Login";
 import Register from "../Register";
@@ -7,10 +7,11 @@ import Dashboard from "../Dashboard";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { CssBaseline } from "@material-ui/core";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Provider as AuthProvider } from "../../context/AuthContext";
 
 const theme = createMuiTheme();
 
-export default function App() {
+const App = () => {
   return (
     <MuiThemeProvider theme={theme}>
       <CssBaseline />
@@ -24,4 +25,12 @@ export default function App() {
       </Router>
     </MuiThemeProvider>
   );
-}
+};
+
+export default () => {
+  return (
+    <AuthProvider>
+      <App />
+    </AuthProvider>
+  );
+};

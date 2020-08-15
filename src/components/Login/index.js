@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   Typography,
   Paper,
@@ -11,7 +11,7 @@ import {
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import withStyles from "@material-ui/core/styles/withStyles";
 import { Link, withRouter } from "react-router-dom";
-
+import { Context as AuthContext } from "../../context/AuthContext";
 const styles = theme => ({
   main: {
     width: "auto",
@@ -50,7 +50,11 @@ function SignIn(props) {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const {
+    signin,
+    state: {  }
+  } = useContext(AuthContext);
+  
   return (
     <main className={classes.main}>
       <Paper className={classes.paper}>
@@ -91,6 +95,7 @@ function SignIn(props) {
             fullWidth
             variant="contained"
             color="primary"
+			onClick={login}
             className={classes.submit}
           >
             Sign in
@@ -110,6 +115,16 @@ function SignIn(props) {
       </Paper>
     </main>
   );
+
+  function login()
+  {
+	try {
+		signin(email, password)
+		props.history.replace('/dashboard')
+	} catch(error) {
+		alert(error.message)
+	}
+  }
 }
 
 export default withRouter(withStyles(styles)(SignIn));

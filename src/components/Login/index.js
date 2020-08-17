@@ -10,8 +10,10 @@ import {
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import withStyles from "@material-ui/core/styles/withStyles";
+import { Redirect } from "react-router";
+import app from "../../config/firebase";
+import { AuthContext } from "../../context/AuthContext";
 import { Link, withRouter } from "react-router-dom";
-import { Context as AuthContext } from "../../context/AuthContext";
 const styles = theme => ({
   main: {
     width: "auto",
@@ -45,16 +47,26 @@ const styles = theme => ({
   }
 });
 
-function SignIn(props) {
-  const { classes } = props;
-
+const SignIn = ({ history, classes }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const {
-    signin,
-    state: {  }
-  } = useContext(AuthContext);
-  
+
+  const handleLogin = async () => {
+    try {
+      await app.auth().signInWithEmailAndPassword(email, password);
+
+      history.push("/dashboard");
+    } catch (error) {
+      alert(error);
+    }
+  };
+
+  const { currentUser } = useContext(AuthContext);
+
+  if (currentUser) {
+    return <Redirect to="/" />;
+  }
+
   return (
     <main className={classes.main}>
       <Paper className={classes.paper}>
@@ -95,7 +107,7 @@ function SignIn(props) {
             fullWidth
             variant="contained"
             color="primary"
-			onClick={login}
+            onClick={handleLogin}
             className={classes.submit}
           >
             Sign in
@@ -115,16 +127,6 @@ function SignIn(props) {
       </Paper>
     </main>
   );
-
-  function login()
-  {
-	try {
-		signin(email, password)
-		props.history.replace('/dashboard')
-	} catch(error) {
-		alert(error.message)
-	}
-  }
-}
+};
 
 export default withRouter(withStyles(styles)(SignIn));

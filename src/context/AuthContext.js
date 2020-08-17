@@ -1,74 +1,18 @@
-import createDataContext from "./createDataContext";
-import firebase from "../config/firebase";
+import React, { useState, useEffect } from "react";
+import app from "../config/firebase";
 
-const authReducer = (state, action) => {
-  switch (action.type) {
-    case "add_error":
-      return { ...state, errorMessage: action.payload };
+export const AuthContext = React.createContext();
 
-    case "signin":
-      return { errorMessage: "", signInSuccess: action.payload };
+export const AuthProvider = ({ children }) => {
+  const [currentUser, setCurrentUser] = useState(null);
 
-    case "clear_error_message":
-      return { ...state, errorMessage: "" };
-    case "signout":
-      return { signInSuccess: false, errorMessage: "" };
+  useEffect(() => {
+    app.auth().onAuthStateChanged(setCurrentUser);
+  }, []);
 
-    case "userName":
-      return { ...state, userName: action.payload };
-    default:
-      return state;
-  }
+  return (
+    <AuthContext.Provider value={{ currentUser }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
-
-const tryLocalSignin = dispatch => async () => {
-  dispatch({ type: "signin", payload: "" });
-};
-
-const clearErrorMessage = dispatch => () => {
-  dispatch({ type: "clear_error_message" });
-};
-const signup = dispatch => async ({ name, email, password }) => {
-  try {
-    await firebase.register(name, email, password);
-
-    dispatch({ type: "signin", payload: true });
-  } catch (error) {
-    dispatch({
-      type: "add_error",
-      payload: error.message
-    });
-  }
-};
-
-const signin = dispatch => async ({ email, password }) => {
-  try {
-    console.log("method fired");
-    var response = await firebase.login(email, password);
-    console.log(response);
-    dispatch({ type: "signin", payload: true });
-  } catch (error) {
-    dispatch({
-      type: "add_error",
-      payload: error.message
-    });
-  }
-};
-
-const signout = dispatch => async () => {
-  //sign out
-  await firebase.logout();
-  dispatch({ type: "signout" });
-};
-
-const getUserName = dispatch => async () => {
-  //sign out
-  var response = await firebase.getCurrentUsername();
-  dispatch({ type: "userName", payload: response });
-};
-
-export const { Provider, Context } = createDataContext(
-  authReducer,
-  { signin, signout, signup, clearErrorMessage, tryLocalSignin, getUserName },
-  { signInSuccess: false, errorMessage: "", userName: "" }
-);

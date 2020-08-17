@@ -10,9 +10,10 @@ import {
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import withStyles from "@material-ui/core/styles/withStyles";
-import { Link, withRouter } from "react-router-dom";
-import { Context as AuthContext } from "../../context/AuthContext";
-
+import { Link } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
+import app from "../../config/firebase";
+import { withRouter, Redirect } from "react-router";
 const styles = theme => ({
   main: {
     width: "auto",
@@ -46,19 +47,27 @@ const styles = theme => ({
   }
 });
 
-function Register(props) {
-  const { classes } = props;
-
+const Register = ({ history, classes }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [quote, setQuote] = useState("");
 
-  const {
-    signup,
-    state: {  }
-  } = useContext(AuthContext);
-  
+  const handleSignUp = async () => {
+    try {
+      await app.auth().createUserWithEmailAndPassword(email, password);
+      history.push("/dashboard");
+    } catch (error) {
+      alert(error);
+    }
+  };
+
+  const { currentUser } = useContext(AuthContext);
+
+  if (currentUser) {
+    return <Redirect to="/" />;
+  }
+
   return (
     <main className={classes.main}>
       <Paper className={classes.paper}>
@@ -121,7 +130,7 @@ function Register(props) {
             fullWidth
             variant="contained"
             color="primary"
-            onClick={onRegister}
+            onClick={handleSignUp}
             className={classes.submit}
           >
             Register
@@ -142,15 +151,6 @@ function Register(props) {
       </Paper>
     </main>
   );
-
-  function onRegister() {
-    try {
-      console.log(email)
-      signup(name, email, password);
-    } catch (error) {
-      alert(error.message);
-    }
-  }
-}
+};
 
 export default withRouter(withStyles(styles)(Register));

@@ -1,10 +1,10 @@
-import React, { useContext, useEffect } from "react";
+import React from "react";
 import { Typography, Paper, Avatar, Button } from "@material-ui/core";
 import VerifiedUserOutlined from "@material-ui/icons/VerifiedUserOutlined";
 import withStyles from "@material-ui/core/styles/withStyles";
 
 import { withRouter } from "react-router-dom";
-import { Context as AuthContext } from "../../context/AuthContext";
+import app from "../../config/firebase";
 const styles = theme => ({
   main: {
     width: "auto",
@@ -37,22 +37,6 @@ const styles = theme => ({
 function Dashboard(props) {
   const { classes } = props;
 
-  const {
-    signout,
-    getUserName,
-    state: { signInSuccess, userName }
-  } = useContext(AuthContext);
-
-  useEffect(() => {
-    getUserName();
-  }, [signInSuccess]);
-
-  if (!signInSuccess) {
-    // not logged in
-    alert("Please login first");
-    props.history.replace("/login");
-  }
-
   return (
     <main className={classes.main}>
       <Paper className={classes.paper}>
@@ -60,7 +44,7 @@ function Dashboard(props) {
           <VerifiedUserOutlined />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Hello {userName}
+          Hello User
         </Typography>
 
         <Button
@@ -78,8 +62,7 @@ function Dashboard(props) {
   );
 
   function logout() {
-    signout();
-    props.history.push("/");
+    app.auth().signOut();
   }
 }
 

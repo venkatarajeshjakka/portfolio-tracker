@@ -4,6 +4,7 @@ import Login from "../Login";
 import Register from "../Register";
 import Dashboard from "../Dashboard";
 import Home from "../HomePage";
+import Layout from "../shared/layout";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { CssBaseline } from "@material-ui/core";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -30,7 +31,9 @@ const App = () => {
 export default () => {
   return (
     <AuthProvider>
-      <App />
+      <Layout>
+        <App />
+      </Layout>
     </AuthProvider>
   );
 };

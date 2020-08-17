@@ -3,12 +3,12 @@ import "./styles.css";
 import Login from "../Login";
 import Register from "../Register";
 import Dashboard from "../Dashboard";
-import Home from '../HomePage'
+import Home from "../HomePage";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { CssBaseline } from "@material-ui/core";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { AuthProvider } from "../../context/AuthContext";
-import PrivatRoute from '../../config/PrivateRoute'
+import PrivatRoute from "../../config/PrivateRoute";
 const theme = createMuiTheme();
 
 const App = () => {

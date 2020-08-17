@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Typography, Paper, Avatar, Button } from "@material-ui/core";
 import VerifiedUserOutlined from "@material-ui/icons/VerifiedUserOutlined";
 import withStyles from "@material-ui/core/styles/withStyles";
 
 import { withRouter } from "react-router-dom";
 import app from "../../config/firebase";
+import { AuthContext } from "../../context/AuthContext";
 const styles = theme => ({
   main: {
     width: "auto",
@@ -37,6 +38,7 @@ const styles = theme => ({
 function Dashboard(props) {
   const { classes } = props;
 
+  const { currentUser } = useContext(AuthContext);
   return (
     <main className={classes.main}>
       <Paper className={classes.paper}>
@@ -44,7 +46,7 @@ function Dashboard(props) {
           <VerifiedUserOutlined />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Hello User
+          Hello {currentUser.displayName}
         </Typography>
 
         <Button

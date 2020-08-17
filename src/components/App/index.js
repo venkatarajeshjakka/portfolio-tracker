@@ -3,6 +3,7 @@ import "./styles.css";
 import Login from "../Login";
 import Register from "../Register";
 import Dashboard from "../Dashboard";
+import Home from '../HomePage'
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { CssBaseline } from "@material-ui/core";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -16,7 +17,7 @@ const App = () => {
       <CssBaseline />
       <Router>
         <Switch>
-          <PrivatRoute exact path="/" component={Dashboard} />
+          <Route exact path="/" component={Home} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
           <PrivatRoute exact path="/dashboard" component={Dashboard} />

@@ -55,7 +55,14 @@ const Register = ({ history, classes }) => {
 
   const handleSignUp = async () => {
     try {
-      await app.auth().createUserWithEmailAndPassword(email, password);
+      await app
+        .auth()
+        .createUserWithEmailAndPassword(email, password)
+        .then(result => {
+          result.user.updateProfile({
+            displayName: name
+          });
+        });
       history.push("/dashboard");
     } catch (error) {
       alert(error);

@@ -17,12 +17,14 @@ const App = () => {
     <MuiThemeProvider theme={theme}>
       <CssBaseline />
       <Router>
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/register" component={Register} />
-          <PrivatRoute exact path="/dashboard" component={Dashboard} />
-        </Switch>
+        <Layout>
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/register" component={Register} />
+            <PrivatRoute exact path="/dashboard" component={Dashboard} />
+          </Switch>
+        </Layout>
       </Router>
     </MuiThemeProvider>
   );
@@ -31,9 +33,7 @@ const App = () => {
 export default () => {
   return (
     <AuthProvider>
-      <Layout>
-        <App />
-      </Layout>
+      <App />
     </AuthProvider>
   );
 };

@@ -107,7 +107,11 @@ const Layout = ({ classes, children }) => {
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
-            className={clsx(classes.menuButton, open && classes.hide)}
+            className={
+              currentUser
+                ? clsx(classes.menuButton, open && classes.hide)
+                : classes.hide
+            }
           >
             <MenuIcon />
           </IconButton>

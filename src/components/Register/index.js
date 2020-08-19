@@ -72,7 +72,7 @@ const Register = ({ history, classes }) => {
   const { currentUser } = useContext(AuthContext);
 
   if (currentUser) {
-    return <Redirect to="/" />;
+    return <Redirect to="/dashboard" />;
   }
 
   return (

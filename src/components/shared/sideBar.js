@@ -10,14 +10,33 @@ import {
   IconButton
 } from "@material-ui/core";
 import {
-  MoveToInbox as InboxIcon,
-  Mail as MailIcon,
   ChevronLeft as ChevronLeftIcon,
-  ChevronRight as ChevronRightIcon
+  ChevronRight as ChevronRightIcon,
+  HomeRounded as HomeRoundedIcon,
+  AttachMoneyRounded as AttachMoneyRoundedIcon,
+  BookmarkRounded as BookmarkRoundedIcon
 } from "@material-ui/icons";
+import { Link } from "react-router-dom";
 
 const drawerWidth = 240;
 
+const iconsArray = [
+  {
+    text: "DashBoard",
+    icon: <HomeRoundedIcon />,
+    to: "/dashboard"
+  },
+  {
+    text: "Dividend",
+    icon: <AttachMoneyRoundedIcon />,
+    to: "/dividend"
+  },
+  {
+    text: "Watchlist",
+    icon: <BookmarkRoundedIcon />,
+    to: "/watchlist"
+  }
+];
 const styles = theme => ({
   drawer: {
     width: drawerWidth,
@@ -58,23 +77,10 @@ const SideBar = ({ open, classes, handleDrawerClose }) => {
       </div>
       <Divider />
       <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {["All mail", "Trash", "Spam"].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
+        {iconsArray.map((item, index) => (
+          <ListItem button key={item.text} component={Link} to={item.to}>
+            <ListItemIcon>{item.icon}</ListItemIcon>
+            <ListItemText primary={item.text} />
           </ListItem>
         ))}
       </List>

@@ -1,34 +1,26 @@
 import React from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
-import {
-  Typography,
-  Grid,
-  Container,
-  Paper
-} from "@material-ui/core";
-
-
+import { Paper } from "@material-ui/core";
+import DividendForm from "./DividendForm";
+import PageHeader from "../shared/PageHeader";
+import { AttachMoneyRounded as AttachMoneyRoundedIcon } from "@material-ui/icons";
 const styles = theme => ({
-    container: {
-        paddingTop: theme.spacing(4),
-        paddingBottom: theme.spacing(4),
-      },
+  pageContent: {
+    margin: theme.spacing(5),
+    padding: theme.spacing(3)
+  }
 });
 const Dividend = ({ classes }) => {
   return (
-    <Container maxWidth="lg" className={classes.container}>
-        <Grid container spacing={3}>
-            <Grid item xs={12} md={8} lg={9} >
-                <Paper>
-                    <Typography component="h5" >
-                        Hello
-                    </Typography>
-                </Paper>
-            </Grid>
-
-        </Grid>
-    </Container>
-    
+    <>
+      <PageHeader
+        title="Dividend"
+        subTitle="Earning from investment"
+        icon={<AttachMoneyRoundedIcon fontSize="large" />}
+      />
+      <DividendForm />
+      <Paper className="classes.pageContent"></Paper>
+    </>
   );
 };
 

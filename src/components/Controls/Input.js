@@ -1,17 +1,24 @@
 import React from "react";
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from "@material-ui/core/styles";
 import { TextField } from "@material-ui/core";
 
-const useStyles = makeStyles((theme) => ({
-  
+const useStyles = makeStyles(theme => ({
   textField: {
     marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-    
-  },
+    marginRight: theme.spacing(1)
+  }
 }));
 const Input = props => {
-  const { name, label, value, error = null, onChange,fullWidth,id } = props;
+  const {
+    name,
+    label,
+    value,
+    error = null,
+    onChange,
+    fullWidth,
+    id,
+    margin
+  } = props;
   const classes = useStyles();
 
   return (
@@ -25,6 +32,7 @@ const Input = props => {
       className={classes.textField}
       fullWidth={fullWidth}
       id={id}
+      margin={margin}
     />
   );
 };

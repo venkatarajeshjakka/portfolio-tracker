@@ -3,12 +3,13 @@ import { Grid } from "@material-ui/core";
 import { Input, Button, DatePicker } from "../Controls";
 import withStyles from "@material-ui/core/styles/withStyles";
 import { withRouter } from "react-router";
+
 const styles = theme => ({
   root: {
     flexGrow: 1,
     alignContent: "center",
     alignItems: "center",
-    margin: theme.spacing(3),
+    margin: theme.spacing(3)
   },
   paper: {
     marginTop: theme.spacing.unit * 8,
@@ -28,16 +29,24 @@ const styles = theme => ({
   }
 });
 const DividendForm = props => {
-  const [values, setValues] = React.useState({
+  const [values, setValues] = useState({
     stockName: "",
     amount: ""
   });
   const handleChange = prop => event => {
     setValues({ ...values, [prop]: event.target.value });
   };
+
+  const [selectedDate, setSelectedDate] = useState(new Date());
+
+  const handleDateChange = date => {
+    setSelectedDate(date);
+  };
+
   const classes = props;
 
   console.log("value:", values);
+  console.log("Date:", selectedDate);
   return (
     <form className={classes.root} noValidate autoComplete="off">
       <Grid container spacing={3}>
@@ -49,14 +58,12 @@ const DividendForm = props => {
             value={values.stockName}
             fullWidth={true}
             id="outlined-full-width"
+            margin="normal"
           />
-          <Input
-            name="amount"
-            label="Amount"
-            onChange={handleChange("amount")}
-            value={values.amount}
-            fullWidth={false}
-            id="outlined-full-width"
+          <DatePicker
+            label="Date"
+            value={selectedDate}
+            onChange={handleDateChange}
           />
         </Grid>
         <Grid item xs={3}>
@@ -67,9 +74,9 @@ const DividendForm = props => {
             value={values.amount}
             fullWidth={false}
             id="outlined-full-width"
+            margin="normal"
           />
         </Grid>
-        
       </Grid>
     </form>
   );

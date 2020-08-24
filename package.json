@@ -10,7 +10,9 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "axios": "^0.20.0",
     "clsx": "^1.1.1",
+    "csvjson": "^5.1.0",
     "date-fns": "^2.15.0",
     "firebase": "^7.17.2",
     "moment": "^2.27.0",
@@ -40,5 +42,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@material-ui/codemod": "^4.5.0"
   }
 }

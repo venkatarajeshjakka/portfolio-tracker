@@ -1,5 +1,4 @@
 import React from "react";
-import withStyles from "@material-ui/core/styles/withStyles";
 import {
   Drawer,
   List,
@@ -17,6 +16,7 @@ import {
   BookmarkRounded as BookmarkRoundedIcon
 } from "@material-ui/icons";
 import { Link } from "react-router-dom";
+import { withStyles } from '@material-ui/core/styles';
 
 const drawerWidth = 240;
 

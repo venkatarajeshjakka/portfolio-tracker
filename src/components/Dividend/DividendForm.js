@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Grid } from "@material-ui/core";
 import { Input, Button, DatePicker } from "../Controls";
-import withStyles from "@material-ui/core/styles/withStyles";
 import { withRouter } from "react-router";
 import SaveIcon from "@material-ui/icons/Save";
+import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
   root: {
@@ -75,7 +75,7 @@ const DividendForm = props => {
       </Grid>
       <Grid container direction="row" justify="center" alignItems="flex-start">
         <Grid item>
-          <Button text={"Save"} startIcon={<SaveIcon />} size="large" />
+          <Button text={"Save"} autoFocus startIcon={<SaveIcon />} size="large" />
         </Grid>
         <Grid item>
           <Button

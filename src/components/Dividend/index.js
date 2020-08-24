@@ -1,16 +1,16 @@
 import React, { useState } from "react";
-import withStyles from "@material-ui/core/styles/withStyles";
 import {
   Paper,
   Dialog,
   DialogContent,
-  DialogContentText,
-  DialogTitle
+  DialogContentText
 } from "@material-ui/core";
 import DividendForm from "./DividendForm";
 import PageHeader from "../shared/PageHeader";
 import { AttachMoneyRounded as AttachMoneyRoundedIcon } from "@material-ui/icons";
 import { Button } from "../Controls";
+import DialogTitle from "../Dialog/DialogTitle";
+import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
   pageContent: {
@@ -48,7 +48,9 @@ const Dividend = ({ classes }) => {
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+        <DialogTitle id="form-dialog-title" onClose={handleClose}>
+          Subscribe
+        </DialogTitle>
         <DialogContent>
           <DialogContentText>
             To subscribe to this website, please enter your email address here.

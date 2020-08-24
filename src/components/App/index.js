@@ -4,6 +4,8 @@ import Login from "../Login";
 import Register from "../Register";
 import Dashboard from "../Dashboard";
 import Home from "../HomePage";
+import Watchlist from "../Watchlist";
+import Dividend from "../Dividend";
 import Layout from "../shared/layout";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { CssBaseline } from "@material-ui/core";
@@ -17,12 +19,16 @@ const App = () => {
     <MuiThemeProvider theme={theme}>
       <CssBaseline />
       <Router>
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/register" component={Register} />
-          <PrivatRoute exact path="/dashboard" component={Dashboard} />
-        </Switch>
+        <Layout>
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/register" component={Register} />
+            <PrivatRoute exact path="/dashboard" component={Dashboard} />
+            <PrivatRoute exact path="/dividend" component={Dividend} />
+            <PrivatRoute exact path="/watchlist" component={Watchlist} />
+          </Switch>
+        </Layout>
       </Router>
     </MuiThemeProvider>
   );
@@ -31,9 +37,7 @@ const App = () => {
 export default () => {
   return (
     <AuthProvider>
-      <Layout>
-        <App />
-      </Layout>
+      <App />
     </AuthProvider>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 import clsx from "clsx";
 import {
@@ -10,8 +10,27 @@ import {
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import SideBar from "./sideBar";
+import { AuthContext } from "../../context/AuthContext";
+import { Link } from "react-router-dom";
+import app from "../../config/firebase";
 
 const drawerWidth = 240;
+
+const LogOutButton = ({ handleSigout }) => {
+  return (
+    <Button color="inherit" onClick={handleSigout}>
+      Logout
+    </Button>
+  );
+};
+
+const LoginButton = () => {
+  return (
+    <Button color="inherit" component={Link} to="/login">
+      Login
+    </Button>
+  );
+};
 
 const styles = theme => ({
   root: {
@@ -69,6 +88,11 @@ const Layout = ({ classes, children }) => {
     setOpen(false);
   };
 
+  function handleSigout() {
+    app.auth().signOut();
+  }
+  const { currentUser } = useContext(AuthContext);
+
   return (
     <div className={classes.root}>
       <AppBar
@@ -83,14 +107,22 @@ const Layout = ({ classes, children }) => {
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
-            className={clsx(classes.menuButton, open && classes.hide)}
+            className={
+              currentUser
+                ? clsx(classes.menuButton, open && classes.hide)
+                : classes.hide
+            }
           >
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
             Portfolio Tracker
           </Typography>
-          <Button color="inherit">Login</Button>
+          {currentUser ? (
+            <LogOutButton handleSigout={handleSigout} />
+          ) : (
+            <LoginButton />
+          )}
         </Toolbar>
       </AppBar>
       <SideBar open={open} handleDrawerClose={handleDrawerClose} />

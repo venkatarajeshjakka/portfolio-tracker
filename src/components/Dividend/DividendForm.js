@@ -3,6 +3,7 @@ import { Grid } from "@material-ui/core";
 import { Input, Button, DatePicker } from "../Controls";
 import withStyles from "@material-ui/core/styles/withStyles";
 import { withRouter } from "react-router";
+import SaveIcon from "@material-ui/icons/Save";
 
 const styles = theme => ({
   root: {
@@ -49,7 +50,13 @@ const DividendForm = props => {
   console.log("Date:", selectedDate);
   return (
     <form className={classes.root} noValidate autoComplete="off">
-      <Grid container spacing={3}>
+      <Grid
+        container
+        direction="row"
+        justify="center"
+        alignItems="center"
+        spacing={3}
+      >
         <Grid item xs={6}>
           <Input
             name="stockName"
@@ -59,11 +66,6 @@ const DividendForm = props => {
             fullWidth={true}
             id="outlined-full-width"
             margin="normal"
-          />
-          <DatePicker
-            label="Date"
-            value={selectedDate}
-            onChange={handleDateChange}
           />
         </Grid>
         <Grid item xs={3}>
@@ -75,6 +77,28 @@ const DividendForm = props => {
             fullWidth={false}
             id="outlined-full-width"
             margin="normal"
+          />
+        </Grid>
+      </Grid>
+      <Grid container direction="row" justify="center" alignItems="center">
+        <Grid item xs={9}>
+          <DatePicker
+            label="Date"
+            value={selectedDate}
+            onChange={handleDateChange}
+          />
+        </Grid>
+      </Grid>
+      <Grid container direction="row" justify="center" alignItems="center">
+        <Grid item>
+          <Button text={"Save"} startIcon={<SaveIcon />} size="large" />
+        </Grid>
+        <Grid item>
+          <Button
+            variant="outlined"
+            color="primary"
+            size="large"
+            text={"Reset"}
           />
         </Grid>
       </Grid>

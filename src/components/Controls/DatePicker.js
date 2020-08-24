@@ -5,10 +5,18 @@ import {
   KeyboardDatePicker
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
+import { makeStyles } from "@material-ui/core/styles";
 
+const useStyles = makeStyles(theme => ({
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    width: 200
+  }
+}));
 const DatePicker = props => {
-  const { name, label, value, onChange } = props;
-
+  const { label, value, onChange } = props;
+  const classes = useStyles();
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <KeyboardDatePicker
@@ -21,6 +29,7 @@ const DatePicker = props => {
         KeyboardButtonProps={{
           "aria-label": "change date"
         }}
+        className={classes.textField}
       />
     </MuiPickersUtilsProvider>
   );

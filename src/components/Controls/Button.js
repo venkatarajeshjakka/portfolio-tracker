@@ -3,11 +3,14 @@ import { Button as MuiButton, makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    margin: theme.spacing(0.5)
+    margin: theme.spacing(1)
   },
   label: {
     textTransform: "none"
-  }
+  },
+  button: {
+    margin: theme.spacing(1),
+  },
 }));
 
 const Button = props => {
@@ -22,6 +25,7 @@ const Button = props => {
       onClick={onClick}
       {...other}
       classes={{ root: classes.root, label: classes.label }}
+      className={classes.Button}
     >
       {text}
     </MuiButton>

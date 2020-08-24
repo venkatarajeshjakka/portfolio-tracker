@@ -7,26 +7,10 @@ import SaveIcon from "@material-ui/icons/Save";
 
 const styles = theme => ({
   root: {
-    flexGrow: 1,
+    
     alignContent: "center",
     alignItems: "center",
     margin: theme.spacing(3)
-  },
-  paper: {
-    marginTop: theme.spacing.unit * 8,
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme
-      .spacing.unit * 3}px`
-  },
-
-  form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing.unit
-  },
-  submit: {
-    marginTop: theme.spacing.unit * 3
   }
 });
 const DividendForm = props => {
@@ -68,7 +52,7 @@ const DividendForm = props => {
             margin="normal"
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={6}>
           <Input
             name="amount"
             label="Amount"
@@ -80,7 +64,7 @@ const DividendForm = props => {
           />
         </Grid>
       </Grid>
-      <Grid container direction="row" justify="center" alignItems="center">
+      <Grid container direction="row">
         <Grid item xs={9}>
           <DatePicker
             label="Date"
@@ -89,7 +73,7 @@ const DividendForm = props => {
           />
         </Grid>
       </Grid>
-      <Grid container direction="row" justify="center" alignItems="center">
+      <Grid container direction="row" justify="center" alignItems="flex-start">
         <Grid item>
           <Button text={"Save"} startIcon={<SaveIcon />} size="large" />
         </Grid>

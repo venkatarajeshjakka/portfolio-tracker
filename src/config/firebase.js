@@ -1,6 +1,8 @@
 import * as firebase from "firebase/app";
 import "firebase/auth";
 
+import "firebase/firebase-firestore";
+
 const firebaseConfig = {
   apiKey: "AIzaSyBUcdUbP4oi4jahcCqsqrllVtzMZe9XX1g",
   authDomain: "portfoliotracker-4e17a.firebaseapp.com",

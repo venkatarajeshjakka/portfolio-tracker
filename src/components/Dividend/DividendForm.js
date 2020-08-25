@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Grid, InputAdornment } from "@material-ui/core";
 import { Input, Button, DatePicker } from "../Controls";
 import { withRouter } from "react-router";
 import SaveIcon from "@material-ui/icons/Save";
 import { withStyles } from "@material-ui/core/styles";
 import Autocomplete from "@material-ui/lab/Autocomplete";
+import app from "../../config/firebase";
+import { AuthContext } from "../../context/AuthContext";
 
 const styles = theme => ({
   root: {
@@ -18,6 +20,9 @@ const DividendForm = props => {
   const [values, setValues] = useState({
     amount: ""
   });
+
+  const { currentUser } = useContext(AuthContext);
+
   const handleChange = prop => event => {
     setValues({ ...values, [prop]: event.target.value });
   };
@@ -28,7 +33,17 @@ const DividendForm = props => {
     setStockName("");
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    const db = app.firestore();
+    const currentUserId = currentUser.uid;
+
+    await db.collection("dividends").add({
+      stockName,
+      date: selectedDate,
+      amount: values.amount,
+      authorId: currentUserId
+    });
+
     onClose();
   };
   const [selectedDate, setSelectedDate] = useState(new Date());

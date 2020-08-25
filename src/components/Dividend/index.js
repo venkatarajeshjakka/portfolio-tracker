@@ -67,7 +67,7 @@ const Dividend = ({ classes }) => {
             To subscribe to this website, please enter your email address here.
             We will send updates occasionally.
           </DialogContentText>
-          <DividendForm />
+          <DividendForm onClose={handleClose} />
         </DialogContent>
       </Dialog>
 

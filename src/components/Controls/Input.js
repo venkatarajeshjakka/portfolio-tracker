@@ -17,7 +17,8 @@ const Input = props => {
     onChange,
     fullWidth,
     id,
-    margin,...other
+    margin,
+    ...other
   } = props;
   const classes = useStyles();
 

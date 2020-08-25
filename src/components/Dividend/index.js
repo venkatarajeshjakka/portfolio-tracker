@@ -8,7 +8,10 @@ import {
 } from "@material-ui/core";
 import DividendForm from "./DividendForm";
 import PageHeader from "../shared/PageHeader";
-import { AttachMoneyRounded as AttachMoneyRoundedIcon , AddOutlined as AddOutlinedIcon } from "@material-ui/icons";
+import {
+  AttachMoneyRounded as AttachMoneyRoundedIcon,
+  AddOutlined as AddOutlinedIcon
+} from "@material-ui/icons";
 import { Button } from "../Controls";
 import DialogTitle from "../Dialog/DialogTitle";
 import { withStyles } from "@material-ui/core/styles";
@@ -18,8 +21,8 @@ const styles = theme => ({
     margin: theme.spacing(5),
     padding: theme.spacing(3)
   },
-  button :{
-    margin: theme.spacing(5),
+  button: {
+    margin: theme.spacing(5)
   }
 });
 const Dividend = ({ classes }) => {

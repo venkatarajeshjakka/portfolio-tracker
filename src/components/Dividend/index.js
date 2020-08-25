@@ -3,19 +3,23 @@ import {
   Paper,
   Dialog,
   DialogContent,
-  DialogContentText
+  DialogContentText,
+  Grid
 } from "@material-ui/core";
 import DividendForm from "./DividendForm";
 import PageHeader from "../shared/PageHeader";
-import { AttachMoneyRounded as AttachMoneyRoundedIcon } from "@material-ui/icons";
+import { AttachMoneyRounded as AttachMoneyRoundedIcon , AddOutlined as AddOutlinedIcon } from "@material-ui/icons";
 import { Button } from "../Controls";
 import DialogTitle from "../Dialog/DialogTitle";
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from "@material-ui/core/styles";
 
 const styles = theme => ({
   pageContent: {
     margin: theme.spacing(5),
     padding: theme.spacing(3)
+  },
+  button :{
+    margin: theme.spacing(5),
   }
 });
 const Dividend = ({ classes }) => {
@@ -36,12 +40,16 @@ const Dividend = ({ classes }) => {
         subTitle="Earning from investment"
         icon={<AttachMoneyRoundedIcon fontSize="large" />}
       />
-      <Button
-        variant="outlined"
-        color="primary"
-        onClick={handleClickOpen}
-        text={"Open"}
-      />
+      <Grid container direction="row" justify="flex-end" alignItems="center">
+        <Button
+          variant="outlined"
+          color="primary"
+          onClick={handleClickOpen}
+          text={"Add"}
+          className={classes.Button}
+          startIcon={<AddOutlinedIcon />}
+        />
+      </Grid>
 
       <Dialog
         open={open}

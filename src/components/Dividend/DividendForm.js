@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Grid } from "@material-ui/core";
+import { Grid ,InputAdornment} from "@material-ui/core";
 import { Input, Button, DatePicker } from "../Controls";
 import { withRouter } from "react-router";
 import SaveIcon from "@material-ui/icons/Save";
@@ -11,7 +11,8 @@ const styles = theme => ({
     alignContent: "center",
     alignItems: "center",
     margin: theme.spacing(3)
-  }
+  },
+  
 });
 const DividendForm = props => {
   const [values, setValues] = useState({
@@ -59,8 +60,11 @@ const DividendForm = props => {
             onChange={handleChange("amount")}
             value={values.amount}
             fullWidth={false}
-            id="outlined-full-width"
+            id="outlined-adornment-amount"
             margin="normal"
+            InputProps={{
+            startAdornment: <InputAdornment position="start">₹</InputAdornment>,
+          }}
           />
         </Grid>
       </Grid>

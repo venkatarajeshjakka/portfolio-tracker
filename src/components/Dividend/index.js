@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import {
-  Paper,
+  Container,
   Dialog,
   DialogContent,
   DialogContentText,
@@ -17,6 +17,8 @@ import DialogTitle from "../Dialog/DialogTitle";
 import { withStyles } from "@material-ui/core/styles";
 import { Context as DividendContext } from "../../context/DividendContext";
 import { AuthContext } from "../../context/AuthContext";
+import Budget from "./Budget";
+
 const styles = theme => ({
   pageContent: {
     margin: theme.spacing(5),
@@ -24,8 +26,15 @@ const styles = theme => ({
   },
   button: {
     margin: theme.spacing(5)
+  },
+  root: {
+    backgroundColor: theme.palette.background.dark,
+    minHeight: "100%",
+    paddingBottom: theme.spacing(3),
+    paddingTop: theme.spacing(3)
   }
 });
+
 const Dividend = ({ classes }) => {
   const {
     getDividendHistory,
@@ -51,22 +60,46 @@ const Dividend = ({ classes }) => {
 
   console.log(dividendArrayService);
   return (
-    <>
-      <PageHeader
-        title="Dividend"
-        subTitle="Earning from investment"
-        icon={<AttachMoneyRoundedIcon fontSize="large" />}
-      />
-      <Grid container direction="row" justify="flex-end" alignItems="center">
-        <Button
-          variant="outlined"
-          color="primary"
-          onClick={handleClickOpen}
-          text={"Add"}
-          className={classes.Button}
-          startIcon={<AddOutlinedIcon />}
+    <div className={classes.root}>
+      <Container maxWidth={false}>
+        <PageHeader
+          title="Dividend"
+          subTitle="Earning from investment"
+          icon={<AttachMoneyRoundedIcon fontSize="large" />}
         />
-      </Grid>
+        <Grid
+          container
+          maxWidth={false}
+          spacing={3}
+          direction="row"
+          justify="flex-end"
+          alignItems="center"
+        >
+          <Button
+            variant="outlined"
+            color="primary"
+            onClick={handleClickOpen}
+            text={"Add"}
+            className={classes.Button}
+            startIcon={<AddOutlinedIcon />}
+          />
+        </Grid>
+
+        <Grid container spacing={3}>
+          <Grid item lg={3} sm={6} xl={3} xs={12}>
+            <Budget />
+          </Grid>
+          <Grid item lg={3} sm={6} xl={3} xs={12}>
+            <Budget />
+          </Grid>
+          <Grid item lg={3} sm={6} xl={3} xs={12}>
+            <Budget />
+          </Grid>
+          <Grid item lg={3} sm={6} xl={3} xs={12}>
+            <Budget />
+          </Grid>
+        </Grid>
+      </Container>
 
       <Dialog
         open={open}
@@ -84,9 +117,7 @@ const Dividend = ({ classes }) => {
           <DividendForm onClose={handleClose} />
         </DialogContent>
       </Dialog>
-
-      <Paper className="classes.pageContent"></Paper>
-    </>
+    </div>
   );
 };
 

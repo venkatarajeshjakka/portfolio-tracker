@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   Paper,
   Dialog,
@@ -15,7 +15,8 @@ import {
 import { Button } from "../Controls";
 import DialogTitle from "../Dialog/DialogTitle";
 import { withStyles } from "@material-ui/core/styles";
-
+import { Context as DividendContext } from "../../context/DividendContext";
+import { AuthContext } from "../../context/AuthContext";
 const styles = theme => ({
   pageContent: {
     margin: theme.spacing(5),
@@ -26,6 +27,18 @@ const styles = theme => ({
   }
 });
 const Dividend = ({ classes }) => {
+  const {
+    getDividendHistory,
+    state: { dividendArray, dividendArrayService }
+  } = useContext(DividendContext);
+
+  const { currentUser } = useContext(AuthContext);
+  const currentUserId = currentUser.uid;
+
+  useEffect(() => {
+    getDividendHistory(currentUserId);
+  }, [currentUserId, dividendArray]);
+
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -36,6 +49,7 @@ const Dividend = ({ classes }) => {
     setOpen(false);
   };
 
+  console.log(dividendArrayService);
   return (
     <>
       <PageHeader

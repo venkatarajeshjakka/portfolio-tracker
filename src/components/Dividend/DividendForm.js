@@ -5,9 +5,10 @@ import { withRouter } from "react-router";
 import SaveIcon from "@material-ui/icons/Save";
 import { withStyles } from "@material-ui/core/styles";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import app from "../../config/firebase";
+
 import { AuthContext } from "../../context/AuthContext";
 import { stockList } from "../../data/stockList";
+import { Context as DividendContext } from "../../context/DividendContext";
 const styles = theme => ({
   root: {
     alignContent: "center",
@@ -16,12 +17,16 @@ const styles = theme => ({
   }
 });
 const DividendForm = props => {
-  const { onClose } = props;
+  const { currentUser } = useContext(AuthContext);
+  const { addDividendHistory } = useContext(DividendContext);
+
   const [values, setValues] = useState({
     amount: ""
   });
 
-  const { currentUser } = useContext(AuthContext);
+  const [stockName, setStockName] = useState("");
+
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
   const handleChange = prop => event => {
     setValues({ ...values, [prop]: event.target.value });
@@ -33,31 +38,20 @@ const DividendForm = props => {
     setStockName("");
   };
 
-  const handleSubmit = async () => {
-    const db = app.firestore();
+  const handleSubmit = () => {
     const currentUserId = currentUser.uid;
 
-    await db.collection("dividends").add({
-      stockName,
-      date: selectedDate,
-      amount: values.amount,
-      authorId: currentUserId
-    });
+    addDividendHistory(stockName,values.amount, selectedDate, currentUserId);
 
     onClose();
   };
-  const [selectedDate, setSelectedDate] = useState(new Date());
 
   const handleDateChange = date => {
     setSelectedDate(date);
   };
 
-  const [stockName, setStockName] = useState("");
-  const classes = props;
+  const { classes, onClose } = props;
 
-  console.log("value:", values);
-  console.log("Date:", selectedDate);
-  console.log("stockName:", stockName);
   return (
     <form
       className={classes.root}

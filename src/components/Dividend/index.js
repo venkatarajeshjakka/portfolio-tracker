@@ -20,12 +20,10 @@ import { AuthContext } from "../../context/AuthContext";
 import Budget from "./Budget";
 
 const styles = theme => ({
-  pageContent: {
-    margin: theme.spacing(5),
-    padding: theme.spacing(3)
-  },
   button: {
-    margin: theme.spacing(5)
+    margin: theme.spacing(5),
+    paddingBottom: theme.spacing(3),
+    paddingTop: theme.spacing(3)
   },
   root: {
     backgroundColor: theme.palette.background.dark,
@@ -74,13 +72,13 @@ const Dividend = ({ classes }) => {
           direction="row"
           justify="flex-end"
           alignItems="center"
+          className={classes.Button}
         >
           <Button
             variant="outlined"
             color="primary"
             onClick={handleClickOpen}
             text={"Add"}
-            className={classes.Button}
             startIcon={<AddOutlinedIcon />}
           />
         </Grid>

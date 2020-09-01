@@ -18,7 +18,7 @@ import { withStyles } from "@material-ui/core/styles";
 import { Context as DividendContext } from "../../context/DividendContext";
 import { AuthContext } from "../../context/AuthContext";
 import Budget from "./Budget";
-
+import DividendHistoryTable from './DividendHistoryTable'
 const styles = theme => ({
   button: {
     margin: theme.spacing(5),
@@ -95,6 +95,15 @@ const Dividend = ({ classes }) => {
           </Grid>
           <Grid item lg={3} sm={6} xl={3} xs={12}>
             <Budget />
+          </Grid>
+          <Grid
+            item
+            lg={8}
+            md={12}
+            xl={9}
+            xs={12}
+          >
+          <DividendHistoryTable />
           </Grid>
         </Grid>
       </Container>

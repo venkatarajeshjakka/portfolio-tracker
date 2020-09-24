@@ -97,8 +97,11 @@ const Dividend = ({ classes }) => {
             <Budget />
           </Grid>
           <Grid item lg={8} md={12} xl={9} xs={12}>
-            {dividendArrayService && dividendArrayService.length > 0 ? <DividendHistoryTable data={dividendArrayService}/> : <CircularProgress /> }
-            
+            {dividendArrayService && dividendArrayService.length > 0 ? (
+              <DividendHistoryTable data={dividendArrayService} />
+            ) : (
+              <CircularProgress />
+            )}
           </Grid>
         </Grid>
       </Container>

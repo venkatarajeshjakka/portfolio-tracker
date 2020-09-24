@@ -15,6 +15,7 @@ import {
 } from "@material-ui/icons";
 import { Button } from "../Controls";
 import DialogTitle from "../Dialog/DialogTitle";
+import AlertDialog from "../Dialog/AlertDialog";
 import { withStyles } from "@material-ui/core/styles";
 import { Context as DividendContext } from "../../context/DividendContext";
 import { AuthContext } from "../../context/AuthContext";
@@ -37,6 +38,7 @@ const styles = theme => ({
 const Dividend = ({ classes }) => {
   const {
     getDividendHistory,
+    deleteEntry,
     state: { dividendArray, dividendArrayService }
   } = useContext(DividendContext);
 
@@ -48,7 +50,17 @@ const Dividend = ({ classes }) => {
   }, [currentUserId, dividendArray]);
 
   const [open, setOpen] = useState(false);
+  const [openAlert, setOpenAlert] = useState(false);
 
+  const [documentId, setDocumentId] = useState("");
+
+  const handleClickAlertOpen = () => {
+    setOpenAlert(true);
+  };
+
+  const handleAlertClose = () => {
+    setOpenAlert(false);
+  };
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -57,6 +69,10 @@ const Dividend = ({ classes }) => {
     setOpen(false);
   };
 
+  const handleDelete = documentId => {
+    setDocumentId(documentId);
+    handleClickAlertOpen();
+  };
   console.log(dividendArrayService);
   return (
     <div className={classes.root}>
@@ -98,14 +114,24 @@ const Dividend = ({ classes }) => {
           </Grid>
           <Grid item lg={8} md={12} xl={9} xs={12}>
             {dividendArrayService && dividendArrayService.length > 0 ? (
-              <DividendHistoryTable data={dividendArrayService} />
+              <DividendHistoryTable
+                data={dividendArrayService}
+                onDelete={handleDelete}
+              />
             ) : (
               <CircularProgress />
             )}
           </Grid>
         </Grid>
       </Container>
-
+      <AlertDialog
+        onAgree={() => {
+          deleteEntry(documentId);
+          handleAlertClose();
+        }}
+        open={openAlert}
+        handleClose={handleAlertClose}
+      />
       <Dialog
         open={open}
         onClose={handleClose}

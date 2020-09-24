@@ -9,9 +9,11 @@ import {
   TableContainer,
   TableBody,
   Table,
-  TableHead
+  TableHead,
+  IconButton
 } from "@material-ui/core";
 
+import { Delete as DeleteIcon, Edit as EditIcon } from "@material-ui/icons";
 import {
   StyledTableCell,
   StyledTableRow,
@@ -24,7 +26,7 @@ const useStyles = makeStyles({
   }
 });
 
-export default function DividendHistoryTable({ data }) {
+export default function DividendHistoryTable({ data, onDelete }) {
   const classes = useStyles();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -37,8 +39,6 @@ export default function DividendHistoryTable({ data }) {
       date: moment(new Date(item.data.date.seconds * 1000)).format("ll")
     };
   });
-
-  
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -57,6 +57,7 @@ export default function DividendHistoryTable({ data }) {
             <StyledTableCell>Stock Name</StyledTableCell>
             <StyledTableCell align="right">Amount</StyledTableCell>
             <StyledTableCell align="right">Date</StyledTableCell>
+            <StyledTableCell align="right">Actions</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -76,6 +77,24 @@ export default function DividendHistoryTable({ data }) {
               </StyledTableCell>
               <StyledTableCell style={{ width: 160 }} align="right">
                 {row.date}
+              </StyledTableCell>
+              <StyledTableCell style={{ width: 160 }} align="right">
+                <IconButton
+                  color="secondary"
+                  onClick={() => {
+                    onDelete(row.id);
+                  }}
+                >
+                  <DeleteIcon />
+                </IconButton>
+                <IconButton
+                  color="primary"
+                  onClick={() => {
+                    console.log("edit clicked");
+                  }}
+                >
+                  <EditIcon />
+                </IconButton>
               </StyledTableCell>
             </StyledTableRow>
           ))}

@@ -10,9 +10,30 @@ const dividendReducer = (state, action) => {
       };
     case "get_dividend":
       return { ...state, dividendArrayService: action.payload };
+
+    case "delete_dividend":
+      return {
+        ...state,
+        dividendArray: [],
+        dividendArrayService: state.dividendArrayService.filter(
+          item => item.id !== action.payload
+        )
+      };
     default:
       return state;
   }
+};
+
+const deleteEntry = dispatch => async documentId => {
+  const db = app.firestore();
+  await db
+    .collection("dividends")
+    .doc(documentId)
+    .delete();
+  dispatch({
+    type: "delete_dividend",
+    payload: documentId
+  });
 };
 
 const addDividendHistory = dispatch => async (
@@ -60,7 +81,7 @@ const getDividendHistory = dispatch => async authorId => {
 };
 export const { Provider, Context } = createDataContext(
   dividendReducer,
-  { addDividendHistory, getDividendHistory },
+  { addDividendHistory, getDividendHistory, deleteEntry },
   {
     dividendArray: [],
     dividendArrayService: [],

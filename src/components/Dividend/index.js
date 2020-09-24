@@ -4,7 +4,8 @@ import {
   Dialog,
   DialogContent,
   DialogContentText,
-  Grid
+  Grid,
+  CircularProgress
 } from "@material-ui/core";
 import DividendForm from "./DividendForm";
 import PageHeader from "../shared/PageHeader";
@@ -18,7 +19,7 @@ import { withStyles } from "@material-ui/core/styles";
 import { Context as DividendContext } from "../../context/DividendContext";
 import { AuthContext } from "../../context/AuthContext";
 import Budget from "./Budget";
-import DividendHistoryTable from './DividendHistoryTable'
+import DividendHistoryTable from "./DividendHistoryTable";
 const styles = theme => ({
   button: {
     margin: theme.spacing(5),
@@ -59,7 +60,7 @@ const Dividend = ({ classes }) => {
   console.log(dividendArrayService);
   return (
     <div className={classes.root}>
-      <Container maxWidth={false}>
+      <Container>
         <PageHeader
           title="Dividend"
           subTitle="Earning from investment"
@@ -67,7 +68,6 @@ const Dividend = ({ classes }) => {
         />
         <Grid
           container
-          maxWidth={false}
           spacing={3}
           direction="row"
           justify="flex-end"
@@ -96,14 +96,9 @@ const Dividend = ({ classes }) => {
           <Grid item lg={3} sm={6} xl={3} xs={12}>
             <Budget />
           </Grid>
-          <Grid
-            item
-            lg={8}
-            md={12}
-            xl={9}
-            xs={12}
-          >
-          <DividendHistoryTable />
+          <Grid item lg={8} md={12} xl={9} xs={12}>
+            {dividendArrayService && dividendArrayService.length > 0 ? <DividendHistoryTable data={dividendArrayService}/> : <CircularProgress /> }
+            
           </Grid>
         </Grid>
       </Container>

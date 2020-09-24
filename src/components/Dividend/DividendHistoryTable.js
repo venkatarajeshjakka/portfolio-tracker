@@ -1,13 +1,12 @@
-import React ,{ useState }from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-
+import moment from "moment";
 import {
   Paper,
   TableRow,
   TablePagination,
   TableFooter,
   TableContainer,
-  TableCell,
   TableBody,
   Table,
   TableHead
@@ -19,39 +18,27 @@ import {
   TablePaginationActions
 } from "../Table";
 
-function createData(name, calories, fat) {
-  return { name, calories, fat };
-}
-
-const rows = [
-  createData("Cupcake", 305, 3.7),
-  createData("Donut", 452, 25.0),
-  createData("Eclair", 262, 16.0),
-  createData("Frozen yoghurt", 159, 6.0),
-  createData("Gingerbread", 356, 16.0),
-  createData("Honeycomb", 408, 3.2),
-  createData("Ice cream sandwich", 237, 9.0),
-  createData("Jelly Bean", 375, 0.0),
-  createData("KitKat", 518, 26.0),
-  createData("Lollipop", 392, 0.2),
-  createData("Marshmallow", 318, 0),
-  createData("Nougat", 360, 19.0),
-  createData("Oreo", 437, 18.0)
-].sort((a, b) => (a.calories < b.calories ? -1 : 1));
-
 const useStyles = makeStyles({
   table: {
     minWidth: 500
   }
 });
 
-export default function DividendHistoryTable() {
+export default function DividendHistoryTable({ data }) {
   const classes = useStyles();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  const emptyRows =
-    rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+  var formattedData = data.map(item => {
+    return {
+      id: item.id,
+      stockName: item.data.stockName,
+      amount: item.data.amount,
+      date: moment(new Date(item.data.date.seconds * 1000)).format("ll")
+    };
+  });
+
+  
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -67,41 +54,38 @@ export default function DividendHistoryTable() {
       <Table className={classes.table} aria-label="custom pagination table">
         <TableHead>
           <TableRow>
-            <StyledTableCell>Dessert (100g serving)</StyledTableCell>
-            <StyledTableCell align="right">Calories</StyledTableCell>
-            <StyledTableCell align="right">Fat&nbsp;(g)</StyledTableCell>
+            <StyledTableCell>Stock Name</StyledTableCell>
+            <StyledTableCell align="right">Amount</StyledTableCell>
+            <StyledTableCell align="right">Date</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {(rowsPerPage > 0
-            ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            : rows
+            ? formattedData.slice(
+                page * rowsPerPage,
+                page * rowsPerPage + rowsPerPage
+              )
+            : formattedData
           ).map(row => (
-            <StyledTableRow key={row.name}>
+            <StyledTableRow key={row.id}>
               <StyledTableCell component="th" scope="row">
-                {row.name}
+                {row.stockName}
               </StyledTableCell>
               <StyledTableCell style={{ width: 160 }} align="right">
-                {row.calories}
+                {row.amount}
               </StyledTableCell>
               <StyledTableCell style={{ width: 160 }} align="right">
-                {row.fat}
+                {row.date}
               </StyledTableCell>
             </StyledTableRow>
           ))}
-
-          {emptyRows > 0 && (
-            <TableRow style={{ height: 53 * emptyRows }}>
-              <TableCell colSpan={6} />
-            </TableRow>
-          )}
         </TableBody>
         <TableFooter>
           <TableRow>
             <TablePagination
               rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
               colSpan={3}
-              count={rows.length}
+              count={formattedData.length}
               rowsPerPage={rowsPerPage}
               page={page}
               SelectProps={{

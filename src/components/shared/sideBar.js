@@ -1,5 +1,4 @@
 import React from "react";
-import withStyles from "@material-ui/core/styles/withStyles";
 import {
   Drawer,
   List,
@@ -12,18 +11,19 @@ import {
 import {
   ChevronLeft as ChevronLeftIcon,
   ChevronRight as ChevronRightIcon,
-  HomeRounded as HomeRoundedIcon,
+  DashboardOutlined as DashboardOutlinedIcon,
   AttachMoneyRounded as AttachMoneyRoundedIcon,
   BookmarkRounded as BookmarkRoundedIcon
 } from "@material-ui/icons";
 import { Link } from "react-router-dom";
+import { withStyles } from "@material-ui/core/styles";
 
 const drawerWidth = 240;
 
 const iconsArray = [
   {
     text: "DashBoard",
-    icon: <HomeRoundedIcon />,
+    icon: <DashboardOutlinedIcon />,
     to: "/dashboard"
   },
   {

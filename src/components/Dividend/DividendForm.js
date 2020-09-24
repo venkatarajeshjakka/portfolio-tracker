@@ -1,55 +1,64 @@
-import React, { useState } from "react";
-import { Grid } from "@material-ui/core";
+import React, { useState, useContext } from "react";
+import { Grid, InputAdornment } from "@material-ui/core";
 import { Input, Button, DatePicker } from "../Controls";
-import withStyles from "@material-ui/core/styles/withStyles";
 import { withRouter } from "react-router";
 import SaveIcon from "@material-ui/icons/Save";
+import { withStyles } from "@material-ui/core/styles";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 
+import { AuthContext } from "../../context/AuthContext";
+import { stockList } from "../../data/stockList";
+import { Context as DividendContext } from "../../context/DividendContext";
 const styles = theme => ({
   root: {
-    flexGrow: 1,
     alignContent: "center",
     alignItems: "center",
     margin: theme.spacing(3)
-  },
-  paper: {
-    marginTop: theme.spacing.unit * 8,
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme
-      .spacing.unit * 3}px`
-  },
-
-  form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing.unit
-  },
-  submit: {
-    marginTop: theme.spacing.unit * 3
   }
 });
 const DividendForm = props => {
+  const { currentUser } = useContext(AuthContext);
+  const { addDividendHistory } = useContext(DividendContext);
+
   const [values, setValues] = useState({
-    stockName: "",
     amount: ""
   });
+
+  const [stockName, setStockName] = useState("");
+
+  const [selectedDate, setSelectedDate] = useState(new Date());
+
   const handleChange = prop => event => {
     setValues({ ...values, [prop]: event.target.value });
   };
 
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const handleReset = () => {
+    setSelectedDate(new Date());
+    setValues({ ...setValues, amount: "" });
+    setStockName("");
+  };
+
+  const handleSubmit = () => {
+    const currentUserId = currentUser.uid;
+
+    addDividendHistory(stockName,values.amount, selectedDate, currentUserId);
+
+    onClose();
+  };
 
   const handleDateChange = date => {
     setSelectedDate(date);
   };
 
-  const classes = props;
+  const { classes, onClose } = props;
 
-  console.log("value:", values);
-  console.log("Date:", selectedDate);
   return (
-    <form className={classes.root} noValidate autoComplete="off">
+    <form
+      className={classes.root}
+      noValidate
+      autoComplete="off"
+      onSubmit={e => e.preventDefault() && false}
+    >
       <Grid
         container
         direction="row"
@@ -58,29 +67,45 @@ const DividendForm = props => {
         spacing={3}
       >
         <Grid item xs={6}>
-          <Input
-            name="stockName"
-            label="Stock Name"
-            onChange={handleChange("stockName")}
-            value={values.stockName}
-            fullWidth={true}
-            id="outlined-full-width"
-            margin="normal"
+          <Autocomplete
+            id="free-solo-demo"
+            freeSolo
+            value={stockName}
+            options={stockList.map(option => option.StockName)}
+            onChange={(event, newValue) => {
+              setStockName(newValue);
+            }}
+            renderInput={params => (
+              <Input
+                {...params}
+                name="stockName"
+                label="Stock Name"
+                fullWidth={true}
+                id="outlined-full-width"
+                margin="normal"
+              />
+            )}
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={6}>
           <Input
             name="amount"
             label="Amount"
             onChange={handleChange("amount")}
             value={values.amount}
             fullWidth={false}
-            id="outlined-full-width"
+            id="outlined-adornment-amount"
             margin="normal"
+            type="number"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">₹</InputAdornment>
+              )
+            }}
           />
         </Grid>
       </Grid>
-      <Grid container direction="row" justify="center" alignItems="center">
+      <Grid container direction="row">
         <Grid item xs={9}>
           <DatePicker
             label="Date"
@@ -89,9 +114,15 @@ const DividendForm = props => {
           />
         </Grid>
       </Grid>
-      <Grid container direction="row" justify="center" alignItems="center">
+      <Grid container direction="row" justify="center" alignItems="flex-start">
         <Grid item>
-          <Button text={"Save"} startIcon={<SaveIcon />} size="large" />
+          <Button
+            text={"Save"}
+            autoFocus
+            startIcon={<SaveIcon />}
+            size="large"
+            onClick={handleSubmit}
+          />
         </Grid>
         <Grid item>
           <Button
@@ -99,6 +130,7 @@ const DividendForm = props => {
             color="primary"
             size="large"
             text={"Reset"}
+            onClick={handleReset}
           />
         </Grid>
       </Grid>

@@ -11,6 +11,7 @@ import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { CssBaseline } from "@material-ui/core";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { AuthProvider } from "../../context/AuthContext";
+import { Provider as DividendProvider } from "../../context/DividendContext";
 import PrivatRoute from "../../config/PrivateRoute";
 const theme = createMuiTheme();
 
@@ -37,7 +38,9 @@ const App = () => {
 export default () => {
   return (
     <AuthProvider>
-      <App />
+      <DividendProvider>
+        <App />
+      </DividendProvider>
     </AuthProvider>
   );
 };

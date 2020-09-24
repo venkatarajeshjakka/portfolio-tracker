@@ -1,5 +1,4 @@
 import React, { useState, useContext } from "react";
-import withStyles from "@material-ui/core/styles/withStyles";
 import clsx from "clsx";
 import {
   AppBar,
@@ -13,6 +12,7 @@ import SideBar from "./sideBar";
 import { AuthContext } from "../../context/AuthContext";
 import { Link } from "react-router-dom";
 import app from "../../config/firebase";
+import { withStyles } from '@material-ui/core/styles';
 
 const drawerWidth = 240;
 

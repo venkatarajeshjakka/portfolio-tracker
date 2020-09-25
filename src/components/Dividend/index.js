@@ -21,6 +21,7 @@ import { Context as DividendContext } from "../../context/DividendContext";
 import { AuthContext } from "../../context/AuthContext";
 import Budget from "./Budget";
 import DividendHistoryTable from "./DividendHistoryTable";
+import moment from "moment";
 const styles = theme => ({
   button: {
     margin: theme.spacing(5),
@@ -79,6 +80,18 @@ const Dividend = ({ classes }) => {
     setDocumentId(documentId);
     setOpen(true);
   };
+
+  const formatDividendData = data => {
+    var formattedData = data.map(item => {
+      return {
+        id: item.id,
+        stockName: item.data.stockName,
+        amount: item.data.amount,
+        date: moment(new Date(item.data.date.seconds * 1000)).format("ll")
+      };
+    });
+    return formattedData;
+  };
   console.log(dividendArrayService);
   return (
     <div className={classes.root}>
@@ -109,7 +122,7 @@ const Dividend = ({ classes }) => {
           <Grid item lg={9} md={12} xl={9} xs={12}>
             {dividendArrayService && dividendArrayService.length > 0 ? (
               <DividendHistoryTable
-                data={dividendArrayService}
+                data={formatDividendData(dividendArrayService)}
                 onDelete={handleDelete}
                 onEdit={handleEdit}
               />

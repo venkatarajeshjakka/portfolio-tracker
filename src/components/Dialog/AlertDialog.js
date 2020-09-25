@@ -17,13 +17,11 @@ const AlertDialog = ({ open, handleClose, onAgree }) => {
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-      <DialogTitle id="alert-dialog-title">
-        {"Use Google's location service?"}
-      </DialogTitle>
+      <DialogTitle id="alert-dialog-title">{"Are you sure?"}</DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          Let Google help apps determine location. This means sending anonymous
-          location data to Google, even when no apps are running.
+          Are you sure you want to delete this divident history? You CAN NOT
+          view this entry in your list anymore , if you delete.
         </DialogContentText>
       </DialogContent>
       <DialogActions>

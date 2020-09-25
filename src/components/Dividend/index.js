@@ -59,6 +59,7 @@ const Dividend = ({ classes }) => {
   };
 
   const handleAlertClose = () => {
+    setDocumentId('');
     setOpenAlert(false);
   };
   const handleClickOpen = () => {
@@ -66,6 +67,7 @@ const Dividend = ({ classes }) => {
   };
 
   const handleClose = () => {
+    setDocumentId('');
     setOpen(false);
   };
 
@@ -73,6 +75,10 @@ const Dividend = ({ classes }) => {
     setDocumentId(documentId);
     handleClickAlertOpen();
   };
+  const handleEdit = documentId => {
+    setDocumentId(documentId);
+    setOpen(true);
+  }
   console.log(dividendArrayService);
   return (
     <div className={classes.root}>
@@ -117,6 +123,7 @@ const Dividend = ({ classes }) => {
               <DividendHistoryTable
                 data={dividendArrayService}
                 onDelete={handleDelete}
+                onEdit={handleEdit}
               />
             ) : (
               <CircularProgress />
@@ -145,7 +152,7 @@ const Dividend = ({ classes }) => {
             To subscribe to this website, please enter your email address here.
             We will send updates occasionally.
           </DialogContentText>
-          <DividendForm onClose={handleClose} />
+          <DividendForm onClose={handleClose} documentId={documentId} />
         </DialogContent>
       </Dialog>
     </div>

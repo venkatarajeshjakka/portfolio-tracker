@@ -26,7 +26,7 @@ const useStyles = makeStyles({
   }
 });
 
-export default function DividendHistoryTable({ data, onDelete }) {
+export default function DividendHistoryTable({ data, onDelete,onEdit }) {
   const classes = useStyles();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -90,7 +90,7 @@ export default function DividendHistoryTable({ data, onDelete }) {
                 <IconButton
                   color="primary"
                   onClick={() => {
-                    console.log("edit clicked");
+                    onEdit(row.id);
                   }}
                 >
                   <EditIcon />

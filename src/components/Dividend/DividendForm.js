@@ -32,10 +32,11 @@ const DividendForm = props => {
       setSelectedDate(new Date(response.data.date.seconds * 1000));
       setValues({ ...values, amount: response.data.amount });
     }
-  }, []);
+  }, [documentId]);
   const { currentUser } = useContext(AuthContext);
   const {
     addDividendHistory,
+    editEntry,
     state: { dividendArrayService }
   } = useContext(DividendContext);
 
@@ -52,7 +53,11 @@ const DividendForm = props => {
   const handleSubmit = () => {
     const currentUserId = currentUser.uid;
 
-    addDividendHistory(stockName, values.amount, selectedDate, currentUserId);
+    if (documentId) {
+      editEntry(documentId, stockName, values.amount, selectedDate);
+    } else {
+      addDividendHistory(stockName, values.amount, selectedDate, currentUserId);
+    }
 
     onClose();
   };

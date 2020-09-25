@@ -19,7 +19,7 @@ import {
   StyledTableRow,
   TablePaginationActions
 } from "../Table";
-
+import { formatCurrency} from '../../extensions/Formatters'
 const useStyles = makeStyles({
   table: {
     minWidth: 500
@@ -73,7 +73,7 @@ export default function DividendHistoryTable({ data, onDelete,onEdit }) {
                 {row.stockName}
               </StyledTableCell>
               <StyledTableCell style={{ width: 160 }} align="right">
-                {row.amount}
+                {formatCurrency(row.amount)}
               </StyledTableCell>
               <StyledTableCell style={{ width: 160 }} align="right">
                 {row.date}

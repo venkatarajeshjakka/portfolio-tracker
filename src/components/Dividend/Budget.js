@@ -15,9 +15,7 @@ import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import MoneyIcon from "@material-ui/icons/Money";
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    height: "100%"
-  },
+  root: {},
   avatar: {
     backgroundColor: colors.red[600],
     height: 56,

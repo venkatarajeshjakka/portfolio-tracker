@@ -59,7 +59,7 @@ const Dividend = ({ classes }) => {
   };
 
   const handleAlertClose = () => {
-    setDocumentId('');
+    setDocumentId("");
     setOpenAlert(false);
   };
   const handleClickOpen = () => {
@@ -67,7 +67,7 @@ const Dividend = ({ classes }) => {
   };
 
   const handleClose = () => {
-    setDocumentId('');
+    setDocumentId("");
     setOpen(false);
   };
 
@@ -78,7 +78,7 @@ const Dividend = ({ classes }) => {
   const handleEdit = documentId => {
     setDocumentId(documentId);
     setOpen(true);
-  }
+  };
   console.log(dividendArrayService);
   return (
     <div className={classes.root}>

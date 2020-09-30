@@ -33,13 +33,9 @@ const WatchListForm = props => {
   const handleSubmit = () => {
     const currentUserId = currentUser.uid;
 
-    addWatchList(stockName currentUserId);
+    addWatchList(stockName, currentUserId);
 
     onClose();
-  };
-
-  const handleDateChange = date => {
-    setSelectedDate(date);
   };
 
   const { classes, onClose } = props;

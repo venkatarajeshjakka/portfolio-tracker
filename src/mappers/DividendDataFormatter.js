@@ -1,4 +1,3 @@
-import moment from "moment";
 import _ from "underscore";
 
 const formatDividendData = data => {
@@ -7,10 +6,12 @@ const formatDividendData = data => {
       id: item.id,
       stockName: item.data.stockName,
       amount: Number(item.data.amount),
-      date: moment(new Date(item.data.date.seconds * 1000)).format("ll")
+      date: new Date(item.data.date.seconds * 1000)
     };
   });
-  return formattedData;
+
+  var sortedResult = _.sortBy(formattedData, "date").reverse();
+  return sortedResult;
 };
 
 const totalDividendAmount = data => {

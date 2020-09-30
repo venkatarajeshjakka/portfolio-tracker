@@ -39,7 +39,7 @@ const Budget = ({ className,amount, ...rest }) => {
         <Grid container justify="space-between" spacing={3}>
           <Grid item>
             <Typography color="textSecondary" gutterBottom variant="h6">
-              BUDGET
+              AMOUNT
             </Typography>
             <Typography color="textPrimary" variant="h5">
               {formatCurrency(amount)}

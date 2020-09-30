@@ -20,6 +20,7 @@ import {
   TablePaginationActions
 } from "../Table";
 import { formatCurrency } from "../../extensions/Formatters";
+import moment from 'moment'
 const useStyles = makeStyles({
   table: {
     minWidth: 500
@@ -64,7 +65,7 @@ export default function DividendHistoryTable({ data, onDelete, onEdit }) {
                 {formatCurrency(row.amount)}
               </StyledTableCell>
               <StyledTableCell style={{ width: 160 }} align="right">
-                {row.date}
+                {moment(row.date).format('ll')}
               </StyledTableCell>
               <StyledTableCell style={{ width: 160 }} align="right">
                 <IconButton

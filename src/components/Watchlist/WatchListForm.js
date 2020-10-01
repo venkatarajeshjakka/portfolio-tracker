@@ -1,14 +1,13 @@
-import React, { useState, useContext, useEffect } from "react";
-import { Grid, InputAdornment } from "@material-ui/core";
-import { Input, Button, DatePicker } from "../Controls";
+import React, { useState, useContext } from "react";
+import { Grid } from "@material-ui/core";
+import { Input, Button } from "../Controls";
 import { withRouter } from "react-router";
 import SaveIcon from "@material-ui/icons/Save";
 import { withStyles } from "@material-ui/core/styles";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import _ from "underscore";
 import { AuthContext } from "../../context/AuthContext";
 import { stockList } from "../../data/stockList";
-import { Context as DividendContext } from "../../context/DividendContext";
+import { Context as WatchListContext } from "../../context/WatchListContext";
 const styles = theme => ({
   root: {
     alignContent: "center",
@@ -16,54 +15,24 @@ const styles = theme => ({
     margin: theme.spacing(3)
   }
 });
-const DividendForm = props => {
-  const { documentId } = props;
-  const [values, setValues] = useState({
-    amount: ""
-  });
-
+const WatchListForm = props => {
   const [stockName, setStockName] = useState("");
 
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  useEffect(() => {
-    if (documentId) {
-      var response = _.findWhere(dividendArrayService, { id: documentId });
-      setStockName(response.data.stockName);
-      setSelectedDate(new Date(response.data.date.seconds * 1000));
-      setValues({ ...values, amount: response.data.amount });
-    }
-  }, [documentId]);
   const { currentUser } = useContext(AuthContext);
   const {
-    addDividendHistory,
-    editEntry,
-    state: { dividendArrayService }
-  } = useContext(DividendContext);
-
-  const handleChange = prop => event => {
-    setValues({ ...values, [prop]: event.target.value });
-  };
+    addWatchList
+  } = useContext(WatchListContext);
 
   const handleReset = () => {
-    setSelectedDate(new Date());
-    setValues({ ...setValues, amount: "" });
     setStockName("");
   };
 
   const handleSubmit = () => {
     const currentUserId = currentUser.uid;
 
-    if (documentId) {
-      editEntry(documentId, stockName, values.amount, selectedDate);
-    } else {
-      addDividendHistory(stockName, values.amount, selectedDate, currentUserId);
-    }
+    addWatchList(stockName, currentUserId);
 
     onClose();
-  };
-
-  const handleDateChange = date => {
-    setSelectedDate(date);
   };
 
   const { classes, onClose } = props;
@@ -82,7 +51,7 @@ const DividendForm = props => {
         alignItems="center"
         spacing={3}
       >
-        <Grid item xs={6}>
+        <Grid item xs={9}>
           <Autocomplete
             id="free-solo-demo"
             freeSolo
@@ -103,33 +72,8 @@ const DividendForm = props => {
             )}
           />
         </Grid>
-        <Grid item xs={6}>
-          <Input
-            name="amount"
-            label="Amount"
-            onChange={handleChange("amount")}
-            value={values.amount}
-            fullWidth={false}
-            id="outlined-adornment-amount"
-            margin="normal"
-            type="number"
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">₹</InputAdornment>
-              )
-            }}
-          />
-        </Grid>
       </Grid>
-      <Grid container direction="row">
-        <Grid item xs={9}>
-          <DatePicker
-            label="Date"
-            value={selectedDate}
-            onChange={handleDateChange}
-          />
-        </Grid>
-      </Grid>
+
       <Grid container direction="row" justify="center" alignItems="flex-start">
         <Grid item>
           <Button
@@ -154,4 +98,4 @@ const DividendForm = props => {
   );
 };
 
-export default withRouter(withStyles(styles)(DividendForm));
+export default withRouter(withStyles(styles)(WatchListForm));

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import moment from "moment";
+
 import {
   Paper,
   TableRow,
@@ -9,36 +9,28 @@ import {
   TableContainer,
   TableBody,
   Table,
-  TableHead
+  TableHead,
+  IconButton
 } from "@material-ui/core";
 
+import { Delete as DeleteIcon, Edit as EditIcon } from "@material-ui/icons";
 import {
   StyledTableCell,
   StyledTableRow,
   TablePaginationActions
 } from "../Table";
-
+import { formatCurrency } from "../../extensions/Formatters";
+import moment from 'moment'
 const useStyles = makeStyles({
   table: {
     minWidth: 500
   }
 });
 
-export default function DividendHistoryTable({ data }) {
+export default function DividendHistoryTable({ data, onDelete, onEdit }) {
   const classes = useStyles();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-
-  var formattedData = data.map(item => {
-    return {
-      id: item.id,
-      stockName: item.data.stockName,
-      amount: item.data.amount,
-      date: moment(new Date(item.data.date.seconds * 1000)).format("ll")
-    };
-  });
-
-  
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -57,25 +49,41 @@ export default function DividendHistoryTable({ data }) {
             <StyledTableCell>Stock Name</StyledTableCell>
             <StyledTableCell align="right">Amount</StyledTableCell>
             <StyledTableCell align="right">Date</StyledTableCell>
+            <StyledTableCell align="right">Actions</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {(rowsPerPage > 0
-            ? formattedData.slice(
-                page * rowsPerPage,
-                page * rowsPerPage + rowsPerPage
-              )
-            : formattedData
+            ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            : data
           ).map(row => (
             <StyledTableRow key={row.id}>
               <StyledTableCell component="th" scope="row">
                 {row.stockName}
               </StyledTableCell>
               <StyledTableCell style={{ width: 160 }} align="right">
-                {row.amount}
+                {formatCurrency(row.amount)}
               </StyledTableCell>
               <StyledTableCell style={{ width: 160 }} align="right">
-                {row.date}
+                {moment(row.date).format('ll')}
+              </StyledTableCell>
+              <StyledTableCell style={{ width: 160 }} align="right">
+                <IconButton
+                  color="secondary"
+                  onClick={() => {
+                    onDelete(row.id);
+                  }}
+                >
+                  <DeleteIcon />
+                </IconButton>
+                <IconButton
+                  color="primary"
+                  onClick={() => {
+                    onEdit(row.id);
+                  }}
+                >
+                  <EditIcon />
+                </IconButton>
               </StyledTableCell>
             </StyledTableRow>
           ))}
@@ -85,7 +93,7 @@ export default function DividendHistoryTable({ data }) {
             <TablePagination
               rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
               colSpan={3}
-              count={formattedData.length}
+              count={data.length}
               rowsPerPage={rowsPerPage}
               page={page}
               SelectProps={{

@@ -12,6 +12,8 @@ import { CssBaseline } from "@material-ui/core";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { AuthProvider } from "../../context/AuthContext";
 import { Provider as DividendProvider } from "../../context/DividendContext";
+import { Provider as WatchListProvider } from "../../context/WatchListContext";
+import { Provider as StockProvider } from "../../context/StockContext";
 import PrivatRoute from "../../config/PrivateRoute";
 const theme = createMuiTheme();
 
@@ -38,9 +40,13 @@ const App = () => {
 export default () => {
   return (
     <AuthProvider>
-      <DividendProvider>
-        <App />
-      </DividendProvider>
+      <WatchListProvider>
+        <StockProvider>
+          <DividendProvider>
+            <App />
+          </DividendProvider>
+        </StockProvider>
+      </WatchListProvider>
     </AuthProvider>
   );
 };

@@ -13,11 +13,9 @@ import {
 } from "@material-ui/core";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import MoneyIcon from "@material-ui/icons/Money";
-
+import { formatCurrency} from '../../extensions/Formatters'
 const useStyles = makeStyles(theme => ({
-  root: {
-    height: "100%"
-  },
+  root: {},
   avatar: {
     backgroundColor: colors.red[600],
     height: 56,
@@ -32,7 +30,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Budget = ({ className, ...rest }) => {
+const Budget = ({ className,amount, ...rest }) => {
   const classes = useStyles();
 
   return (
@@ -41,10 +39,10 @@ const Budget = ({ className, ...rest }) => {
         <Grid container justify="space-between" spacing={3}>
           <Grid item>
             <Typography color="textSecondary" gutterBottom variant="h6">
-              BUDGET
+              AMOUNT
             </Typography>
             <Typography color="textPrimary" variant="h5">
-              $24,000
+              {formatCurrency(amount)}
             </Typography>
           </Grid>
           <Grid item>

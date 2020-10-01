@@ -1,8 +1,11 @@
 import React from "react";
 import { withStyles } from "@material-ui/core/styles";
-import { IconButton, Typography, DialogTitle as MuiDialogTitle } from "@material-ui/core";
+import {
+  IconButton,
+  Typography,
+  DialogTitle as MuiDialogTitle
+} from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
-
 
 const styles = theme => ({
   root: {
@@ -36,3 +39,4 @@ const DialogTitle = props => {
 };
 
 export default withStyles(styles)(DialogTitle);
+export { DialogTitle };

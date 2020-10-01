@@ -37,3 +37,4 @@ const AlertDialog = ({ open, handleClose, onAgree }) => {
 };
 
 export default AlertDialog;
+export { AlertDialog };

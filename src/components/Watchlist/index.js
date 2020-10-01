@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Container, Grid } from "@material-ui/core";
 import PageHeader from "../shared/PageHeader";
 import { withStyles } from "@material-ui/core/styles";
@@ -7,6 +7,8 @@ import {
   BookmarkRounded as BookmarkRoundedIcon
 } from "@material-ui/icons";
 import { Button } from "../Controls";
+import WatchListForm from "./WatchListForm";
+import { FormDialog } from "../Dialog";
 
 const styles = theme => ({
   button: {
@@ -23,6 +25,14 @@ const styles = theme => ({
 });
 
 const Watchlist = ({ classes }) => {
+  const [open, setOpen] = useState(false);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   return (
     <div className={classes.root}>
       <Container>
@@ -42,12 +52,15 @@ const Watchlist = ({ classes }) => {
           <Button
             variant="outlined"
             color="primary"
-            onClick={() => {}}
+            onClick={handleClickOpen}
             text={"Add"}
             startIcon={<AddOutlinedIcon />}
           />
         </Grid>
       </Container>
+      <FormDialog open={open} onClose={handleClose}>
+        <WatchListForm onClose={handleClose} />
+      </FormDialog>
     </div>
   );
 };

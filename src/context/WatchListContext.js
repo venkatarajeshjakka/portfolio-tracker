@@ -6,7 +6,7 @@ const watchListReducer = (state, action) => {
     case "add_watchList":
       return {
         ...state,
-        watchListArray: [...state.dividendArray, action.payload]
+        watchListArray: [...state.watchListArray, action.payload]
       };
     case "get_watchList":
       return { ...state, watchListArrayService: action.payload };
@@ -15,7 +15,7 @@ const watchListReducer = (state, action) => {
       return {
         ...state,
         watchListArray: [],
-        watchListArrayService: state.dividendArrayService.filter(
+        watchListArrayService: state.watchListArrayService.filter(
           item => item.id !== action.payload
         )
       };
@@ -45,6 +45,7 @@ const deleteEntry = dispatch => async documentId => {
 
 const addWatchList = dispatch => async (stockName, authorId) => {
   const db = app.firestore();
+
   await db.collection("watchLists").add({
     stockName,
     date: Date.now(),

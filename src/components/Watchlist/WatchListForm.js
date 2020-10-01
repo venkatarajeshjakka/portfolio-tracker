@@ -5,7 +5,6 @@ import { withRouter } from "react-router";
 import SaveIcon from "@material-ui/icons/Save";
 import { withStyles } from "@material-ui/core/styles";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import _ from "underscore";
 import { AuthContext } from "../../context/AuthContext";
 import { stockList } from "../../data/stockList";
 import { Context as WatchListContext } from "../../context/WatchListContext";
@@ -21,9 +20,7 @@ const WatchListForm = props => {
 
   const { currentUser } = useContext(AuthContext);
   const {
-    addWatchList,
-
-    state: {}
+    addWatchList
   } = useContext(WatchListContext);
 
   const handleReset = () => {
@@ -54,7 +51,7 @@ const WatchListForm = props => {
         alignItems="center"
         spacing={3}
       >
-        <Grid item xs={6}>
+        <Grid item xs={9}>
           <Autocomplete
             id="free-solo-demo"
             freeSolo

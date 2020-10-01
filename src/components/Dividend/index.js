@@ -1,12 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import {
-  Container,
-  Dialog,
-  DialogContent,
-  DialogContentText,
-  Grid,
-  CircularProgress
-} from "@material-ui/core";
+import { Container, Grid, CircularProgress } from "@material-ui/core";
 import DividendForm from "./DividendForm";
 import PageHeader from "../shared/PageHeader";
 import {
@@ -14,8 +7,7 @@ import {
   AddOutlined as AddOutlinedIcon
 } from "@material-ui/icons";
 import { Button } from "../Controls";
-import DialogTitle from "../Dialog/DialogTitle";
-import AlertDialog from "../Dialog/AlertDialog";
+import { AlertDialog, FormDialog } from "../Dialog";
 import { withStyles } from "@material-ui/core/styles";
 import { Context as DividendContext } from "../../context/DividendContext";
 import { AuthContext } from "../../context/AuthContext";
@@ -140,22 +132,10 @@ const Dividend = ({ classes }) => {
         open={openAlert}
         handleClose={handleAlertClose}
       />
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="form-dialog-title"
-      >
-        <DialogTitle id="form-dialog-title" onClose={handleClose}>
-          Subscribe
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            To subscribe to this website, please enter your email address here.
-            We will send updates occasionally.
-          </DialogContentText>
-          <DividendForm onClose={handleClose} documentId={documentId} />
-        </DialogContent>
-      </Dialog>
+
+      <FormDialog open={open} onClose={handleClose}>
+        <DividendForm onClose={handleClose} documentId={documentId} />
+      </FormDialog>
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Container, Grid } from "@material-ui/core";
 import PageHeader from "../shared/PageHeader";
 import { withStyles } from "@material-ui/core/styles";
@@ -9,7 +9,13 @@ import {
 import { Button } from "../Controls";
 import WatchListForm from "./WatchListForm";
 import { FormDialog } from "../Dialog";
-
+import { Context as StockContext } from "../../context/StockContext";
+import { Context as WatchListContext } from "../../context/WatchListContext";
+import { AuthContext } from "../../context/AuthContext";
+import {
+  getStockCodeArray,
+  getformattedStockArray
+} from "../../mappers/WatchListDataFormatter";
 const styles = theme => ({
   button: {
     margin: theme.spacing(5),
@@ -33,6 +39,26 @@ const Watchlist = ({ classes }) => {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const {
+    getWatchListArray,
+    state: { watchListArrayService }
+  } = useContext(WatchListContext);
+  const { currentUser } = useContext(AuthContext);
+  const currentUserId = currentUser.uid;
+
+  useEffect(() => {
+    getWatchListArray(currentUserId);
+  }, []);
+
+  console.log(watchListArrayService);
+  if (watchListArrayService) {
+    var stockArray = getformattedStockArray(watchListArrayService);
+    console.log(stockArray);
+
+    var stockCodeArray = getStockCodeArray(watchListArrayService);
+    console.log(stockCodeArray);
+  }
   return (
     <div className={classes.root}>
       <Container>

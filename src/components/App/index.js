@@ -13,6 +13,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { AuthProvider } from "../../context/AuthContext";
 import { Provider as DividendProvider } from "../../context/DividendContext";
 import { Provider as WatchListProvider } from "../../context/WatchListContext";
+import { Provider as StockProvider } from "../../context/StockContext";
 import PrivatRoute from "../../config/PrivateRoute";
 const theme = createMuiTheme();
 
@@ -40,9 +41,11 @@ export default () => {
   return (
     <AuthProvider>
       <WatchListProvider>
-        <DividendProvider>
-          <App />
-        </DividendProvider>
+        <StockProvider>
+          <DividendProvider>
+            <App />
+          </DividendProvider>
+        </StockProvider>
       </WatchListProvider>
     </AuthProvider>
   );

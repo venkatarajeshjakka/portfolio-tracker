@@ -1,6 +1,8 @@
 import createDataContext from "./createDataContext";
 import app from "../config/firebase";
-
+import Stock from "../api/Stock";
+import _ from "underscore";
+import { stockList } from "../data/stockList";
 const watchListReducer = (state, action) => {
   switch (action.type) {
     case "add_watchList":
@@ -43,18 +45,40 @@ const deleteEntry = dispatch => async documentId => {
   });
 };
 
+const getStockData = async stockCode => {
+  stockCode = stockCode + ".NS";
+  const baseUrl = `/get-nse-stocks?stockCode=${stockCode}`;
+  try {
+    var response = await Stock.get(baseUrl);
+    var stockResponse = response.data[stockCode];
+    return stockResponse;
+  } catch (err) {}
+};
+
+const getStockCode = stockName => {
+  var response = _.findWhere(stockList, { StockName: stockName });
+
+  var stockCode = response.Symbol;
+
+  return stockCode;
+};
 const addWatchList = dispatch => async (stockName, authorId) => {
   const db = app.firestore();
+  var stockCode = getStockCode(stockName);
+  var stockResponse = await getStockData(stockCode);
+
+  var stockPrice = stockResponse ? stockResponse.price.regularMarketPrice : 0;
 
   await db.collection("watchLists").add({
     stockName,
+    stockCode: stockCode,
     date: Date.now(),
-    stockPrice: 120,
+    stockPrice: stockPrice,
     authorId
   });
   dispatch({
     type: "add_watchList",
-    payload: { stockName, date: Date.now(), stockPrice: 120, authorId }
+    payload: { stockName, date: Date.now(), stockPrice: stockPrice, authorId }
   });
 };
 

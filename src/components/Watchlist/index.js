@@ -16,6 +16,8 @@ import {
   getStockCodeArray,
   getformattedStockArray
 } from "../../mappers/WatchListDataFormatter";
+import WatchlistTable from "./WatchlistTable";
+
 const styles = theme => ({
   button: {
     margin: theme.spacing(5),
@@ -83,7 +85,13 @@ const Watchlist = ({ classes }) => {
             startIcon={<AddOutlinedIcon />}
           />
         </Grid>
+        <Grid container spacing={3}>
+          <Grid item lg={12} md={12} xl={9} xs={12}>
+            <WatchlistTable />
+          </Grid>
+        </Grid>
       </Container>
+
       <FormDialog open={open} onClose={handleClose}>
         <WatchListForm onClose={handleClose} />
       </FormDialog>

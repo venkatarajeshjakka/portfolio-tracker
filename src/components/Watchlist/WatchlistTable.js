@@ -87,7 +87,7 @@ const WatchlistTable = ({ stockData, watchListArray }) => {
                     <TableCell style={{ width: 160 }} align="right">
                       {regularMarketChange.toFixed(2)}
                     </TableCell>
-                    <TableCell style={{ width: 160 }} align="right">
+                    <TableCell style={{ width: 200 }} align="right">
                       {(regularMarketChangePercent * 100).toFixed(2)}
                     </TableCell>
                   </TableRow>

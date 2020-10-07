@@ -14,9 +14,17 @@ const getformattedStockArray = data => {
   return formattedData;
 };
 
+const getFormattStockData = data => {
+  var stockInfoData = data.map(item => {
+    var keys = Object.keys(item);
+    return { stockCode: keys[0], data: item[keys[0]] };
+  });
+  return stockInfoData;
+};
+
 const getStockCodeArray = data => {
   var response = getformattedStockArray(data);
   var stockCodeArray = _.pluck(response, "stockCode");
   return stockCodeArray;
 };
-export { getStockCodeArray, getformattedStockArray };
+export { getStockCodeArray, getformattedStockArray, getFormattStockData };

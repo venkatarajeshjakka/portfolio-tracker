@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Container, Grid } from "@material-ui/core";
+import { Container, Grid, CircularProgress } from "@material-ui/core";
 import PageHeader from "../shared/PageHeader";
 import { withStyles } from "@material-ui/core/styles";
 import {
@@ -14,7 +14,8 @@ import { Context as WatchListContext } from "../../context/WatchListContext";
 import { AuthContext } from "../../context/AuthContext";
 import {
   getStockCodeArray,
-  getformattedStockArray
+  getformattedStockArray,
+  getFormattStockData
 } from "../../mappers/WatchListDataFormatter";
 import WatchlistTable from "./WatchlistTable";
 
@@ -34,6 +35,7 @@ const styles = theme => ({
 
 const Watchlist = ({ classes }) => {
   const [open, setOpen] = useState(false);
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -42,25 +44,33 @@ const Watchlist = ({ classes }) => {
     setOpen(false);
   };
 
+  const render = (stockData, watchListData) => {
+    return stockData && watchListData
+      ? stockData.length > 0 &&
+          watchListData.length > 0 &&
+          stockData.length === watchListData.length
+      : false;
+  };
   const {
     getWatchListArray,
-    state: { watchListArrayService }
+    state: { watchListArrayService, watchListArray }
   } = useContext(WatchListContext);
   const { currentUser } = useContext(AuthContext);
   const currentUserId = currentUser.uid;
-
+  const {
+    getStockInfo,
+    state: { watchListStockData }
+  } = useContext(StockContext);
   useEffect(() => {
     getWatchListArray(currentUserId);
-  }, []);
+  }, [watchListArray]);
 
-  console.log(watchListArrayService);
-  if (watchListArrayService) {
-    var stockArray = getformattedStockArray(watchListArrayService);
-    console.log(stockArray);
+  useEffect(() => {
+    if (watchListArrayService) {
+      getStockInfo(getStockCodeArray(watchListArrayService));
+    }
+  }, [watchListArrayService]);
 
-    var stockCodeArray = getStockCodeArray(watchListArrayService);
-    console.log(stockCodeArray);
-  }
   return (
     <div className={classes.root}>
       <Container>
@@ -87,7 +97,14 @@ const Watchlist = ({ classes }) => {
         </Grid>
         <Grid container spacing={3}>
           <Grid item lg={12} md={12} xl={9} xs={12}>
-            <WatchlistTable />
+            {render(watchListStockData, watchListArrayService) ? (
+              <WatchlistTable
+                stockData={getFormattStockData(watchListStockData)}
+                watchListArray={getformattedStockArray(watchListArrayService)}
+              />
+            ) : (
+              <CircularProgress />
+            )}
           </Grid>
         </Grid>
       </Container>

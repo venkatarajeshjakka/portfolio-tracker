@@ -20,6 +20,12 @@ const useStyles = makeStyles({
   },
   container: {
     maxHeight: 440
+  },
+  tableleftBorder: {
+    borderTop: 0,
+    borderRight: 0,
+    borderLeftWidth: 3,
+    borderStyle: "solid"
   }
 });
 
@@ -78,7 +84,15 @@ const WatchlistTable = ({ stockData, watchListArray }) => {
                 } = data.data.price;
                 return (
                   <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
-                    <TableCell component="th" scope="row">
+                    <TableCell
+                      className={classes.tableleftBorder}
+                      style={{
+                        borderLeftColor:
+                        regularMarketChange.toFixed(2) < 0 ? "#ff0000" : "#32cd32"
+                      }}
+                      component="th"
+                      scope="row"
+                    >
                       {longName}
                     </TableCell>
                     <TableCell style={{ width: 160 }}>

@@ -11,7 +11,7 @@ const getformattedStockArray = data => {
     };
   });
 
-  return formattedData;
+  return _.sortBy(formattedData,'stockName');
 };
 
 const getFormattStockData = data => {

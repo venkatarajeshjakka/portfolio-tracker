@@ -128,12 +128,14 @@ const Watchlist = ({ classes }) => {
       </FormDialog>
 
       <Snackbar
+        anchorOrigin={{ vertical:'top', horizontal:'center' }}
         open={duplicateEntry}
         autoHideDuration={6000}
         onClose={handleSnackBarClose}
+        key={'top' + 'center'}
       >
-        <Alert onClose={handleSnackBarClose} severity="success">
-          This is a success message!
+        <Alert onClose={handleSnackBarClose} severity="warning">
+          Already stock there in your Watchlist!
         </Alert>
       </Snackbar>
     </div>

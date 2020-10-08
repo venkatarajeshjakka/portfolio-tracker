@@ -20,7 +20,7 @@ const useStyles = makeStyles({
     width: "100%"
   },
   container: {
-    maxHeight: 440
+    maxHeight: 550
   },
   tableleftBorder: {
     borderTop: 0,
@@ -49,7 +49,7 @@ const columns = [
   },
   {
     id: "changePercentage",
-    label: "% Change Percentage",
+    label: "% Change",
     minWidth: 100,
     align: "right"
   },

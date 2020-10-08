@@ -70,7 +70,8 @@ const addWatchList = dispatch => async (stockName, authorId) => {
 
   await db
     .collection("watchLists")
-    .where("stockCode", "==", stockCode).get()
+    .where("stockCode", "==", stockCode)
+    .get()
     .then(snapshot => {
       if (snapshot.empty) {
         db.collection("watchLists").add({
@@ -89,11 +90,12 @@ const addWatchList = dispatch => async (stockName, authorId) => {
             authorId
           }
         });
+      } else {
+        dispatch({
+          type: "duplicate_watchList",
+          payload: true
+        });
       }
-      dispatch({
-        type: "duplicate_watchList",
-        payload: true
-      });
     });
 };
 

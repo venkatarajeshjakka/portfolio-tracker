@@ -18,11 +18,7 @@ import {
   getFormattStockData
 } from "../../mappers/WatchListDataFormatter";
 import WatchlistTable from "./WatchlistTable";
-import MuiAlert from "@material-ui/lab/Alert";
-
-function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
+import { Alert } from "../Alert";
 
 const styles = theme => ({
   button: {
@@ -128,11 +124,11 @@ const Watchlist = ({ classes }) => {
       </FormDialog>
 
       <Snackbar
-        anchorOrigin={{ vertical:'top', horizontal:'center' }}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
         open={duplicateEntry}
         autoHideDuration={6000}
         onClose={handleSnackBarClose}
-        key={'top' + 'center'}
+        key={"top" + "center"}
       >
         <Alert onClose={handleSnackBarClose} severity="warning">
           Already stock there in your Watchlist!

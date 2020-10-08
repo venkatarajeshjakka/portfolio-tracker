@@ -1,20 +1,22 @@
 import React from "react";
-import { TableRow, TableHead, TableCell } from "@material-ui/core";
-import StyledTableCell from './StyledTableCell'
+import { TableRow, TableHead } from "@material-ui/core";
+import StyledTableCell from "./StyledTableCell";
 
-const StyledTableHead = ({ columns }) => {
+const StyledTableHead = ({ columns, showAction }) => {
   return (
     <TableHead>
       <TableRow>
-        {columns.map(column => (
-          <StyledTableCell
-            key={column.id}
-            align={column.align}
-            style={{ minWidth: column.minWidth }}
-          >
-            {column.label}
-          </StyledTableCell>
-        ))}
+        {columns.map(column => {
+          return showAction && column.id == "action" ? null : (
+            <StyledTableCell
+              key={column.id}
+              align={column.align}
+              style={{ minWidth: column.minWidth }}
+            >
+              {column.label}
+            </StyledTableCell>
+          );
+        })}
       </TableRow>
     </TableHead>
   );

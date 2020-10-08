@@ -8,9 +8,10 @@ import {
   TableContainer,
   TableBody,
   Table,
-  TableCell
+  TableCell,
+  IconButton
 } from "@material-ui/core";
-
+import { Delete as DeleteIcon } from "@material-ui/icons";
 import { StyledTableHead } from "../Table";
 import { formatCurrency } from "../../extensions/Formatters";
 import _ from "underscore";
@@ -31,27 +32,36 @@ const useStyles = makeStyles({
 
 const columns = [
   { id: "stockName", label: "Stock Name", minWidth: 170 },
-  { id: "price", label: "Price", minWidth: 100,align: "right", },
-  { id: "high", label: "High", minWidth: 100 ,align: "right",},
-  { id: "low", label: "Low", minWidth: 100,align: "right", },
-  { id: "previousClose", label: "Previous Close", minWidth: 100 ,align: "right",},
+  { id: "price", label: "Price", minWidth: 100, align: "right" },
+  { id: "high", label: "High", minWidth: 100, align: "right" },
+  { id: "low", label: "Low", minWidth: 100, align: "right" },
+  {
+    id: "previousClose",
+    label: "Previous Close",
+    minWidth: 100,
+    align: "right"
+  },
   {
     id: "change",
     label: "Change",
     minWidth: 100,
-    align: "right",
-    format: value => value.toFixed(2)
+    align: "right"
   },
   {
     id: "changePercentage",
     label: "% Change Percentage",
     minWidth: 100,
-    align: "right",
-    format: value => value.toFixed(2)
+    align: "right"
+  },
+  {
+    id: "action",
+    label: "Action",
+    minWidth: 100,
+    align: "right"
   }
 ];
 
-const WatchlistTable = ({ stockData, watchListArray }) => {
+const WatchlistTable = ({ stockData, watchListArray, showAction }) => {
   const classes = useStyles();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -69,7 +79,7 @@ const WatchlistTable = ({ stockData, watchListArray }) => {
     <Paper className={classes.root}>
       <TableContainer className={classes.container}>
         <Table stickyHeader aria-label="sticky table">
-          <StyledTableHead columns={columns} />
+          <StyledTableHead columns={columns} showAction={showAction} />
           <TableBody>
             {watchListArray
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -103,7 +113,7 @@ const WatchlistTable = ({ stockData, watchListArray }) => {
                     >
                       {longName}
                     </TableCell>
-                    <TableCell style={{ width: 160 }}align="right" >
+                    <TableCell style={{ width: 160 }} align="right">
                       {formatCurrency(regularMarketPrice)}
                     </TableCell>
                     <TableCell style={{ width: 160 }} align="right">
@@ -139,6 +149,18 @@ const WatchlistTable = ({ stockData, watchListArray }) => {
                     >
                       {(regularMarketChangePercent * 100).toFixed(2)}
                     </TableCell>
+                    {!showAction ? (
+                      <TableCell
+                        style={{
+                          width: 160
+                        }}
+                        align="right"
+                      >
+                        <IconButton color="secondary" onClick={() => {}}>
+                          <DeleteIcon />
+                        </IconButton>
+                      </TableCell>
+                    ) : null}
                   </TableRow>
                 );
               })}

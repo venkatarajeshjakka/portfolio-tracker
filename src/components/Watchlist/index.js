@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Container, Grid, CircularProgress } from "@material-ui/core";
+import { Container, Grid, CircularProgress, Snackbar } from "@material-ui/core";
 import PageHeader from "../shared/PageHeader";
 import { withStyles } from "@material-ui/core/styles";
 import {
@@ -18,6 +18,11 @@ import {
   getFormattStockData
 } from "../../mappers/WatchListDataFormatter";
 import WatchlistTable from "./WatchlistTable";
+import MuiAlert from "@material-ui/lab/Alert";
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const styles = theme => ({
   button: {
@@ -44,6 +49,14 @@ const Watchlist = ({ classes }) => {
     setOpen(false);
   };
 
+  const handleSnackBarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    resetDuplicateEntry(false);
+  };
+
   const render = (stockData, watchListData) => {
     return stockData && watchListData
       ? stockData.length > 0 &&
@@ -53,7 +66,8 @@ const Watchlist = ({ classes }) => {
   };
   const {
     getWatchListArray,
-    state: { watchListArrayService, watchListArray }
+    resetDuplicateEntry,
+    state: { watchListArrayService, watchListArray, duplicateEntry }
   } = useContext(WatchListContext);
   const { currentUser } = useContext(AuthContext);
   const currentUserId = currentUser.uid;
@@ -112,6 +126,16 @@ const Watchlist = ({ classes }) => {
       <FormDialog open={open} onClose={handleClose}>
         <WatchListForm onClose={handleClose} />
       </FormDialog>
+
+      <Snackbar
+        open={duplicateEntry}
+        autoHideDuration={6000}
+        onClose={handleSnackBarClose}
+      >
+        <Alert onClose={handleSnackBarClose} severity="success">
+          This is a success message!
+        </Alert>
+      </Snackbar>
     </div>
   );
 };

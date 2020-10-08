@@ -31,7 +31,10 @@ const useStyles = makeStyles({
 
 const columns = [
   { id: "stockName", label: "Stock Name", minWidth: 170 },
-  { id: "price", label: "Price", minWidth: 100 },
+  { id: "price", label: "Price", minWidth: 100,align: "right", },
+  { id: "high", label: "High", minWidth: 100 ,align: "right",},
+  { id: "low", label: "Low", minWidth: 100,align: "right", },
+  { id: "previousClose", label: "Previous Close", minWidth: 100 ,align: "right",},
   {
     id: "change",
     label: "Change",
@@ -80,7 +83,10 @@ const WatchlistTable = ({ stockData, watchListArray }) => {
                   longName,
                   regularMarketChange,
                   regularMarketChangePercent,
-                  regularMarketPrice
+                  regularMarketPrice,
+                  regularMarketDayLow,
+                  regularMarketDayHigh,
+                  regularMarketPreviousClose
                 } = data.data.price;
                 return (
                   <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
@@ -88,20 +94,49 @@ const WatchlistTable = ({ stockData, watchListArray }) => {
                       className={classes.tableleftBorder}
                       style={{
                         borderLeftColor:
-                        regularMarketChange.toFixed(2) < 0 ? "#ff0000" : "#32cd32"
+                          regularMarketChange.toFixed(2) < 0
+                            ? "#ff0000"
+                            : "#32cd32"
                       }}
                       component="th"
                       scope="row"
                     >
                       {longName}
                     </TableCell>
-                    <TableCell style={{ width: 160 }}>
+                    <TableCell style={{ width: 160 }}align="right" >
                       {formatCurrency(regularMarketPrice)}
                     </TableCell>
                     <TableCell style={{ width: 160 }} align="right">
+                      {formatCurrency(regularMarketDayHigh)}
+                    </TableCell>
+                    <TableCell style={{ width: 160 }} align="right">
+                      {formatCurrency(regularMarketDayLow)}
+                    </TableCell>
+                    <TableCell style={{ width: 160 }} align="right">
+                      {formatCurrency(regularMarketPreviousClose)}
+                    </TableCell>
+                    <TableCell
+                      style={{
+                        width: 160,
+                        color:
+                          regularMarketChange.toFixed(2) < 0
+                            ? "#ff0000"
+                            : "#32cd32"
+                      }}
+                      align="right"
+                    >
                       {regularMarketChange.toFixed(2)}
                     </TableCell>
-                    <TableCell style={{ width: 200 }} align="right">
+                    <TableCell
+                      style={{
+                        width: 160,
+                        color:
+                          regularMarketChange.toFixed(2) < 0
+                            ? "#ff0000"
+                            : "#32cd32"
+                      }}
+                      align="right"
+                    >
                       {(regularMarketChangePercent * 100).toFixed(2)}
                     </TableCell>
                   </TableRow>

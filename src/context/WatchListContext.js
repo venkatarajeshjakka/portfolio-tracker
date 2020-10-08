@@ -22,11 +22,10 @@ const watchListReducer = (state, action) => {
         )
       };
 
-    case "edit_dividend":
+    case "duplicate_watchList":
       return {
         ...state,
-        watchListArray: [],
-        watchListArrayService: []
+        duplicateEntry: action.payload
       };
     default:
       return state;
@@ -69,19 +68,41 @@ const addWatchList = dispatch => async (stockName, authorId) => {
 
   var stockPrice = stockResponse ? stockResponse.price.regularMarketPrice : 0;
 
-  await db.collection("watchLists").add({
-    stockName,
-    stockCode: stockCode,
-    date: Date.now(),
-    stockPrice: stockPrice,
-    authorId
-  });
-  dispatch({
-    type: "add_watchList",
-    payload: { stockName, date: Date.now(), stockPrice: stockPrice, authorId }
-  });
+  await db
+    .collection("watchLists")
+    .where("stockCode", "==", stockCode).get()
+    .then(snapshot => {
+      if (snapshot.empty) {
+        db.collection("watchLists").add({
+          stockName,
+          stockCode: stockCode,
+          date: Date.now(),
+          stockPrice: stockPrice,
+          authorId
+        });
+        dispatch({
+          type: "add_watchList",
+          payload: {
+            stockName,
+            date: Date.now(),
+            stockPrice: stockPrice,
+            authorId
+          }
+        });
+      }
+      dispatch({
+        type: "duplicate_watchList",
+        payload: true
+      });
+    });
 };
 
+const resetDuplicateEntry = dispatch => () => {
+  dispatch({
+    type: "duplicate_watchList",
+    payload: false
+  });
+};
 const getWatchListArray = dispatch => async authorId => {
   try {
     var collection = [];
@@ -106,11 +127,12 @@ const getWatchListArray = dispatch => async authorId => {
 };
 export const { Provider, Context } = createDataContext(
   watchListReducer,
-  { addWatchList, getWatchListArray, deleteEntry },
+  { addWatchList, getWatchListArray, deleteEntry, resetDuplicateEntry },
   {
     watchListArray: [],
     watchListArrayService: [],
     errorInFetching: false,
-    errorInAdding: false
+    errorInAdding: false,
+    duplicateEntry: false
   }
 );

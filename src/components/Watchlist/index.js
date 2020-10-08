@@ -4,7 +4,9 @@ import PageHeader from "../shared/PageHeader";
 import { withStyles } from "@material-ui/core/styles";
 import {
   AddOutlined as AddOutlinedIcon,
-  BookmarkRounded as BookmarkRoundedIcon
+  BookmarkRounded as BookmarkRoundedIcon,
+  EditOutlined as EditOutlinedIcon,
+  DoneOutlined as DoneOutlinedIcon
 } from "@material-ui/icons";
 import { Button } from "../Controls";
 import WatchListForm from "./WatchListForm";
@@ -36,7 +38,18 @@ const styles = theme => ({
 
 const Watchlist = ({ classes }) => {
   const [open, setOpen] = useState(false);
+  const [showDone, setShowDone] = useState(false);
+  const [showEdit, setEdit] = useState(true);
 
+  const handleEdit = () => {
+    setEdit(false);
+    setShowDone(true);
+  };
+
+  const HandleDone = () => {
+    setEdit(true);
+    setShowDone(false);
+  };
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -97,6 +110,24 @@ const Watchlist = ({ classes }) => {
           alignItems="center"
           className={classes.Button}
         >
+          {showEdit ? (
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={handleEdit}
+              text={"Edit"}
+              startIcon={<EditOutlinedIcon />}
+            />
+          ) : null}
+          {showDone ? (
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={HandleDone}
+              text={"Done"}
+              startIcon={<DoneOutlinedIcon />}
+            />
+          ) : null}
           <Button
             variant="outlined"
             color="primary"
@@ -111,6 +142,7 @@ const Watchlist = ({ classes }) => {
               <WatchlistTable
                 stockData={getFormattStockData(watchListStockData)}
                 watchListArray={getformattedStockArray(watchListArrayService)}
+                showAction={showEdit}
               />
             ) : (
               <CircularProgress />

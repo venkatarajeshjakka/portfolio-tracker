@@ -6,6 +6,7 @@ import Dashboard from "../Dashboard";
 import Home from "../HomePage";
 import Watchlist from "../Watchlist";
 import Dividend from "../Dividend";
+import Portfolio from "../Portfolio";
 import Layout from "../shared/layout";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { CssBaseline } from "@material-ui/core";
@@ -30,6 +31,7 @@ const App = () => {
             <PrivatRoute exact path="/dashboard" component={Dashboard} />
             <PrivatRoute exact path="/dividend" component={Dividend} />
             <PrivatRoute exact path="/watchlist" component={Watchlist} />
+            <PrivatRoute exact path="/portfolio" component={Portfolio} />
           </Switch>
         </Layout>
       </Router>

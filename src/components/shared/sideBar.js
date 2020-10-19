@@ -13,7 +13,8 @@ import {
   ChevronRight as ChevronRightIcon,
   DashboardOutlined as DashboardOutlinedIcon,
   AttachMoneyRounded as AttachMoneyRoundedIcon,
-  BookmarkRounded as BookmarkRoundedIcon
+  BookmarkRounded as BookmarkRoundedIcon,
+  AccountBalanceOutlined as AccountBalanceOutlinedIcon
 } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
@@ -25,6 +26,11 @@ const iconsArray = [
     text: "DashBoard",
     icon: <DashboardOutlinedIcon />,
     to: "/dashboard"
+  },
+  {
+    text: "Portfolio",
+    icon: <AccountBalanceOutlinedIcon />,
+    to: "/portfolio"
   },
   {
     text: "Dividend",

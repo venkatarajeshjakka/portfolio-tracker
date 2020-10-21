@@ -2,6 +2,7 @@ import React from "react";
 import { Container, Grid } from "@material-ui/core";
 import PageHeader from "../shared/PageHeader";
 import { withStyles } from "@material-ui/core/styles";
+import { Link, withRouter } from "react-router-dom";
 import {
   AddOutlined as AddOutlinedIcon,
   AccountBalanceOutlined as AccountBalanceOutlinedIcon
@@ -42,7 +43,8 @@ const Portfolio = ({ classes }) => {
           <Button
             variant="outlined"
             color="primary"
-            onClick={() => {}}
+            component={Link}
+            to="/add-position"
             text={"Add"}
             startIcon={<AddOutlinedIcon />}
           />
@@ -52,4 +54,4 @@ const Portfolio = ({ classes }) => {
   );
 };
 
-export default withStyles(styles)(Portfolio);
+export default withRouter(withStyles(styles)(Portfolio));

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   Grid,
   InputAdornment,
@@ -12,6 +12,8 @@ import { Input, Button, DatePicker } from "../Controls";
 import { withRouter } from "react-router";
 import { stockList } from "../../data/stockList";
 import SaveIcon from "@material-ui/icons/Save";
+import { AuthContext } from "../../context/AuthContext";
+import { Context as PortfolioContext } from "../../context/PortfolioContext";
 
 const styles = theme => ({
   form: {
@@ -41,9 +43,15 @@ const styles = theme => ({
 });
 
 const AddPortfolioForm = props => {
-  const { classes } = props;
+  const { classes, history } = props;
+  const { currentUser } = useContext(AuthContext);
+  const { addPosition } = useContext(PortfolioContext);
   const [values, setValues] = useState({
-    amount: ""
+    buyPrice: "",
+    targetPrice: "",
+    stopLoss: "",
+    quantity: "",
+    trailingStopLoss: ""
   });
 
   const [stockName, setStockName] = useState("");
@@ -56,21 +64,41 @@ const AddPortfolioForm = props => {
 
   const handleReset = () => {
     setSelectedDate(new Date());
-    setValues({ ...setValues, amount: "" });
+    setValues({
+      ...setValues,
+      buyPrice: "",
+      targetPrice: "",
+      stopLoss: "",
+      quantity: "",
+      trailingStopLoss: ""
+    });
     setStockName("");
   };
 
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    var data = {
+      stockName,
+      date: selectedDate,
+      buyPrice: values.buyPrice,
+      targetPrice: values.targetPrice,
+      stopLoss: values.targetPrice,
+      quantity: values.quantity,
+      trailingStopLoss: values.quantity
+    };
+    addPosition(data, currentUser.uid);
+    history.push("/portfolio");
+  };
 
   const handleDateChange = date => {
     setSelectedDate(date);
   };
+
   return (
     <div className={classes.root}>
       <Container>
         <Paper className={classes.paper}>
           <Typography component="h1" variant="h4" align="center">
-            Add Stock
+            Add Position
           </Typography>
           <form
             className={classes.form}
@@ -106,8 +134,8 @@ const AddPortfolioForm = props => {
                 <Input
                   name="buyPrice"
                   label="Buy Price"
-                  onChange={handleChange("amount")}
-                  value={values.amount}
+                  onChange={handleChange("buyPrice")}
+                  value={values.buyPrice}
                   fullWidth={true}
                   id="outlined-adornment-amount"
                   margin="normal"
@@ -121,8 +149,8 @@ const AddPortfolioForm = props => {
                 <Input
                   name="targetPrice"
                   label="Target Price"
-                  onChange={handleChange("amount")}
-                  value={values.amount}
+                  onChange={handleChange("targetPrice")}
+                  value={values.targetPrice}
                   fullWidth={true}
                   id="outlined-adornment-amount"
                   margin="normal"
@@ -135,9 +163,9 @@ const AddPortfolioForm = props => {
                 />
                 <Input
                   name="stopLoss"
-                  label="StopLoss"
-                  onChange={handleChange("amount")}
-                  value={values.amount}
+                  label="Stop Loss"
+                  onChange={handleChange("stopLoss")}
+                  value={values.stopLoss}
                   fullWidth={true}
                   id="outlined-adornment-amount"
                   margin="normal"
@@ -153,8 +181,8 @@ const AddPortfolioForm = props => {
                 <Input
                   name="quantity"
                   label="Quantity"
-                  onChange={handleChange("amount")}
-                  value={values.amount}
+                  onChange={handleChange("quantity")}
+                  value={values.quantity}
                   fullWidth={true}
                   id="outlined-adornment-amount"
                   margin="normal"
@@ -163,8 +191,8 @@ const AddPortfolioForm = props => {
                 <Input
                   name="trailingStopLoss"
                   label=" Trailing Stop Loss"
-                  onChange={handleChange("amount")}
-                  value={values.amount}
+                  onChange={handleChange("trailingStopLoss")}
+                  value={values.trailingStopLoss}
                   fullWidth={true}
                   id="outlined-adornment-amount"
                   margin="normal"
@@ -182,18 +210,18 @@ const AddPortfolioForm = props => {
                 />
                 <div className={classes.button}>
                   <Button
-                    text={"Save"}
-                    autoFocus
-                    startIcon={<SaveIcon />}
-                    size="large"
-                    onClick={handleSubmit}
-                  />
-                  <Button
                     variant="outlined"
                     color="primary"
                     size="large"
                     text={"Reset"}
                     onClick={handleReset}
+                  />
+                  <Button
+                    text={"Save"}
+                    autoFocus
+                    startIcon={<SaveIcon />}
+                    size="large"
+                    onClick={handleSubmit}
                   />
                 </div>
               </Grid>

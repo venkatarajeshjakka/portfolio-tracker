@@ -12,7 +12,6 @@ import {
 } from "@material-ui/core";
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import GetAppIcon from "@material-ui/icons/GetApp";
-import { GreenTextTypography, RedTextTypography } from "../Typography";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -25,6 +24,12 @@ const useStyles = makeStyles(theme => ({
   },
   statsIcon: {
     marginRight: theme.spacing(1)
+  },
+  red: {
+    color: "#ff0000"
+  },
+  green: {
+    color: "#32cd32"
   }
 }));
 
@@ -45,14 +50,70 @@ const StockCard = ({ className, product, ...rest }) => {
         <Box p={2}>
           <Grid container justify="space-between" spacing={2}>
             <Grid className={classes.statsItem} item>
-              <GreenTextTypography display="inline" variant="body2">
+              <Typography
+                className={classes.green}
+                display="inline"
+                variant="body2"
+              >
                 Updated 2hr ago
-              </GreenTextTypography>
+              </Typography>
             </Grid>
             <Grid className={classes.statsItem} item>
-              <RedTextTypography display="inline" variant="body2">
+              <Typography
+                className={classes.red}
+                display="inline"
+                variant="body2"
+              >
                 {product.totalDownloads} Downloads
-              </RedTextTypography>
+              </Typography>
+            </Grid>
+          </Grid>
+        </Box>
+        <Box flexGrow={1}>
+          <Grid container justify="space-between" spacing={2}>
+            <Grid className={classes.statsItem} item>
+              <Typography
+                color="textSecondary"
+                display="inline"
+                variant="body2"
+              >
+                Investment
+              </Typography>
+            </Grid>
+            <Grid className={classes.statsItem} item>
+              <Typography
+                color="textSecondary"
+                display="inline"
+                variant="body2"
+              >
+                Current Value
+              </Typography>
+            </Grid>
+            <Grid className={classes.statsItem} item>
+              <Typography
+                color="textSecondary"
+                display="inline"
+                variant="body2"
+              >
+                Returns
+              </Typography>
+            </Grid>
+          </Grid>
+          <Grid container justify="space-between" spacing={2}>
+            <Grid className={classes.statsItem} item>
+              <Typography color="textPrimary" display="inline" variant="body2">
+                Investment
+              </Typography>
+            </Grid>
+            <Grid className={classes.statsItem} item>
+              <Typography color="textPrimary" display="inline" variant="body2">
+                Current Value
+              </Typography>
+            </Grid>
+            <Grid className={classes.statsItem} item>
+              <Typography color="textPrimary" display="inline" variant="body2">
+                Returns
+              </Typography>
             </Grid>
           </Grid>
         </Box>

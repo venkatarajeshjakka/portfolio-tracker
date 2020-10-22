@@ -12,8 +12,7 @@ import {
 } from "@material-ui/core";
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import GetAppIcon from "@material-ui/icons/GetApp";
-import purple from "@material-ui/core/colors/purple";
-import green from "@material-ui/core/colors/green";
+import { GreenTextTypography, RedTextTypography } from "../Typography";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -46,18 +45,14 @@ const StockCard = ({ className, product, ...rest }) => {
         <Box p={2}>
           <Grid container justify="space-between" spacing={2}>
             <Grid className={classes.statsItem} item>
-              <Typography
-                color="textsecondary"
-                display="inline"
-                variant="body2"
-              >
+              <GreenTextTypography display="inline" variant="body2">
                 Updated 2hr ago
-              </Typography>
+              </GreenTextTypography>
             </Grid>
             <Grid className={classes.statsItem} item>
-              <Typography color="textPrimary" display="inline" variant="body2">
+              <RedTextTypography display="inline" variant="body2">
                 {product.totalDownloads} Downloads
-              </Typography>
+              </RedTextTypography>
             </Grid>
           </Grid>
         </Box>

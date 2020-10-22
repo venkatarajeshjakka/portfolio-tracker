@@ -10,9 +10,12 @@ import {
   Typography,
   makeStyles
 } from "@material-ui/core";
-import AccessTimeIcon from "@material-ui/icons/AccessTime";
-import GetAppIcon from "@material-ui/icons/GetApp";
+import {
+  WorkOutlineOutlined as WorkOutlineOutlinedIcon,
+  LocalOfferOutlined as LocalOfferOutlinedIcon
+} from "@material-ui/icons";
 
+import { formatCurrency } from "../../extensions/Formatters";
 const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
@@ -26,7 +29,8 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(1)
   },
   red: {
-    color: "#ff0000"
+    color: "#ff0000",
+    paddingRight: theme.spacing(1)
   },
   green: {
     color: "#32cd32"
@@ -43,7 +47,7 @@ const StockCard = ({ className, product, ...rest }) => {
           align="center"
           color="textPrimary"
           gutterBottom
-          variant="h5"
+          variant="h6"
         >
           {product.title}
         </Typography>
@@ -55,7 +59,7 @@ const StockCard = ({ className, product, ...rest }) => {
                 display="inline"
                 variant="body2"
               >
-                Updated 2hr ago
+                {formatCurrency(1200)}
               </Typography>
             </Grid>
             <Grid className={classes.statsItem} item>
@@ -64,7 +68,14 @@ const StockCard = ({ className, product, ...rest }) => {
                 display="inline"
                 variant="body2"
               >
-                {product.totalDownloads} Downloads
+                {formatCurrency(14.6)}
+              </Typography>
+              <Typography
+                className={classes.red}
+                display="inline"
+                variant="body2"
+              >
+                (1.5 %)
               </Typography>
             </Grid>
           </Grid>
@@ -89,6 +100,31 @@ const StockCard = ({ className, product, ...rest }) => {
                 Current Value
               </Typography>
             </Grid>
+          </Grid>
+          <Grid container justify="space-between" spacing={2}>
+            <Grid className={classes.statsItem} item>
+              <Typography color="textPrimary" display="inline" variant="body2">
+                {formatCurrency(34000)}
+              </Typography>
+            </Grid>
+            <Grid className={classes.statsItem} item>
+              <Typography color="textPrimary" display="inline" variant="body2">
+                {formatCurrency(44000)}
+              </Typography>
+            </Grid>
+          </Grid>
+        </Box>
+        <Box flexGrow={1}>
+          <Grid container justify="space-between" spacing={2}>
+            <Grid className={classes.statsItem} item>
+              <Typography
+                color="textSecondary"
+                display="inline"
+                variant="body2"
+              >
+                Daily Gain
+              </Typography>
+            </Grid>
             <Grid className={classes.statsItem} item>
               <Typography
                 color="textSecondary"
@@ -102,17 +138,12 @@ const StockCard = ({ className, product, ...rest }) => {
           <Grid container justify="space-between" spacing={2}>
             <Grid className={classes.statsItem} item>
               <Typography color="textPrimary" display="inline" variant="body2">
-                Investment
+                {formatCurrency(34000)}
               </Typography>
             </Grid>
             <Grid className={classes.statsItem} item>
               <Typography color="textPrimary" display="inline" variant="body2">
-                Current Value
-              </Typography>
-            </Grid>
-            <Grid className={classes.statsItem} item>
-              <Typography color="textPrimary" display="inline" variant="body2">
-                Returns
+                {formatCurrency(44000)}
               </Typography>
             </Grid>
           </Grid>
@@ -123,15 +154,21 @@ const StockCard = ({ className, product, ...rest }) => {
       <Box p={2}>
         <Grid container justify="space-between" spacing={2}>
           <Grid className={classes.statsItem} item>
-            <AccessTimeIcon className={classes.statsIcon} color="action" />
+            <WorkOutlineOutlinedIcon
+              className={classes.statsIcon}
+              color="action"
+            />
             <Typography color="textSecondary" display="inline" variant="body2">
-              Updated 2hr ago
+              120
             </Typography>
           </Grid>
           <Grid className={classes.statsItem} item>
-            <GetAppIcon className={classes.statsIcon} color="action" />
+            <LocalOfferOutlinedIcon
+              className={classes.statsIcon}
+              color="action"
+            />
             <Typography color="textSecondary" display="inline" variant="body2">
-              {product.totalDownloads} Downloads
+              {formatCurrency(product.totalDownloads)}
             </Typography>
           </Grid>
         </Grid>

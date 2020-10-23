@@ -105,7 +105,7 @@ const Portfolio = ({ classes }) => {
         <Box mt={3}>
           <Grid
             container
-            spacing={3}
+            spacing={4}
           >
             {products.map((product) => (
               <Grid

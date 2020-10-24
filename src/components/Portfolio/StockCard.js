@@ -11,16 +11,14 @@ import {
   Typography,
   makeStyles,
   CardActionArea,
-  CardHeader,
-  IconButton
+  CardHeader
 } from "@material-ui/core";
 import {
   WorkOutlineOutlined as WorkOutlineOutlinedIcon,
-  LocalOfferOutlined as LocalOfferOutlinedIcon,
-  MoreVert as MoreVertIcon
+  LocalOfferOutlined as LocalOfferOutlinedIcon
 } from "@material-ui/icons";
-
 import { formatCurrency } from "../../extensions/Formatters";
+
 const useStyles = makeStyles(theme => ({
   root: ({ color }) => ({
     display: "flex",
@@ -57,21 +55,14 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const StockCard = ({ className, product, ...rest }) => {
+const StockCard = props => {
+  const { className, staticContext, product, ...rest } = props;
   const classes = useStyles();
 
   return (
     <CardActionArea className={classes.actionArea}>
       <Card className={clsx(classes.root, className)} {...rest}>
-        <CardHeader
-          action={
-            <IconButton aria-label="settings">
-              <MoreVertIcon />
-            </IconButton>
-          }
-          title={product.title}
-          subheader="September 14, 2016"
-        />
+        <CardHeader title={product.title} subheader="September 14, 2016" />
         <CardContent>
           <Box p={2}>
             <Grid container justify="space-between" spacing={2}>
@@ -79,7 +70,7 @@ const StockCard = ({ className, product, ...rest }) => {
                 <Typography
                   className={classes.green}
                   display="inline"
-                  variant="body2"
+                  variant="body1"
                 >
                   {formatCurrency(1200)}
                 </Typography>
@@ -88,14 +79,14 @@ const StockCard = ({ className, product, ...rest }) => {
                 <Typography
                   className={classes.red}
                   display="inline"
-                  variant="body2"
+                  variant="body1"
                 >
                   {formatCurrency(14.6)}
                 </Typography>
                 <Typography
                   className={classes.red}
                   display="inline"
-                  variant="body2"
+                  variant="body1"
                 >
                   (1.5 %)
                 </Typography>

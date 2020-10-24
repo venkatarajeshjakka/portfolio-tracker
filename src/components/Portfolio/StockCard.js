@@ -184,7 +184,7 @@ const StockCard = ({ className, product, ...rest }) => {
           </Box>
         </CardContent>
         <Box flexGrow={1} />
-        <Divider />
+        <Divider light />
         <Box p={2}>
           <Grid container justify="space-between" spacing={2}>
             <Grid className={classes.statsItem} item>
@@ -200,6 +200,7 @@ const StockCard = ({ className, product, ...rest }) => {
                 120
               </Typography>
             </Grid>
+
             <Grid className={classes.statsItem} item>
               <LocalOfferOutlinedIcon
                 className={classes.statsIcon}

@@ -10,11 +10,14 @@ import {
   Grid,
   Typography,
   makeStyles,
-  CardActionArea
+  CardActionArea,
+  CardHeader,
+  IconButton
 } from "@material-ui/core";
 import {
   WorkOutlineOutlined as WorkOutlineOutlinedIcon,
-  LocalOfferOutlined as LocalOfferOutlinedIcon
+  LocalOfferOutlined as LocalOfferOutlinedIcon,
+  MoreVert as MoreVertIcon
 } from "@material-ui/icons";
 
 import { formatCurrency } from "../../extensions/Formatters";
@@ -60,15 +63,16 @@ const StockCard = ({ className, product, ...rest }) => {
   return (
     <CardActionArea className={classes.actionArea}>
       <Card className={clsx(classes.root, className)} {...rest}>
+        <CardHeader
+          action={
+            <IconButton aria-label="settings">
+              <MoreVertIcon />
+            </IconButton>
+          }
+          title={product.title}
+          subheader="September 14, 2016"
+        />
         <CardContent>
-          <Typography
-            align="center"
-            color="textPrimary"
-            gutterBottom
-            variant="h6"
-          >
-            {product.title}
-          </Typography>
           <Box p={2}>
             <Grid container justify="space-between" spacing={2}>
               <Grid className={classes.statsItem} item>

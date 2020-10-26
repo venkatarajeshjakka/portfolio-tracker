@@ -81,9 +81,9 @@ const AddPortfolioForm = props => {
       date: selectedDate,
       buyPrice: values.buyPrice,
       targetPrice: values.targetPrice,
-      stopLoss: values.targetPrice,
+      stopLoss: values.stopLoss,
       quantity: values.quantity,
-      trailingStopLoss: values.quantity
+      trailingStopLoss: values.trailingStopLoss
     };
     addPosition(data, currentUser.uid);
     history.push("/portfolio");

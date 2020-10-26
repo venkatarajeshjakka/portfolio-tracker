@@ -11,7 +11,7 @@ const portfolioReducer = (state, action) => {
         ...state,
         portfolioArray: [...state.portfolioArray, action.payload]
       };
-    case "get_position":
+    case "get_positionList":
       return { ...state, portfolioArrayService: action.payload };
 
     default:
@@ -37,6 +37,28 @@ const getStockCode = stockName => {
   return stockCode;
 };
 
+const getPositionArray = dispatch => async authorId => {
+  try {
+    var collection = [];
+    const db = app.firestore();
+    await db
+      .collection("openPositions")
+      .where("authorId", "==", authorId)
+      .get()
+      .then(querysnapShot => {
+        collection = querysnapShot.docs.map(doc => {
+          return {
+            id: doc.id,
+            data: doc.data()
+          };
+        });
+        dispatch({
+          type: "get_positionList",
+          payload: collection
+        });
+      });
+  } catch (error) {}
+};
 const addPosition = dispatch => async (data, authorId) => {
   const db = app.firestore();
   var stockCode = getStockCode(data.stockName);
@@ -72,7 +94,7 @@ const addPosition = dispatch => async (data, authorId) => {
 
 export const { Provider, Context } = createDataContext(
   portfolioReducer,
-  { addPosition },
+  { addPosition,getPositionArray },
   {
     portfolioArray: [],
     portfolioArrayService: [],

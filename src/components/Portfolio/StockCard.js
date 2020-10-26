@@ -10,13 +10,10 @@ import {
   Grid,
   Typography,
   makeStyles,
-  CardActionArea,
-  CardHeader
+  CardActionArea
 } from "@material-ui/core";
-import {
-  WorkOutlineOutlined as WorkOutlineOutlinedIcon,
-  LocalOfferOutlined as LocalOfferOutlinedIcon
-} from "@material-ui/icons";
+import { WorkOutlineOutlined as WorkOutlineOutlinedIcon } from "@material-ui/icons";
+
 import { formatCurrency } from "../../extensions/Formatters";
 
 const useStyles = makeStyles(theme => ({
@@ -57,13 +54,20 @@ const useStyles = makeStyles(theme => ({
 
 const StockCard = props => {
   const { className, staticContext, product, ...rest } = props;
-  const classes = useStyles();
 
+  const classes = useStyles();
   return (
     <CardActionArea className={classes.actionArea}>
       <Card className={clsx(classes.root, className)} {...rest}>
-        <CardHeader title={product.title} subheader="September 14, 2016" />
         <CardContent>
+          <Typography
+            align="center"
+            color="textPrimary"
+            gutterBottom
+            variant="h5"
+          >
+            {product.title}
+          </Typography>
           <Box p={2}>
             <Grid container justify="space-between" spacing={2}>
               <Grid className={classes.statsItem} item>
@@ -185,7 +189,7 @@ const StockCard = props => {
             <Grid className={classes.statsItem} item>
               <WorkOutlineOutlinedIcon
                 className={classes.statsIcon}
-                color="action"
+                color="primary"
               />
               <Typography
                 color="textSecondary"
@@ -197,10 +201,6 @@ const StockCard = props => {
             </Grid>
 
             <Grid className={classes.statsItem} item>
-              <LocalOfferOutlinedIcon
-                className={classes.statsIcon}
-                color="action"
-              />
               <Typography
                 color="textSecondary"
                 display="inline"

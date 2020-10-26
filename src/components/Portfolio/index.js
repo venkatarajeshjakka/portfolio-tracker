@@ -1,5 +1,5 @@
-import React from "react";
-import { Container, Grid,Box } from "@material-ui/core";
+import React, { useContext, useEffect } from "react";
+import { Container, Grid, Box } from "@material-ui/core";
 import PageHeader from "../shared/PageHeader";
 import { withStyles } from "@material-ui/core/styles";
 import { Link, withRouter } from "react-router-dom";
@@ -9,42 +9,41 @@ import {
 } from "@material-ui/icons";
 import { Button } from "../Controls";
 import StockCard from "./StockCard";
+import { AuthContext } from "../../context/AuthContext";
+import { Context as PortfolioContext } from "../../context/PortfolioContext";
+import { Context as StockContext } from "../../context/StockContext";
+import _ from "underscore";
+import { formattData, stockList } from "../../mappers/PositionDataFormatter";
 const products = [
   {
-    
-    createdAt: '27/03/2019',
-    title: 'Dropbox',
-    totalDownloads: '594'
+    createdAt: "27/03/2019",
+    title: "Dropbox",
+    totalDownloads: "594"
   },
   {
-    
-    createdAt: '31/03/2019',
-    title: 'Medium Corporation',
-    totalDownloads: '625'
+    createdAt: "31/03/2019",
+    title: "Medium Corporation",
+    totalDownloads: "625"
   },
   {
-   
-    createdAt: '03/04/2019',
-    title: 'Slack',
-    totalDownloads: '857'
+    createdAt: "03/04/2019",
+    title: "Slack",
+    totalDownloads: "857"
   },
   {
-    
-    createdAt: '04/04/2019',
-   title: 'Lyft',
-    totalDownloads: '406'
+    createdAt: "04/04/2019",
+    title: "Lyft",
+    totalDownloads: "406"
   },
   {
-   
-    createdAt: '04/04/2019',
-   title: 'GitHub',
-    totalDownloads: '835'
+    createdAt: "04/04/2019",
+    title: "GitHub",
+    totalDownloads: "835"
   },
   {
-   
-    createdAt: '04/04/2019',
-    title: 'Squarespace',
-    totalDownloads: '835'
+    createdAt: "04/04/2019",
+    title: "Squarespace",
+    totalDownloads: "835"
   }
 ];
 const styles = theme => ({
@@ -60,11 +59,34 @@ const styles = theme => ({
     paddingTop: theme.spacing(3)
   },
   productCard: {
-    height: '100%'
+    height: "100%"
   }
 });
 
 const Portfolio = ({ classes }) => {
+  const { currentUser } = useContext(AuthContext);
+  const {
+    getPositionArray,
+    state: { portfolioArrayService }
+  } = useContext(PortfolioContext);
+  useEffect(() => {
+    getPositionArray(currentUser.uid);
+  }, []);
+
+  const {
+    getStockInfo,
+    state: { watchListStockData }
+  } = useContext(StockContext);
+  useEffect(() => {
+    if (portfolioArrayService && portfolioArrayService.length > 0) {
+      var formatterResponse = formattData(portfolioArrayService);
+
+      var keys = stockList(formatterResponse);
+      getStockInfo(keys);
+    }
+  }, [portfolioArrayService]);
+
+  console.log(watchListStockData);
   return (
     <div className={classes.root}>
       <Container>
@@ -91,22 +113,10 @@ const Portfolio = ({ classes }) => {
           />
         </Grid>
         <Box mt={3}>
-          <Grid
-            container
-            spacing={4}
-          >
-            {products.map((product) => (
-              <Grid
-                item
-                key={product.title}
-                lg={4}
-                md={6}
-                xs={12}
-              >
-                <StockCard
-                  className={classes.productCard}
-                  product={product}
-                />
+          <Grid container spacing={4}>
+            {products.map(product => (
+              <Grid item key={product.title} lg={4} md={6} xs={12}>
+                <StockCard className={classes.productCard} product={product} />
               </Grid>
             ))}
           </Grid>

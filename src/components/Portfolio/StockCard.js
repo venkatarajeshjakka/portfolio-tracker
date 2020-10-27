@@ -66,7 +66,7 @@ const StockCard = props => {
             gutterBottom
             variant="h5"
           >
-            {product.title}
+            {product.stockName}
           </Typography>
           <Box p={2}>
             <Grid container justify="space-between" spacing={2}>
@@ -76,7 +76,7 @@ const StockCard = props => {
                   display="inline"
                   variant="body1"
                 >
-                  {formatCurrency(1200)}
+                  {formatCurrency(product.ltp)}
                 </Typography>
               </Grid>
               <Grid className={classes.statsItem} item>
@@ -85,14 +85,14 @@ const StockCard = props => {
                   display="inline"
                   variant="body1"
                 >
-                  {formatCurrency(14.6)}
+                  {formatCurrency(product.change)}
                 </Typography>
                 <Typography
                   className={classes.red}
                   display="inline"
                   variant="body1"
                 >
-                  (1.5 %)
+                  ({product.changePercentage} %)
                 </Typography>
               </Grid>
             </Grid>
@@ -125,7 +125,7 @@ const StockCard = props => {
                   display="inline"
                   variant="body2"
                 >
-                  {formatCurrency(34000)}
+                  {formatCurrency(product.investment)}
                 </Typography>
               </Grid>
               <Grid className={classes.statsItem} item>
@@ -134,7 +134,7 @@ const StockCard = props => {
                   display="inline"
                   variant="body2"
                 >
-                  {formatCurrency(44000)}
+                  {formatCurrency(product.current)}
                 </Typography>
               </Grid>
             </Grid>
@@ -167,7 +167,7 @@ const StockCard = props => {
                   display="inline"
                   variant="body2"
                 >
-                  {formatCurrency(34000)}
+                  {formatCurrency(product.dailyGain)}
                 </Typography>
               </Grid>
               <Grid className={classes.statsItem} item>
@@ -176,7 +176,7 @@ const StockCard = props => {
                   display="inline"
                   variant="body2"
                 >
-                  {formatCurrency(44000)}
+                  {formatCurrency(product.profitOrLoss)}
                 </Typography>
               </Grid>
             </Grid>
@@ -196,7 +196,7 @@ const StockCard = props => {
                 display="inline"
                 variant="body2"
               >
-                120
+                {product.quantity}
               </Typography>
             </Grid>
 
@@ -206,7 +206,7 @@ const StockCard = props => {
                 display="inline"
                 variant="body2"
               >
-                {formatCurrency(product.totalDownloads)}
+                {formatCurrency(product.avgPrice)}
               </Typography>
             </Grid>
           </Grid>

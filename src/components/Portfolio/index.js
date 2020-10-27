@@ -1,5 +1,5 @@
-import React, { useContext, useEffect } from "react";
-import { Container, Grid, Box } from "@material-ui/core";
+import React, { useContext, useEffect, useState } from "react";
+import { Container, Grid, Box, CircularProgress } from "@material-ui/core";
 import PageHeader from "../shared/PageHeader";
 import { withStyles } from "@material-ui/core/styles";
 import { Link, withRouter } from "react-router-dom";
@@ -14,38 +14,8 @@ import { Context as PortfolioContext } from "../../context/PortfolioContext";
 import { Context as StockContext } from "../../context/StockContext";
 import _ from "underscore";
 import { formattData, stockList } from "../../mappers/PositionDataFormatter";
-const products = [
-  {
-    createdAt: "27/03/2019",
-    title: "Dropbox",
-    totalDownloads: "594"
-  },
-  {
-    createdAt: "31/03/2019",
-    title: "Medium Corporation",
-    totalDownloads: "625"
-  },
-  {
-    createdAt: "03/04/2019",
-    title: "Slack",
-    totalDownloads: "857"
-  },
-  {
-    createdAt: "04/04/2019",
-    title: "Lyft",
-    totalDownloads: "406"
-  },
-  {
-    createdAt: "04/04/2019",
-    title: "GitHub",
-    totalDownloads: "835"
-  },
-  {
-    createdAt: "04/04/2019",
-    title: "Squarespace",
-    totalDownloads: "835"
-  }
-];
+import { getFormattStockData } from "../../mappers/WatchListDataFormatter";
+
 const styles = theme => ({
   button: {
     margin: theme.spacing(5),
@@ -77,16 +47,26 @@ const Portfolio = ({ classes }) => {
     getStockInfo,
     state: { watchListStockData }
   } = useContext(StockContext);
+
+  const [positions, setPositions] = useState(null);
   useEffect(() => {
     if (portfolioArrayService && portfolioArrayService.length > 0) {
       var formatterResponse = formattData(portfolioArrayService);
 
       var keys = stockList(formatterResponse);
+      setPositions(keys);
       getStockInfo(keys);
     }
   }, [portfolioArrayService]);
 
-  console.log(watchListStockData);
+  const renderSection = (positionData, stockData) => {
+    return (
+      positionData &&
+      positionData.length > 0 &&
+      stockData &&
+      stockData.length > 0
+    );
+  };
   return (
     <div className={classes.root}>
       <Container>
@@ -114,11 +94,78 @@ const Portfolio = ({ classes }) => {
         </Grid>
         <Box mt={3}>
           <Grid container spacing={4}>
-            {products.map(product => (
-              <Grid item key={product.title} lg={4} md={6} xs={12}>
-                <StockCard className={classes.productCard} product={product} />
-              </Grid>
-            ))}
+            {renderSection(watchListStockData, portfolioArrayService) ? (
+              positions.map(product => {
+                var stockCode = product + ".NS";
+                var stockData = getFormattStockData(watchListStockData);
+                var data = _.findWhere(stockData, { stockCode: stockCode });
+                var portfolioStockInfo = _.where(
+                  formattData(portfolioArrayService),
+                  {
+                    stockCode: product
+                  }
+                );
+
+                const {
+                  longName,
+                  regularMarketChange,
+                  regularMarketChangePercent,
+                  regularMarketPrice
+                } = data.data.price;
+
+                var quantityArray = _.pluck(portfolioStockInfo, "quantity");
+                var quantitySum = _.reduce(
+                  quantityArray,
+                  function(memo, num) {
+                    return memo + num;
+                  },
+                  0
+                );
+                var investmentArray = portfolioStockInfo.map(item => {
+                  return item.buyPrice * item.quantity;
+                });
+
+                var investment = _.reduce(
+                  investmentArray,
+                  function(memo, num) {
+                    return memo + num;
+                  },
+                  0
+                );
+
+                var averagePrice = investment / quantitySum;
+
+                var dailyGain = quantitySum * regularMarketChange;
+                var currentValue = quantitySum * regularMarketPrice;
+                var profitOrLoss = currentValue - investment;
+                var cardResponse = {
+                  quantity: quantitySum,
+                  stockCode: product,
+                  stockName: longName,
+                  ltp: regularMarketPrice,
+                  change: regularMarketChange,
+                  changePercentage: (regularMarketChangePercent * 100).toFixed(
+                    2
+                  ),
+                  avgPrice: averagePrice,
+                  dailyGain: dailyGain,
+                  investment: investment,
+                  current: currentValue,
+                  profitOrLoss
+                };
+
+                return (
+                  <Grid item key={product} lg={4} md={6} xs={12}>
+                    <StockCard
+                      className={classes.productCard}
+                      product={cardResponse}
+                    />
+                  </Grid>
+                );
+              })
+            ) : (
+              <CircularProgress />
+            )}
           </Grid>
         </Box>
       </Container>

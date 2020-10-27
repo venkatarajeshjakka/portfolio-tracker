@@ -22,4 +22,51 @@ const stockList = data => {
   let grouped = _.groupBy(data, "stockCode");
   return Object.keys(grouped);
 };
-export { formattData, stockList };
+
+const sum = input => {
+  return _.reduce(
+    input,
+    function(memo, num) {
+      return memo + num;
+    },
+    0
+  );
+};
+const stockResponse = (stockData, portfolioStockInfo, stockCode) => {
+  const {
+    longName,
+    regularMarketChange,
+    regularMarketChangePercent,
+    regularMarketPrice
+  } = stockData.data.price;
+
+  var quantityArray = _.pluck(portfolioStockInfo, "quantity");
+  var quantitySum = sum(quantityArray);
+  var investmentArray = portfolioStockInfo.map(item => {
+    return item.buyPrice * item.quantity;
+  });
+
+  var investment = sum(investmentArray);
+
+  var averagePrice = investment / quantitySum;
+
+  var dailyGain = quantitySum * regularMarketChange;
+  var currentValue = quantitySum * regularMarketPrice;
+  var profitOrLoss = currentValue - investment;
+  var cardResponse = {
+    quantity: quantitySum,
+    stockCode,
+    stockName: longName,
+    ltp: regularMarketPrice,
+    change: regularMarketChange,
+    changePercentage: (regularMarketChangePercent * 100).toFixed(2),
+    avgPrice: averagePrice,
+    dailyGain: dailyGain,
+    investment: investment,
+    current: currentValue,
+    profitOrLoss
+  };
+
+  return cardResponse;
+};
+export { formattData, stockList, stockResponse };

@@ -13,7 +13,11 @@ import { AuthContext } from "../../context/AuthContext";
 import { Context as PortfolioContext } from "../../context/PortfolioContext";
 import { Context as StockContext } from "../../context/StockContext";
 import _ from "underscore";
-import { formattData, stockList } from "../../mappers/PositionDataFormatter";
+import {
+  formattData,
+  stockList,
+  stockResponse
+} from "../../mappers/PositionDataFormatter";
 import { getFormattStockData } from "../../mappers/WatchListDataFormatter";
 
 const styles = theme => ({
@@ -106,53 +110,11 @@ const Portfolio = ({ classes }) => {
                   }
                 );
 
-                const {
-                  longName,
-                  regularMarketChange,
-                  regularMarketChangePercent,
-                  regularMarketPrice
-                } = data.data.price;
-
-                var quantityArray = _.pluck(portfolioStockInfo, "quantity");
-                var quantitySum = _.reduce(
-                  quantityArray,
-                  function(memo, num) {
-                    return memo + num;
-                  },
-                  0
+                var cardResponse = stockResponse(
+                  data,
+                  portfolioStockInfo,
+                  product
                 );
-                var investmentArray = portfolioStockInfo.map(item => {
-                  return item.buyPrice * item.quantity;
-                });
-
-                var investment = _.reduce(
-                  investmentArray,
-                  function(memo, num) {
-                    return memo + num;
-                  },
-                  0
-                );
-
-                var averagePrice = investment / quantitySum;
-
-                var dailyGain = quantitySum * regularMarketChange;
-                var currentValue = quantitySum * regularMarketPrice;
-                var profitOrLoss = currentValue - investment;
-                var cardResponse = {
-                  quantity: quantitySum,
-                  stockCode: product,
-                  stockName: longName,
-                  ltp: regularMarketPrice,
-                  change: regularMarketChange,
-                  changePercentage: (regularMarketChangePercent * 100).toFixed(
-                    2
-                  ),
-                  avgPrice: averagePrice,
-                  dailyGain: dailyGain,
-                  investment: investment,
-                  current: currentValue,
-                  profitOrLoss
-                };
 
                 return (
                   <Grid item key={product} lg={4} md={6} xs={12}>

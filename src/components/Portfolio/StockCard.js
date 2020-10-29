@@ -48,6 +48,14 @@ const useStyles = makeStyles(theme => ({
     color: "#32cd32",
     paddingRight: theme.spacing(1)
   },
+  iconRed: {
+    color: "#ff0000",
+    marginRight: theme.spacing(1)
+  },
+  iconGreen: {
+    color: "#32cd32",
+    marginRight: theme.spacing(1)
+  },
   actionArea: {
     borderRadius: 16,
     transition: "0.2s",
@@ -73,6 +81,7 @@ const StockCard = props => {
           >
             {product.stockName}
           </Typography>
+
           <Box p={2}>
             <Grid container justify="space-between" spacing={2}>
               <Grid className={classes.statsItem} item>
@@ -86,9 +95,9 @@ const StockCard = props => {
               </Grid>
               <Grid className={classes.statsItem} item>
                 {product.change > 0 ? (
-                  <ArrowUpwardOutlinedIcon className={classes.green} />
+                  <ArrowUpwardOutlinedIcon className={classes.iconGreen} />
                 ) : (
-                  <ArrowDownwardOutlinedIcon className={classes.red} />
+                  <ArrowDownwardOutlinedIcon className={classes.iconRed} />
                 )}
 
                 <Typography

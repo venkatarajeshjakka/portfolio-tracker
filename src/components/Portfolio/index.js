@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { Container, Grid, Box, CircularProgress } from "@material-ui/core";
 import PageHeader from "../shared/PageHeader";
 import { withStyles } from "@material-ui/core/styles";
@@ -13,11 +13,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { Context as PortfolioContext } from "../../context/PortfolioContext";
 import { Context as StockContext } from "../../context/StockContext";
 import _ from "underscore";
-import {
-  formattData,
-  stockList,
-  stockResponse
-} from "../../mappers/PositionDataFormatter";
+import { stockResponse } from "../../mappers/PositionDataFormatter";
 import { getFormattStockData } from "../../mappers/WatchListDataFormatter";
 
 const styles = theme => ({
@@ -41,27 +37,27 @@ const Portfolio = ({ classes }) => {
   const { currentUser } = useContext(AuthContext);
   const {
     getPositionArray,
-    state: { portfolioArrayService }
+    state: {
+      portfolioArrayService,
+      portfolioArray,
+      formattedResponse,
+      positionsKeys
+    }
   } = useContext(PortfolioContext);
   useEffect(() => {
     getPositionArray(currentUser.uid);
-  }, []);
+  }, [portfolioArray]);
 
   const {
     getStockInfo,
     state: { watchListStockData }
   } = useContext(StockContext);
 
-  const [positions, setPositions] = useState(null);
   useEffect(() => {
-    if (portfolioArrayService && portfolioArrayService.length > 0) {
-      var formatterResponse = formattData(portfolioArrayService);
-
-      var keys = stockList(formatterResponse);
-      setPositions(keys);
-      getStockInfo(keys);
+    if (positionsKeys) {
+      getStockInfo(positionsKeys);
     }
-  }, [portfolioArrayService]);
+  }, [positionsKeys]);
 
   const renderSection = (positionData, stockData) => {
     return (
@@ -99,31 +95,28 @@ const Portfolio = ({ classes }) => {
         <Box mt={3}>
           <Grid container spacing={4}>
             {renderSection(watchListStockData, portfolioArrayService) ? (
-              positions.map(product => {
+              positionsKeys.map(product => {
                 var stockCode = product + ".NS";
                 var stockData = getFormattStockData(watchListStockData);
                 var data = _.findWhere(stockData, { stockCode: stockCode });
-                var portfolioStockInfo = _.where(
-                  formattData(portfolioArrayService),
-                  {
-                    stockCode: product
-                  }
-                );
-
-                var cardResponse = stockResponse(
-                  data,
-                  portfolioStockInfo,
-                  product
-                );
-
-                return (
-                  <Grid item key={product} lg={4} md={6} xs={12}>
-                    <StockCard
-                      className={classes.productCard}
-                      product={cardResponse}
-                    />
-                  </Grid>
-                );
+                var portfolioStockInfo = _.where(formattedResponse, {
+                  stockCode: product
+                });
+                if (data) {
+                  var cardResponse = stockResponse(
+                    data,
+                    portfolioStockInfo,
+                    product
+                  );
+                  return (
+                    <Grid item key={product} lg={4} md={6} xs={12}>
+                      <StockCard
+                        className={classes.productCard}
+                        product={cardResponse}
+                      />
+                    </Grid>
+                  );
+                }
               })
             ) : (
               <CircularProgress />

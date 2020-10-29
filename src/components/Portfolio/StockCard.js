@@ -183,7 +183,9 @@ const StockCard = props => {
             <Grid container justify="space-between" spacing={2}>
               <Grid className={classes.statsItem} item>
                 <Typography
-                  color="textPrimary"
+                  className={
+                    product.dailyGain > 0 ? classes.green : classes.red
+                  }
                   display="inline"
                   variant="body2"
                 >
@@ -192,11 +194,15 @@ const StockCard = props => {
               </Grid>
               <Grid className={classes.statsItem} item>
                 <Typography
-                  color="textPrimary"
+                  className={
+                    product.profitOrLoss > 0 ? classes.green : classes.red
+                  }
                   display="inline"
                   variant="body2"
                 >
-                  {formatCurrency(product.profitOrLoss)}
+                  {`${formatCurrency(product.profitOrLoss)}(${
+                    product.profirOrLossPercentage
+                  } %)`}
                 </Typography>
               </Grid>
             </Grid>

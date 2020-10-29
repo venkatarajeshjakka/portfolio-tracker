@@ -1,8 +1,8 @@
 import createDataContext from "./createDataContext";
 import app from "../config/firebase";
-import Stock from "../api/Stock";
 import _ from "underscore";
-import { stockList } from "../data/stockList";
+import { stockList as staticData } from "../data/stockList";
+import { formattData, stockList } from "../mappers/PositionDataFormatter";
 
 const portfolioReducer = (state, action) => {
   switch (action.type) {
@@ -14,23 +14,19 @@ const portfolioReducer = (state, action) => {
     case "get_positionList":
       return { ...state, portfolioArrayService: action.payload };
 
+    case "formatted_position":
+      return { ...state, formattedResponse: action.payload };
+
+    case "position_keys":
+      return { ...state, positionsKeys: action.payload };
+
     default:
       return state;
   }
 };
 
-const getStockData = async stockCode => {
-  stockCode = stockCode + ".NS";
-  const baseUrl = `/get-nse-stocks?stockCode=${stockCode}`;
-  try {
-    var response = await Stock.get(baseUrl);
-    var stockResponse = response.data[stockCode];
-    return stockResponse;
-  } catch (err) {}
-};
-
 const getStockCode = stockName => {
-  var response = _.findWhere(stockList, { StockName: stockName });
+  var response = _.findWhere(staticData, { StockName: stockName });
 
   var stockCode = response.Symbol;
 
@@ -55,6 +51,16 @@ const getPositionArray = dispatch => async authorId => {
         dispatch({
           type: "get_positionList",
           payload: collection
+        });
+
+        dispatch({
+          type: "formatted_position",
+          payload: formattData(collection)
+        });
+
+        dispatch({
+          type: "position_keys",
+          payload: stockList(formattData(collection))
         });
       });
   } catch (error) {}
@@ -94,10 +100,12 @@ const addPosition = dispatch => async (data, authorId) => {
 
 export const { Provider, Context } = createDataContext(
   portfolioReducer,
-  { addPosition,getPositionArray },
+  { addPosition, getPositionArray },
   {
     portfolioArray: [],
     portfolioArrayService: [],
+    formattedResponse: [],
+    positionsKeys: [],
     errorInFetching: false,
     errorInAdding: false,
     duplicateEntry: false

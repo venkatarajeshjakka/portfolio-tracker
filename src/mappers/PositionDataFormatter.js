@@ -53,6 +53,7 @@ const stockResponse = (stockData, portfolioStockInfo, stockCode) => {
   var dailyGain = quantitySum * regularMarketChange;
   var currentValue = quantitySum * regularMarketPrice;
   var profitOrLoss = currentValue - investment;
+  var profirOrLossPercentage = ((profitOrLoss / investment ) * 100).toFixed(2)
   var cardResponse = {
     quantity: quantitySum,
     stockCode,
@@ -64,7 +65,8 @@ const stockResponse = (stockData, portfolioStockInfo, stockCode) => {
     dailyGain: dailyGain,
     investment: investment,
     current: currentValue,
-    profitOrLoss
+    profitOrLoss,
+    profirOrLossPercentage
   };
 
   return cardResponse;

@@ -12,7 +12,11 @@ import {
   makeStyles,
   CardActionArea
 } from "@material-ui/core";
-import { WorkOutlineOutlined as WorkOutlineOutlinedIcon } from "@material-ui/icons";
+import {
+  WorkOutlineOutlined as WorkOutlineOutlinedIcon,
+  ArrowUpwardOutlined as ArrowUpwardOutlinedIcon,
+  ArrowDownwardOutlined as ArrowDownwardOutlinedIcon
+} from "@material-ui/icons";
 
 import { formatCurrency } from "../../extensions/Formatters";
 
@@ -41,7 +45,8 @@ const useStyles = makeStyles(theme => ({
     paddingRight: theme.spacing(1)
   },
   green: {
-    color: "#32cd32"
+    color: "#32cd32",
+    paddingRight: theme.spacing(1)
   },
   actionArea: {
     borderRadius: 16,
@@ -72,7 +77,7 @@ const StockCard = props => {
             <Grid container justify="space-between" spacing={2}>
               <Grid className={classes.statsItem} item>
                 <Typography
-                  className={classes.green}
+                  className={product.change > 0 ? classes.green : classes.red}
                   display="inline"
                   variant="body1"
                 >
@@ -80,15 +85,21 @@ const StockCard = props => {
                 </Typography>
               </Grid>
               <Grid className={classes.statsItem} item>
+                {product.change > 0 ? (
+                  <ArrowUpwardOutlinedIcon className={classes.green} />
+                ) : (
+                  <ArrowDownwardOutlinedIcon className={classes.red} />
+                )}
+
                 <Typography
-                  className={classes.red}
+                  className={product.change > 0 ? classes.green : classes.red}
                   display="inline"
                   variant="body1"
                 >
                   {formatCurrency(product.change)}
                 </Typography>
                 <Typography
-                  className={classes.red}
+                  className={product.change > 0 ? classes.green : classes.red}
                   display="inline"
                   variant="body1"
                 >

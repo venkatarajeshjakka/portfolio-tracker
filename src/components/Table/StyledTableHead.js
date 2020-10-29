@@ -7,7 +7,7 @@ const StyledTableHead = ({ columns, showAction }) => {
     <TableHead>
       <TableRow>
         {columns.map(column => {
-          return showAction && column.id == "action" ? null : (
+          return showAction && column.id === "action" ? null : (
             <StyledTableCell
               key={column.id}
               align={column.align}

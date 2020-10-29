@@ -6,6 +6,8 @@ import Dashboard from "../Dashboard";
 import Home from "../HomePage";
 import Watchlist from "../Watchlist";
 import Dividend from "../Dividend";
+import Portfolio from "../Portfolio";
+import AddPortfolioForm from "../Portfolio/AddPortfolioForm";
 import Layout from "../shared/layout";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { CssBaseline } from "@material-ui/core";
@@ -14,6 +16,8 @@ import { AuthProvider } from "../../context/AuthContext";
 import { Provider as DividendProvider } from "../../context/DividendContext";
 import { Provider as WatchListProvider } from "../../context/WatchListContext";
 import { Provider as StockProvider } from "../../context/StockContext";
+import { Provider as PortfolioProvider } from "../../context/PortfolioContext";
+
 import PrivatRoute from "../../config/PrivateRoute";
 const theme = createMuiTheme();
 
@@ -30,6 +34,12 @@ const App = () => {
             <PrivatRoute exact path="/dashboard" component={Dashboard} />
             <PrivatRoute exact path="/dividend" component={Dividend} />
             <PrivatRoute exact path="/watchlist" component={Watchlist} />
+            <PrivatRoute exact path="/portfolio" component={Portfolio} />
+            <PrivatRoute
+              exact
+              path="/add-position"
+              component={AddPortfolioForm}
+            />
           </Switch>
         </Layout>
       </Router>
@@ -43,7 +53,9 @@ export default () => {
       <WatchListProvider>
         <StockProvider>
           <DividendProvider>
-            <App />
+            <PortfolioProvider>
+              <App />
+            </PortfolioProvider>
           </DividendProvider>
         </StockProvider>
       </WatchListProvider>

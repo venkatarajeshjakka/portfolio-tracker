@@ -86,7 +86,7 @@ const Watchlist = ({ classes }) => {
   } = useContext(StockContext);
   useEffect(() => {
     getWatchListArray(currentUserId);
-  }, [watchListArray]);
+  }, [currentUserId, watchListArray]);
 
   useEffect(() => {
     if (watchListArrayService) {
@@ -160,7 +160,7 @@ const Watchlist = ({ classes }) => {
         open={duplicateEntry}
         autoHideDuration={6000}
         onClose={handleSnackBarClose}
-        key={"top" + "center"}
+        key={"topcenter"}
       >
         <Alert onClose={handleSnackBarClose} severity="warning">
           Already stock there in your Watchlist!

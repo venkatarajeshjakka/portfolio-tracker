@@ -17,7 +17,7 @@ import {
   ArrowUpwardOutlined as ArrowUpwardOutlinedIcon,
   ArrowDownwardOutlined as ArrowDownwardOutlinedIcon
 } from "@material-ui/icons";
-
+import { Link } from "react-router-dom";
 import { formatCurrency } from "../../extensions/Formatters";
 
 const useStyles = makeStyles(theme => ({
@@ -70,7 +70,11 @@ const StockCard = props => {
 
   const classes = useStyles();
   return (
-    <CardActionArea className={classes.actionArea}>
+    <CardActionArea
+      component={Link}
+      to={"/watchlist"}
+      className={classes.actionArea}
+    >
       <Card className={clsx(classes.root, className)} {...rest}>
         <CardContent>
           <Typography

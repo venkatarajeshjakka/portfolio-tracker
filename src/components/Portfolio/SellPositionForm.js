@@ -21,6 +21,10 @@ const styles = theme => ({
     marginTop: theme.spacing(3),
     display: "flex"
   },
+  statsItem: {
+    alignItems: "center",
+    display: "flex"
+  },
   paper: {
     marginTop: theme.spacing(3),
     marginBottom: theme.spacing(3),
@@ -159,7 +163,12 @@ const SellPositionForm = props => {
         </Grid>
         <Grid item xs={3}>
           <Paper className={classes.paper}>
-            <Typography component="h1" variant="h4" align="center">
+            <Typography
+              component="h1"
+              variant="h4"
+              color="primary"
+              align="center"
+            >
               Summary
             </Typography>
             <Box flexGrow={1}>
@@ -168,7 +177,7 @@ const SellPositionForm = props => {
                   <Typography
                     color="textPrimary"
                     display="inline"
-                    variant="body2"
+                    variant="subtitle1"
                   >
                     Investment :
                   </Typography>
@@ -177,7 +186,7 @@ const SellPositionForm = props => {
                   <Typography
                     color="textPrimary"
                     display="inline"
-                    variant="body2"
+                    variant="subtitle1"
                   >
                     {30000}
                   </Typography>
@@ -188,16 +197,76 @@ const SellPositionForm = props => {
                   <Typography
                     color="textPrimary"
                     display="inline"
-                    variant="body2"
+                    variant="subtitle1"
                   >
-                    Returns
+                    Buy Price :
                   </Typography>
                 </Grid>
                 <Grid className={classes.statsItem} item>
                   <Typography
                     color="textPrimary"
                     display="inline"
-                    variant="body2"
+                    variant="subtitle1"
+                  >
+                    {200}
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Grid container justify="space-between" spacing={2}>
+                <Grid className={classes.statsItem} item>
+                  <Typography
+                    color="textPrimary"
+                    display="inline"
+                    variant="subtitle1"
+                  >
+                    Buy Quantity :
+                  </Typography>
+                </Grid>
+                <Grid className={classes.statsItem} item>
+                  <Typography
+                    color="textPrimary"
+                    display="inline"
+                    variant="subtitle1"
+                  >
+                    {200}
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Grid container justify="space-between" spacing={2}>
+                <Grid className={classes.statsItem} item>
+                  <Typography
+                    color="textPrimary"
+                    display="inline"
+                    variant="subtitle1"
+                  >
+                    Buy Date :
+                  </Typography>
+                </Grid>
+                <Grid className={classes.statsItem} item>
+                  <Typography
+                    color="textPrimary"
+                    display="inline"
+                    variant="subtitle1"
+                  >
+                    {200}
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Grid container justify="space-between" spacing={2}>
+                <Grid className={classes.statsItem} item>
+                  <Typography
+                    color="textPrimary"
+                    display="inline"
+                    variant="subtitle1"
+                  >
+                    Profit / Loss :
+                  </Typography>
+                </Grid>
+                <Grid className={classes.statsItem} item>
+                  <Typography
+                    color="textPrimary"
+                    display="inline"
+                    variant="subtitle1"
                   >
                     {200}
                   </Typography>

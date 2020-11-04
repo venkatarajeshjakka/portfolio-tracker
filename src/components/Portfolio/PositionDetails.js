@@ -4,6 +4,7 @@ import { withRouter } from "react-router-dom";
 import { Grid, Box, Paper, Tabs, Tab, Typography } from "@material-ui/core";
 import PageHeader from "../shared/PageHeader";
 import { AccountBalanceOutlined as AccountBalanceOutlinedIcon } from "@material-ui/icons";
+import PositionList from "./PositionList";
 
 const DisplaySection = ({ label, value }) => {
   return (
@@ -142,7 +143,7 @@ const PostionDetails = ({ classes }) => {
                 <Tab label="Closed Postion" {...a11yProps(1)} />
               </Tabs>
               <TabPanel value={value} index={0}>
-                Item One
+                <PositionList />
               </TabPanel>
               <TabPanel value={value} index={1}>
                 Item Two

@@ -1,17 +1,52 @@
 import React, { useState } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import { withRouter } from "react-router-dom";
-import {
-  Container,
-  Grid,
-  Box,
-  Paper,
-  Tabs,
-  Tab,
-  Typography
-} from "@material-ui/core";
+import { Grid, Box, Paper, Tabs, Tab, Typography } from "@material-ui/core";
 import PageHeader from "../shared/PageHeader";
 import { AccountBalanceOutlined as AccountBalanceOutlinedIcon } from "@material-ui/icons";
+
+const DisplaySection = ({ label, value }) => {
+  return (
+    <Grid container direction="column" justify="center">
+      <Grid item>
+        <Typography color="textSecondary" display="inline" variant="body2">
+          {label}
+        </Typography>
+      </Grid>
+      <Grid item>
+        <Typography color="textPrimary" display="inline" variant="subtitle1">
+          {value}
+        </Typography>
+      </Grid>
+    </Grid>
+  );
+};
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`scrollable-auto-tabpanel-${index}`}
+      aria-labelledby={`scrollable-auto-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box p={3}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+function a11yProps(index) {
+  return {
+    id: `scrollable-auto-tab-${index}`,
+    "aria-controls": `scrollable-auto-tabpanel-${index}`
+  };
+}
 
 const styles = theme => ({
   root: {
@@ -22,10 +57,10 @@ const styles = theme => ({
   },
 
   paper: {
-    marginBottom: theme.spacing(3),
+    marginBottom: theme.spacing(2),
     padding: theme.spacing(2),
     [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
-      marginBottom: theme.spacing(6),
+      marginBottom: theme.spacing(2),
       padding: theme.spacing(3)
     }
   }
@@ -54,143 +89,68 @@ const PostionDetails = ({ classes }) => {
 
   return (
     <div className={classes.root}>
-      <Container>
-        <PageHeader
-          title="Portfolio Details"
-          subTitle="Stocks in wallet"
-          icon={<AccountBalanceOutlinedIcon fontSize="large" />}
-        />
+      <PageHeader
+        title="Portfolio Details"
+        subTitle="Stocks in wallet"
+        icon={<AccountBalanceOutlinedIcon fontSize="large" />}
+      />
 
-        <Grid container>
-          <Grid item xs={12}>
-            <Paper className={classes.paper}>
+      <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <Paper className={classes.paper}>
+            <div>
               <Typography
-                component="h1"
-                variant="h4"
+                component="h5"
+                variant="h5"
+                align="left"
                 color="primary"
-                align="center"
               >
                 Summary
               </Typography>
-              <Box flexGrow={1}>
-                <Grid container justify="space-between" spacing={2}>
-                  <Grid className={classes.statsItem} item>
-                    <Typography
-                      color="textPrimary"
-                      display="inline"
-                      variant="subtitle1"
-                    >
-                      Investment :
-                    </Typography>
-                  </Grid>
-                  <Grid className={classes.statsItem} item>
-                    <Typography
-                      color="textPrimary"
-                      display="inline"
-                      variant="subtitle1"
-                    >
-                      {30000}
-                    </Typography>
-                  </Grid>
+            </div>
+
+            <Box flexGrow={1}>
+              <Grid container justify="space-between" spacing={3}>
+                <Grid item>
+                  <DisplaySection label={"Investment"} value={3000} />
+                  <DisplaySection label={"Average Price"} value={3000} />
                 </Grid>
-                <Grid container justify="space-between" spacing={2}>
-                  <Grid className={classes.statsItem} item>
-                    <Typography
-                      color="textPrimary"
-                      display="inline"
-                      variant="subtitle1"
-                    >
-                      Buy Price :
-                    </Typography>
-                  </Grid>
-                  <Grid className={classes.statsItem} item>
-                    <Typography
-                      color="textPrimary"
-                      display="inline"
-                      variant="subtitle1"
-                    >
-                      {200}
-                    </Typography>
-                  </Grid>
+                <Grid item>
+                  <DisplaySection label={"Current Value"} value={3000} />
+                  <DisplaySection label={"Quantity"} value={3000} />
                 </Grid>
-                <Grid container justify="space-between" spacing={2}>
-                  <Grid className={classes.statsItem} item>
-                    <Typography
-                      color="textPrimary"
-                      display="inline"
-                      variant="subtitle1"
-                    >
-                      Buy Quantity :
-                    </Typography>
-                  </Grid>
-                  <Grid className={classes.statsItem} item>
-                    <Typography
-                      color="textPrimary"
-                      display="inline"
-                      variant="subtitle1"
-                    >
-                      {200}
-                    </Typography>
-                  </Grid>
+                <Grid item>
+                  <DisplaySection label={"Daily Profit / Loss "} value={3000} />
                 </Grid>
-                <Grid container justify="space-between" spacing={2}>
-                  <Grid className={classes.statsItem} item>
-                    <Typography
-                      color="textPrimary"
-                      display="inline"
-                      variant="subtitle1"
-                    >
-                      Buy Date :
-                    </Typography>
-                  </Grid>
-                  <Grid className={classes.statsItem} item>
-                    <Typography
-                      color="textPrimary"
-                      display="inline"
-                      variant="subtitle1"
-                    >
-                      {200}
-                    </Typography>
-                  </Grid>
+                <Grid item>
+                  <DisplaySection label={"Returns"} value={3000} />
                 </Grid>
-                <Grid container justify="space-between" spacing={2}>
-                  <Grid className={classes.statsItem} item>
-                    <Typography
-                      color="textPrimary"
-                      display="inline"
-                      variant="subtitle1"
-                    >
-                      Profit / Loss :
-                    </Typography>
-                  </Grid>
-                  <Grid className={classes.statsItem} item>
-                    <Typography
-                      color="textPrimary"
-                      display="inline"
-                      variant="subtitle1"
-                    >
-                      {200}
-                    </Typography>
-                  </Grid>
-                </Grid>
-              </Box>
-              <Box>
-                <Tabs
-                  value={value}
-                  onChange={handleChange}
-                  indicatorColor="primary"
-                  textColor="primary"
-                  centered
-                >
-                  <Tab label="Item One" />
-                  <Tab label="Item Two" />
-                  <Tab label="Item Three" />
-                </Tabs>
-              </Box>
-            </Paper>
-          </Grid>
+              </Grid>
+            </Box>
+          </Paper>
+          <Paper className={classes.paper}>
+            <Box>
+              <Tabs
+                value={value}
+                onChange={handleChange}
+                indicatorColor="primary"
+                textColor="primary"
+                variant="fullWidth"
+                aria-label="full width tabs example"
+              >
+                <Tab label="Open Position" {...a11yProps(0)} />
+                <Tab label="Closed Postion" {...a11yProps(1)} />
+              </Tabs>
+              <TabPanel value={value} index={0}>
+                Item One
+              </TabPanel>
+              <TabPanel value={value} index={1}>
+                Item Two
+              </TabPanel>
+            </Box>
+          </Paper>
         </Grid>
-      </Container>
+      </Grid>
     </div>
   );
 };

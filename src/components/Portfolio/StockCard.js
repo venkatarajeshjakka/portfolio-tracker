@@ -72,7 +72,7 @@ const StockCard = props => {
   return (
     <CardActionArea
       component={Link}
-      to={"/watchlist"}
+      to={`/position-details/${product.stockCode}`}
       className={classes.actionArea}
     >
       <Card className={clsx(classes.root, className)} {...rest}>

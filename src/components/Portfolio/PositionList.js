@@ -30,101 +30,79 @@ const DisplaySection = ({ label, value }) => {
     </Grid>
   );
 };
-const data = [
-  {
-    id: uuid(),
-    name: "Dropbox",
-    imageUrl: "/static/images/products/product_1.png",
-    updatedAt: moment().subtract(2, "hours")
-  },
-  {
-    id: uuid(),
-    name: "Medium Corporation",
-    imageUrl: "/static/images/products/product_2.png",
-    updatedAt: moment().subtract(2, "hours")
-  },
-  {
-    id: uuid(),
-    name: "Slack",
-    imageUrl: "/static/images/products/product_3.png",
-    updatedAt: moment().subtract(3, "hours")
-  },
-  {
-    id: uuid(),
-    name: "Lyft",
-    imageUrl: "/static/images/products/product_4.png",
-    updatedAt: moment().subtract(5, "hours")
-  },
-  {
-    id: uuid(),
-    name: "GitHub",
-    imageUrl: "/static/images/products/product_5.png",
-    updatedAt: moment().subtract(9, "hours")
-  }
-];
 
 const useStyles = makeStyles({
   root: {
     height: "100%"
   }
 });
-const PositionList = ({ className, ...rest }) => {
+const PositionList = ({ className, data, ...rest }) => {
   const classes = useStyles();
-  const [products] = useState(data);
+  console.log(data.history);
+
   return (
     <List>
-      {products.map((product, i) => (
-        <ListItem divider={i < products.length - 1} key={product.id}>
-          <Grid container direction="column">
-            <Grid item>
-              <Grid container direction="row" justify="space-between">
-                <Grid item>
-                  <ListItemText
-                    primary={product.name}
-                    secondary={`Updated ${product.updatedAt.fromNow()}`}
-                  />
-                </Grid>
-                <Grid item>
-                  <IconButton edge="end" size="small">
-                    <MoreVertIcon />
-                  </IconButton>
+      {data.history.map((product, i) => {
+        const {
+          stockName,
+          id,
+          buyPrice,
+          date,
+          quantity,
+          stopLoss,
+          targetPrice,
+          trailingStopLoss
+        } = product;
+        return (
+          <ListItem divider={i < data.history.length - 1} key={product.id}>
+            <Grid container direction="column">
+              <Grid item>
+                <Grid container direction="row" justify="space-between">
+                  <Grid item>
+                    <ListItemText
+                      primary={stockName}
+                      secondary={"data ll come"}
+                    />
+                  </Grid>
+                  <Grid item>
+                    <IconButton edge="end" size="small">
+                      <MoreVertIcon />
+                    </IconButton>
+                  </Grid>
                 </Grid>
               </Grid>
+              <Grid item>
+                <Box flexGrow={1}>
+                  <Grid container justify="space-between" spacing={3}>
+                    <Grid item>
+                      <DisplaySection label={"Buy Price"} value={buyPrice} />
+                      <DisplaySection label={"Investment Value"} value={3000} />
+                    </Grid>
+                    <Grid item>
+                      <DisplaySection label={"Stop loss"} value={stopLoss} />
+                      <DisplaySection label={"Current Value"} value={3000} />
+                    </Grid>
+                    <Grid item>
+                      <DisplaySection
+                        label={"Trailing Stop loss"}
+                        value={trailingStopLoss}
+                      />
+                      <DisplaySection
+                        label={"Daily Gain / Loss"}
+                        value={3000}
+                      />
+                    </Grid>
+                    <Grid item>
+                      <DisplaySection label={"Quantity"} value={quantity} />
+                      <DisplaySection label={"Return"} value={3000} />
+                    </Grid>
+                  </Grid>
+                </Box>
+              </Grid>
             </Grid>
-            <Grid item>
-              <Box flexGrow={1}>
-                <Grid container justify="space-between" spacing={3}>
-                  <Grid item>
-                    <DisplaySection label={"Buy Price"} value={3000} />
-                    <DisplaySection label={"Investment Value"} value={3000} />
-                  </Grid>
-                  <Grid item>
-                    <DisplaySection label={"Stop loss"} value={3000} />
-                    <DisplaySection label={"Current Value"} value={3000} />
-                  </Grid>
-                  <Grid item>
-                    <DisplaySection
-                      label={"Trailing Stop loss"}
-                      value={3000}
-                    />
-                    <DisplaySection
-                      label={"Daily Gain / Loss"}
-                      value={3000}
-                    />
-                  </Grid>
-                  <Grid item>
-                    <DisplaySection label={"Quanity"} value={3000} />
-                    <DisplaySection
-                      label={"Return"}
-                      value={3000}
-                    />
-                  </Grid>
-                </Grid>
-              </Box>
-            </Grid>
-          </Grid>
-        </ListItem>
-      ))}
+          </ListItem>
+        );
+      })}
     </List>
   );
 };

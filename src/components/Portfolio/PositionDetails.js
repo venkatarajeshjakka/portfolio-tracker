@@ -10,6 +10,8 @@ import { Context as StockContext } from "../../context/StockContext";
 import { getFormattStockData } from "../../mappers/WatchListDataFormatter";
 import _ from "underscore";
 import { stockResponse } from "../../mappers/PositionDataFormatter";
+import { formatCurrency } from "../../extensions/Formatters";
+
 const DisplaySection = ({ label, value }) => {
   return (
     <Grid container direction="column" justify="center">
@@ -130,17 +132,17 @@ const PostionDetails = props => {
                   <Grid item>
                     <DisplaySection
                       label={"Investment"}
-                      value={cardResponse.summary.investment}
+                      value={formatCurrency(cardResponse.summary.investment)}
                     />
                     <DisplaySection
                       label={"Average Price"}
-                      value={cardResponse.summary.avgPrice}
+                      value={formatCurrency(cardResponse.summary.avgPrice)}
                     />
                   </Grid>
                   <Grid item>
                     <DisplaySection
                       label={"Current Value"}
-                      value={cardResponse.summary.current}
+                      value={formatCurrency(cardResponse.summary.current)}
                     />
                     <DisplaySection
                       label={"Quantity"}
@@ -150,13 +152,13 @@ const PostionDetails = props => {
                   <Grid item>
                     <DisplaySection
                       label={"Daily Profit / Loss "}
-                      value={cardResponse.summary.dailyGain}
+                      value={formatCurrency(cardResponse.summary.dailyGain)}
                     />
                   </Grid>
                   <Grid item>
                     <DisplaySection
                       label={"Returns"}
-                      value={cardResponse.summary.profitOrLoss}
+                      value={formatCurrency(cardResponse.summary.profitOrLoss)}
                     />
                   </Grid>
                 </Grid>

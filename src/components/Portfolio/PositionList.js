@@ -12,6 +12,7 @@ import {
   Typography
 } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
+import { formatCurrency } from "../../extensions/Formatters";
 
 const DisplaySection = ({ label, value }) => {
   return (
@@ -74,17 +75,17 @@ const PositionList = ({ className, data, ...rest }) => {
                 <Box flexGrow={1}>
                   <Grid container justify="space-between" spacing={3}>
                     <Grid item>
-                      <DisplaySection label={"Buy Price"} value={buyPrice} />
+                      <DisplaySection label={"Buy Price"} value={formatCurrency(buyPrice)} />
                       <DisplaySection label={"Investment Value"} value={3000} />
                     </Grid>
                     <Grid item>
-                      <DisplaySection label={"Stop loss"} value={stopLoss} />
+                      <DisplaySection label={"Stop loss"} value={formatCurrency(stopLoss)} />
                       <DisplaySection label={"Current Value"} value={3000} />
                     </Grid>
                     <Grid item>
                       <DisplaySection
                         label={"Trailing Stop loss"}
-                        value={trailingStopLoss}
+                        value={formatCurrency(trailingStopLoss)}
                       />
                       <DisplaySection
                         label={"Daily Gain / Loss"}

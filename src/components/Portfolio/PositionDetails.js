@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import { withRouter } from "react-router-dom";
 import { Grid, Box, Paper, Tabs, Tab, Typography } from "@material-ui/core";

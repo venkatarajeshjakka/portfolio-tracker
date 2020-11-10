@@ -68,8 +68,8 @@ const PositionList = ({ className, data, ...rest }) => {
             <Box flexGrow={1}>
               <Grid
                 container
-                alignItems={"center"}
-                justify={"center"}
+                justify="space-between"
+                alignItems="center"
                 spacing={1}
               >
                 <Grid item xs={3}>

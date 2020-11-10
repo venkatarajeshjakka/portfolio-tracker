@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Typography, Paper, Avatar, Button } from "@material-ui/core";
 import VerifiedUserOutlined from "@material-ui/icons/VerifiedUserOutlined";
 import { withRouter } from "react-router-dom";
-
+import CircleProgresBar from '../CircularProgressBar'
 import app from "../../config/firebase";
 import { AuthContext } from "../../context/AuthContext";
 import { withStyles } from "@material-ui/core/styles";
@@ -59,6 +59,7 @@ function Dashboard(props) {
           Logout
         </Button>
       </Paper>
+      <CircleProgresBar percentage={70} />
     </main>
   );
 

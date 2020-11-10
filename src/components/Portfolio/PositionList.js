@@ -1,11 +1,8 @@
 import React from "react";
-
-import moment from "moment";
 import {
   IconButton,
   List,
   ListItem,
-  ListItemText,
   makeStyles,
   Box,
   Grid,
@@ -13,7 +10,7 @@ import {
 } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { formatCurrency } from "../../extensions/Formatters";
-
+import CircleProgresBar from "../CircularProgressBar";
 const DisplaySection = ({ label, value }) => {
   return (
     <Grid container direction="column" justify="center">
@@ -31,11 +28,20 @@ const DisplaySection = ({ label, value }) => {
   );
 };
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   root: {
     height: "100%"
+  },
+  progress: {
+    paddingBottom: theme.spacing(1)
+  },
+  moreIcon: {
+    position: "absolute",
+    right: theme.spacing(1),
+    top: theme.spacing(1),
+    color: theme.palette.grey[500]
   }
-});
+}));
 const PositionList = ({ className, data, ...rest }) => {
   const classes = useStyles();
   console.log(data.history);
@@ -55,51 +61,46 @@ const PositionList = ({ className, data, ...rest }) => {
         } = product;
         return (
           <ListItem divider={i < data.history.length - 1} key={product.id}>
-            <Grid container direction="column">
-              <Grid item>
-                <Grid container direction="row" justify="space-between">
-                  <Grid item>
-                    <ListItemText
-                      primary={stockName}
-                      secondary={"data ll come"}
-                    />
-                  </Grid>
-                  <Grid item>
-                    <IconButton edge="end" size="small">
-                      <MoreVertIcon />
-                    </IconButton>
-                  </Grid>
+            <IconButton className={classes.moreIcon} edge="end" size="small">
+              <MoreVertIcon />
+            </IconButton>
+
+            <Box flexGrow={1}>
+              <Grid
+                container
+                alignItems={"center"}
+                justify={"center"}
+                spacing={1}
+              >
+                <Grid item xs={3}>
+                  <DisplaySection
+                    label={"Buy Price"}
+                    value={formatCurrency(buyPrice)}
+                  />
+                  <DisplaySection label={"Investment Value"} value={3000} />
+                  <DisplaySection
+                    label={"Trailing Stop loss"}
+                    value={formatCurrency(trailingStopLoss)}
+                  />
+                  <DisplaySection label={"Daily Gain / Loss"} value={3000} />
+                </Grid>
+                <Grid item xs={3}>
+                  <DisplaySection
+                    label={"Stop loss"}
+                    value={formatCurrency(stopLoss)}
+                  />
+                  <DisplaySection label={"Current Value"} value={3000} />
+                  <DisplaySection label={"Quantity"} value={quantity} />
+                  <DisplaySection label={"Return"} value={3000} />
+                </Grid>
+
+                <Grid item xs={3}>
+                  <div className={classes.progress}>
+                    <CircleProgresBar percentage={70} />
+                  </div>
                 </Grid>
               </Grid>
-              <Grid item>
-                <Box flexGrow={1}>
-                  <Grid container justify="space-between" spacing={3}>
-                    <Grid item>
-                      <DisplaySection label={"Buy Price"} value={formatCurrency(buyPrice)} />
-                      <DisplaySection label={"Investment Value"} value={3000} />
-                    </Grid>
-                    <Grid item>
-                      <DisplaySection label={"Stop loss"} value={formatCurrency(stopLoss)} />
-                      <DisplaySection label={"Current Value"} value={3000} />
-                    </Grid>
-                    <Grid item>
-                      <DisplaySection
-                        label={"Trailing Stop loss"}
-                        value={formatCurrency(trailingStopLoss)}
-                      />
-                      <DisplaySection
-                        label={"Daily Gain / Loss"}
-                        value={3000}
-                      />
-                    </Grid>
-                    <Grid item>
-                      <DisplaySection label={"Quantity"} value={quantity} />
-                      <DisplaySection label={"Return"} value={3000} />
-                    </Grid>
-                  </Grid>
-                </Box>
-              </Grid>
-            </Grid>
+            </Box>
           </ListItem>
         );
       })}

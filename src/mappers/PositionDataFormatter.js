@@ -53,7 +53,7 @@ const stockResponse = (stockData, portfolioStockInfo, stockCode) => {
   var dailyGain = quantitySum * regularMarketChange;
   var currentValue = quantitySum * regularMarketPrice;
   var profitOrLoss = currentValue - investment;
-  var profirOrLossPercentage = ((profitOrLoss / investment ) * 100).toFixed(2)
+  var profirOrLossPercentage = ((profitOrLoss / investment) * 100).toFixed(2);
   var cardResponse = {
     quantity: quantitySum,
     stockCode,
@@ -71,4 +71,33 @@ const stockResponse = (stockData, portfolioStockInfo, stockCode) => {
 
   return cardResponse;
 };
-export { formattData, stockList, stockResponse };
+
+const individualPosition = (positionData, ltp, change) => {
+  const { buyPrice, quantity, targetPrice } = positionData;
+
+  var difference = targetPrice - ltp;
+  let targetPercentage = 100;
+  if (difference > 0) {
+    var percentage = (difference / ltp) * 100;
+    targetPercentage = 100 - percentage.toFixed(2);
+  }
+
+  var currentValue = quantity * ltp;
+  var investmentValue = quantity * buyPrice;
+  let profitOrLoss = currentValue - investmentValue;
+  var profirOrLossPercentage = ((profitOrLoss / investmentValue) * 100).toFixed(
+    2
+  );
+  var dailyProfitOrLoss = quantity * change ;
+  var individualPositionResponse = {
+    targetPercentage,
+    currentValue,
+    investmentValue,
+    profitOrLoss,
+    profirOrLossPercentage,
+    dailyProfitOrLoss
+  };
+
+  return individualPositionResponse;
+};
+export { formattData, stockList, stockResponse, individualPosition };

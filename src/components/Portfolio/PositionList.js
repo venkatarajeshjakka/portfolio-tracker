@@ -11,7 +11,8 @@ import {
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { formatCurrency } from "../../extensions/Formatters";
 import CircleProgresBar from "../CircularProgressBar";
-const DisplaySection = ({ label, value }) => {
+import { individualPosition } from "../../mappers/PositionDataFormatter";
+const DisplaySection = ({ label, value, variant }) => {
   return (
     <Grid container direction="column" justify="center">
       <Grid item>
@@ -20,7 +21,11 @@ const DisplaySection = ({ label, value }) => {
         </Typography>
       </Grid>
       <Grid item>
-        <Typography color="textPrimary" display="inline" variant="subtitle1">
+        <Typography
+          color="textPrimary"
+          display="inline"
+          variant={variant ? variant : "subtitle1"}
+        >
           {value}
         </Typography>
       </Grid>
@@ -45,12 +50,12 @@ const useStyles = makeStyles(theme => ({
 const PositionList = ({ className, data, ...rest }) => {
   const classes = useStyles();
   console.log(data.history);
+  const { ltp, change } = data.summary;
 
   return (
     <List>
       {data.history.map((product, i) => {
         const {
-          stockName,
           id,
           buyPrice,
           date,
@@ -59,8 +64,11 @@ const PositionList = ({ className, data, ...rest }) => {
           targetPrice,
           trailingStopLoss
         } = product;
+
+        var individualResponse = individualPosition(product, ltp, change);
+
         return (
-          <ListItem divider={i < data.history.length - 1} key={product.id}>
+          <ListItem divider={i < data.history.length - 1} key={id}>
             <IconButton className={classes.moreIcon} edge="end" size="small">
               <MoreVertIcon />
             </IconButton>
@@ -77,26 +85,52 @@ const PositionList = ({ className, data, ...rest }) => {
                     label={"Buy Price"}
                     value={formatCurrency(buyPrice)}
                   />
-                  <DisplaySection label={"Investment Value"} value={3000} />
-                  <DisplaySection
-                    label={"Trailing Stop loss"}
-                    value={formatCurrency(trailingStopLoss)}
-                  />
-                  <DisplaySection label={"Daily Gain / Loss"} value={3000} />
-                </Grid>
-                <Grid item xs={3}>
                   <DisplaySection
                     label={"Stop loss"}
                     value={formatCurrency(stopLoss)}
                   />
-                  <DisplaySection label={"Current Value"} value={3000} />
+
+                  <DisplaySection
+                    label={"Trailing Stop loss"}
+                    value={formatCurrency(trailingStopLoss)}
+                  />
+
                   <DisplaySection label={"Quantity"} value={quantity} />
-                  <DisplaySection label={"Return"} value={3000} />
+                </Grid>
+                <Grid item xs={3}>
+                  <DisplaySection
+                    label={"Investment Value"}
+                    value={formatCurrency(
+                      individualResponse.investmentValue.toFixed(2)
+                    )}
+                  />
+                  <DisplaySection
+                    label={"Current Value"}
+                    value={formatCurrency(
+                      individualResponse.currentValue.toFixed(2)
+                    )}
+                  />
+                  <DisplaySection
+                    label={"Daily Gain / Loss"}
+                    value={formatCurrency(
+                      individualResponse.dailyProfitOrLoss.toFixed(2)
+                    )}
+                  />
+                  <DisplaySection
+                    label={"Return"}
+                    value={formatCurrency(
+                      individualResponse.profitOrLoss.toFixed(2)
+                    )}
+                  />
                 </Grid>
 
                 <Grid item xs={3}>
                   <div className={classes.progress}>
-                    <CircleProgresBar percentage={70} />
+                    <CircleProgresBar
+                      percentage={individualResponse.targetPercentage.toFixed(
+                        2
+                      )}
+                    />
                   </div>
                 </Grid>
               </Grid>

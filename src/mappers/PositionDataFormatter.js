@@ -88,7 +88,7 @@ const individualPosition = (positionData, ltp, change) => {
   var profirOrLossPercentage = ((profitOrLoss / investmentValue) * 100).toFixed(
     2
   );
-  var dailyProfitOrLoss = quantity * change ;
+  var dailyProfitOrLoss = quantity * change;
   var individualPositionResponse = {
     targetPercentage,
     currentValue,

@@ -12,7 +12,20 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { formatCurrency } from "../../extensions/Formatters";
 import CircleProgresBar from "../CircularProgressBar";
 import { individualPosition } from "../../mappers/PositionDataFormatter";
-const DisplaySection = ({ label, value, variant }) => {
+import {
+  WorkOutlineOutlined as WorkOutlineOutlinedIcon,
+  ArrowUpwardOutlined as ArrowUpwardOutlinedIcon,
+  ArrowDownwardOutlined as ArrowDownwardOutlinedIcon
+} from "@material-ui/icons";
+
+const DisplaySection = ({
+  label,
+  value,
+  variant,
+  icon,
+  className,
+  textStyle
+}) => {
   return (
     <Grid container direction="column" justify="center">
       <Grid item>
@@ -20,8 +33,10 @@ const DisplaySection = ({ label, value, variant }) => {
           {label}
         </Typography>
       </Grid>
-      <Grid item>
+      <Grid className={className} item>
+        {icon}
         <Typography
+          className={textStyle}
           color="textPrimary"
           display="inline"
           variant={variant ? variant : "subtitle1"}
@@ -45,12 +60,32 @@ const useStyles = makeStyles(theme => ({
     right: theme.spacing(1),
     top: theme.spacing(1),
     color: theme.palette.grey[500]
+  },
+  iconRed: {
+    color: "#ff0000",
+    marginRight: theme.spacing(1)
+  },
+  iconGreen: {
+    color: "#32cd32",
+    marginRight: theme.spacing(1)
+  },
+  statsItem: {
+    alignItems: "center",
+    display: "flex"
+  },
+  red: {
+    color: "#ff0000",
+    paddingRight: theme.spacing(1)
+  },
+  green: {
+    color: "#32cd32",
+    paddingRight: theme.spacing(1)
   }
 }));
 const PositionList = ({ className, data, ...rest }) => {
   const classes = useStyles();
   console.log(data.history);
-  const { ltp, change } = data.summary;
+  const { ltp, change, changePercentage } = data.summary;
 
   return (
     <List>
@@ -112,15 +147,49 @@ const PositionList = ({ className, data, ...rest }) => {
                   />
                   <DisplaySection
                     label={"Daily Gain / Loss"}
-                    value={formatCurrency(
+                    value={`${formatCurrency(
                       individualResponse.dailyProfitOrLoss.toFixed(2)
-                    )}
+                    )} (${changePercentage} %)`}
+                    textStyle={
+                      individualResponse.dailyProfitOrLoss > 0
+                        ? classes.green
+                        : classes.red
+                    }
+                    className={classes.statsItem}
+                    icon={
+                      individualResponse.dailyProfitOrLoss > 0 ? (
+                        <ArrowUpwardOutlinedIcon
+                          className={classes.iconGreen}
+                        />
+                      ) : (
+                        <ArrowDownwardOutlinedIcon
+                          className={classes.iconRed}
+                        />
+                      )
+                    }
                   />
                   <DisplaySection
                     label={"Return"}
-                    value={formatCurrency(
+                    value={`${formatCurrency(
                       individualResponse.profitOrLoss.toFixed(2)
-                    )}
+                    )} (${individualResponse.profirOrLossPercentage} %)`}
+                    textStyle={
+                      individualResponse.profitOrLoss > 0
+                        ? classes.green
+                        : classes.red
+                    }
+                    className={classes.statsItem}
+                    icon={
+                      individualResponse.profitOrLoss > 0 ? (
+                        <ArrowUpwardOutlinedIcon
+                          className={classes.iconGreen}
+                        />
+                      ) : (
+                        <ArrowDownwardOutlinedIcon
+                          className={classes.iconRed}
+                        />
+                      )
+                    }
                   />
                 </Grid>
 

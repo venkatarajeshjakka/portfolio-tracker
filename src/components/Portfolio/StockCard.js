@@ -14,11 +14,12 @@ import {
 } from "@material-ui/core";
 import {
   WorkOutlineOutlined as WorkOutlineOutlinedIcon,
-  ArrowUpwardOutlined as ArrowUpwardOutlinedIcon,
-  ArrowDownwardOutlined as ArrowDownwardOutlinedIcon
+  ArrowDropUpOutlined as ArrowDropUpOutlinedIcon,
+  ArrowDropDownOutlined as ArrowDropDownOutlinedIcon
 } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import { formatCurrency } from "../../extensions/Formatters";
+import DisplayItemSection from "./DisplayItemSection";
 
 const useStyles = makeStyles(theme => ({
   root: ({ color }) => ({
@@ -49,12 +50,10 @@ const useStyles = makeStyles(theme => ({
     paddingRight: theme.spacing(1)
   },
   iconRed: {
-    color: "#ff0000",
-    marginRight: theme.spacing(1)
+    color: "#ff0000"
   },
   iconGreen: {
-    color: "#32cd32",
-    marginRight: theme.spacing(1)
+    color: "#32cd32"
   },
   actionArea: {
     borderRadius: 16,
@@ -77,137 +76,72 @@ const StockCard = props => {
     >
       <Card className={clsx(classes.root, className)} {...rest}>
         <CardContent>
-          <Typography
-            align="center"
-            color="textPrimary"
-            gutterBottom
-            variant="h5"
-          >
+          <Typography color="textPrimary" gutterBottom variant="h5">
             {product.stockName}
           </Typography>
 
-          <Box p={2}>
-            <Grid container justify="space-between" spacing={2}>
-              <Grid className={classes.statsItem} item>
-                <Typography
-                  className={product.change > 0 ? classes.green : classes.red}
-                  display="inline"
-                  variant="body1"
-                >
-                  {formatCurrency(product.ltp)}
-                </Typography>
-              </Grid>
-              <Grid className={classes.statsItem} item>
-                {product.change > 0 ? (
-                  <ArrowUpwardOutlinedIcon className={classes.iconGreen} />
-                ) : (
-                  <ArrowDownwardOutlinedIcon className={classes.iconRed} />
-                )}
+          <Grid container justify="space-between" spacing={2}>
+            <Grid className={classes.statsItem} item>
+              {product.change > 0 ? (
+                <ArrowDropUpOutlinedIcon className={classes.iconGreen} />
+              ) : (
+                <ArrowDropDownOutlinedIcon className={classes.iconRed} />
+              )}
+              <Typography
+                className={product.change > 0 ? classes.green : classes.red}
+                display="inline"
+                variant="body1"
+              >
+                {formatCurrency(product.ltp)}
+              </Typography>
+            </Grid>
+            <Grid className={classes.statsItem} item>
+              <Typography
+                className={product.change > 0 ? classes.green : classes.red}
+                display="inline"
+                variant="body1"
+              >
+                {formatCurrency(product.change)}
+              </Typography>
+              <Typography
+                className={product.change > 0 ? classes.green : classes.red}
+                display="inline"
+                variant="body1"
+              >
+                ({product.changePercentage} %)
+              </Typography>
+            </Grid>
+          </Grid>
 
-                <Typography
-                  className={product.change > 0 ? classes.green : classes.red}
-                  display="inline"
-                  variant="body1"
-                >
-                  {formatCurrency(product.change)}
-                </Typography>
-                <Typography
-                  className={product.change > 0 ? classes.green : classes.red}
-                  display="inline"
-                  variant="body1"
-                >
-                  ({product.changePercentage} %)
-                </Typography>
-              </Grid>
-            </Grid>
-          </Box>
           <Box flexGrow={1}>
             <Grid container justify="space-between" spacing={2}>
-              <Grid className={classes.statsItem} item>
-                <Typography
-                  color="textSecondary"
-                  display="inline"
-                  variant="body2"
-                >
-                  Investment
-                </Typography>
-              </Grid>
-              <Grid className={classes.statsItem} item>
-                <Typography
-                  color="textSecondary"
-                  display="inline"
-                  variant="body2"
-                >
-                  Current Value
-                </Typography>
-              </Grid>
-            </Grid>
-            <Grid container justify="space-between" spacing={2}>
-              <Grid className={classes.statsItem} item>
-                <Typography
-                  color="textPrimary"
-                  display="inline"
-                  variant="body2"
-                >
-                  {formatCurrency(product.investment)}
-                </Typography>
-              </Grid>
-              <Grid className={classes.statsItem} item>
-                <Typography
-                  color="textPrimary"
-                  display="inline"
-                  variant="body2"
-                >
-                  {formatCurrency(product.current)}
-                </Typography>
-              </Grid>
-            </Grid>
-          </Box>
-          <Box flexGrow={1}>
-            <Grid container justify="space-between" spacing={2}>
-              <Grid className={classes.statsItem} item>
-                <Typography
-                  color="textSecondary"
-                  display="inline"
-                  variant="body2"
-                >
-                  Daily Gain
-                </Typography>
-              </Grid>
-              <Grid className={classes.statsItem} item>
-                <Typography
-                  color="textSecondary"
-                  display="inline"
-                  variant="body2"
-                >
-                  Returns
-                </Typography>
-              </Grid>
-            </Grid>
-            <Grid container justify="space-between" spacing={2}>
-              <Grid className={classes.statsItem} item>
-                <Typography
-                  className={
+              <Grid item>
+                <DisplayItemSection
+                  label={"Investment"}
+                  value={formatCurrency(product.investment)}
+                />
+                <DisplayItemSection
+                  label={"Daily Gain"}
+                  value={formatCurrency(product.dailyGain)}
+                  textStyle={
                     product.dailyGain > 0 ? classes.green : classes.red
                   }
-                  display="inline"
-                  variant="body2"
-                >
-                  {formatCurrency(product.dailyGain)}
-                </Typography>
+                />
               </Grid>
-              <Grid className={classes.statsItem} item>
-                <Typography
-                  className={
-                    product.profitOrLoss > 0 ? classes.green : classes.red
-                  }
-                  display="inline"
-                  variant="body2"
-                >
-                  {`${formatCurrency(product.profitOrLoss)}(${
+              <Grid item>
+                <DisplayItemSection
+                  label={"Current Value"}
+                  value={formatCurrency(product.current)}
+                />
+                <DisplayItemSection
+                  label={"Returns"}
+                  value={`${formatCurrency(product.profitOrLoss)}(${
                     product.profirOrLossPercentage
                   } %)`}
-                </Typography>
+                  textStyle={
+                    product.profitOrLoss > 0 ? classes.green : classes.red
+                  }
+                />
               </Grid>
             </Grid>
           </Box>
@@ -236,7 +170,7 @@ const StockCard = props => {
                 display="inline"
                 variant="body2"
               >
-                {formatCurrency(product.avgPrice)}
+                {`Avg.${formatCurrency(product.avgPrice)}`}
               </Typography>
             </Grid>
           </Grid>

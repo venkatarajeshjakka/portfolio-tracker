@@ -11,23 +11,8 @@ import { getFormattStockData } from "../../mappers/WatchListDataFormatter";
 import _ from "underscore";
 import { stockResponse } from "../../mappers/PositionDataFormatter";
 import { formatCurrency } from "../../extensions/Formatters";
+import DisplayItemSection from "./DisplayItemSection";
 
-const DisplaySection = ({ label, value }) => {
-  return (
-    <Grid container direction="column" justify="center">
-      <Grid item>
-        <Typography color="textSecondary" display="inline" variant="body2">
-          {label}
-        </Typography>
-      </Grid>
-      <Grid item>
-        <Typography color="textPrimary" display="inline" variant="subtitle1">
-          {value}
-        </Typography>
-      </Grid>
-    </Grid>
-  );
-};
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
   return (
@@ -130,33 +115,33 @@ const PostionDetails = props => {
               <Box flexGrow={1}>
                 <Grid container justify="space-between" spacing={3}>
                   <Grid item>
-                    <DisplaySection
+                    <DisplayItemSection
                       label={"Investment"}
                       value={formatCurrency(cardResponse.summary.investment)}
                     />
-                    <DisplaySection
+                    <DisplayItemSection
                       label={"Average Price"}
                       value={formatCurrency(cardResponse.summary.avgPrice)}
                     />
                   </Grid>
                   <Grid item>
-                    <DisplaySection
+                    <DisplayItemSection
                       label={"Current Value"}
                       value={formatCurrency(cardResponse.summary.current)}
                     />
-                    <DisplaySection
+                    <DisplayItemSection
                       label={"Quantity"}
                       value={cardResponse.summary.quantity}
                     />
                   </Grid>
                   <Grid item>
-                    <DisplaySection
+                    <DisplayItemSection
                       label={"Daily Profit / Loss "}
                       value={formatCurrency(cardResponse.summary.dailyGain)}
                     />
                   </Grid>
                   <Grid item>
-                    <DisplaySection
+                    <DisplayItemSection
                       label={"Returns"}
                       value={formatCurrency(cardResponse.summary.profitOrLoss)}
                     />

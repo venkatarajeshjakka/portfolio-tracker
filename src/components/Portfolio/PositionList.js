@@ -5,48 +5,13 @@ import {
   ListItem,
   makeStyles,
   Box,
-  Grid,
-  Typography
+  Grid
 } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { formatCurrency } from "../../extensions/Formatters";
 import CircleProgresBar from "../CircularProgressBar";
 import { individualPosition } from "../../mappers/PositionDataFormatter";
-import {
-  WorkOutlineOutlined as WorkOutlineOutlinedIcon,
-  ArrowUpwardOutlined as ArrowUpwardOutlinedIcon,
-  ArrowDownwardOutlined as ArrowDownwardOutlinedIcon
-} from "@material-ui/icons";
-
-const DisplaySection = ({
-  label,
-  value,
-  variant,
-  icon,
-  className,
-  textStyle
-}) => {
-  return (
-    <Grid container direction="column" justify="center">
-      <Grid item>
-        <Typography color="textSecondary" display="inline" variant="body2">
-          {label}
-        </Typography>
-      </Grid>
-      <Grid className={className} item>
-        {icon}
-        <Typography
-          className={textStyle}
-          color="textPrimary"
-          display="inline"
-          variant={variant ? variant : "subtitle1"}
-        >
-          {value}
-        </Typography>
-      </Grid>
-    </Grid>
-  );
-};
+import DisplayItemSection from "./DisplayItemSection";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -60,14 +25,6 @@ const useStyles = makeStyles(theme => ({
     right: theme.spacing(1),
     top: theme.spacing(1),
     color: theme.palette.grey[500]
-  },
-  iconRed: {
-    color: "#ff0000",
-    marginRight: theme.spacing(1)
-  },
-  iconGreen: {
-    color: "#32cd32",
-    marginRight: theme.spacing(1)
   },
   statsItem: {
     alignItems: "center",
@@ -116,36 +73,36 @@ const PositionList = ({ className, data, ...rest }) => {
                 spacing={1}
               >
                 <Grid item xs={3}>
-                  <DisplaySection
+                  <DisplayItemSection
                     label={"Buy Price"}
                     value={formatCurrency(buyPrice)}
                   />
-                  <DisplaySection
+                  <DisplayItemSection
                     label={"Stop loss"}
                     value={formatCurrency(stopLoss)}
                   />
 
-                  <DisplaySection
+                  <DisplayItemSection
                     label={"Trailing Stop loss"}
                     value={formatCurrency(trailingStopLoss)}
                   />
 
-                  <DisplaySection label={"Quantity"} value={quantity} />
+                  <DisplayItemSection label={"Quantity"} value={quantity} />
                 </Grid>
                 <Grid item xs={3}>
-                  <DisplaySection
+                  <DisplayItemSection
                     label={"Investment Value"}
                     value={formatCurrency(
                       individualResponse.investmentValue.toFixed(2)
                     )}
                   />
-                  <DisplaySection
+                  <DisplayItemSection
                     label={"Current Value"}
                     value={formatCurrency(
                       individualResponse.currentValue.toFixed(2)
                     )}
                   />
-                  <DisplaySection
+                  <DisplayItemSection
                     label={"Daily Gain / Loss"}
                     value={`${formatCurrency(
                       individualResponse.dailyProfitOrLoss.toFixed(2)
@@ -156,19 +113,8 @@ const PositionList = ({ className, data, ...rest }) => {
                         : classes.red
                     }
                     className={classes.statsItem}
-                    icon={
-                      individualResponse.dailyProfitOrLoss > 0 ? (
-                        <ArrowUpwardOutlinedIcon
-                          className={classes.iconGreen}
-                        />
-                      ) : (
-                        <ArrowDownwardOutlinedIcon
-                          className={classes.iconRed}
-                        />
-                      )
-                    }
                   />
-                  <DisplaySection
+                  <DisplayItemSection
                     label={"Return"}
                     value={`${formatCurrency(
                       individualResponse.profitOrLoss.toFixed(2)
@@ -179,17 +125,6 @@ const PositionList = ({ className, data, ...rest }) => {
                         : classes.red
                     }
                     className={classes.statsItem}
-                    icon={
-                      individualResponse.profitOrLoss > 0 ? (
-                        <ArrowUpwardOutlinedIcon
-                          className={classes.iconGreen}
-                        />
-                      ) : (
-                        <ArrowDownwardOutlinedIcon
-                          className={classes.iconRed}
-                        />
-                      )
-                    }
                   />
                 </Grid>
 

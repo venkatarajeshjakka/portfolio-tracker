@@ -82,11 +82,6 @@ const StockCard = props => {
 
           <Grid container justify="space-between" spacing={2}>
             <Grid className={classes.statsItem} item>
-              {product.change > 0 ? (
-                <ArrowDropUpOutlinedIcon className={classes.iconGreen} />
-              ) : (
-                <ArrowDropDownOutlinedIcon className={classes.iconRed} />
-              )}
               <Typography
                 className={product.change > 0 ? classes.green : classes.red}
                 display="inline"
@@ -94,6 +89,11 @@ const StockCard = props => {
               >
                 {formatCurrency(product.ltp)}
               </Typography>
+              {product.change > 0 ? (
+                <ArrowDropUpOutlinedIcon fontSize={'large'} className={classes.iconGreen} />
+              ) : (
+                <ArrowDropDownOutlinedIcon fontSize={'large'} className={classes.iconRed} />
+              )}
             </Grid>
             <Grid className={classes.statsItem} item>
               <Typography

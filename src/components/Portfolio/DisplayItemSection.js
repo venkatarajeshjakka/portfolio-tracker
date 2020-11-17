@@ -7,12 +7,17 @@ const DisplayItemSection = ({
   variant,
   icon,
   className,
-  textStyle
+  textStyle,
+  labelVariant
 }) => {
   return (
     <Grid container direction="column" justify="center">
       <Grid item>
-        <Typography color="textSecondary" display="inline" variant="body2">
+        <Typography
+          color="textSecondary"
+          display="inline"
+          variant={labelVariant ? labelVariant : "body2"}
+        >
           {label}
         </Typography>
       </Grid>

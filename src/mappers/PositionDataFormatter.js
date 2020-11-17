@@ -1,5 +1,5 @@
 import _ from "underscore";
-
+import { getFormattStockData } from "./WatchListDataFormatter";
 const formattData = data => {
   var formatterResponse = data.map(item => {
     return {
@@ -72,6 +72,37 @@ const stockResponse = (stockData, portfolioStockInfo, stockCode) => {
   return cardResponse;
 };
 
+const stockSummary = (stockKeys, stockDataResponse, positionData) => {
+  var stockArray = stockKeys.map(product => {
+    var stockCode = product + ".NS";
+    var stockData = getFormattStockData(stockDataResponse);
+    var data = _.findWhere(stockData, { stockCode: stockCode });
+    var portfolioStockInfo = _.where(positionData, {
+      stockCode: product
+    });
+    if (data) {
+      var cardResponse = stockResponse(data, portfolioStockInfo, product);
+      return cardResponse;
+    }
+  });
+
+  if (stockArray) {
+    var dailyGainArray = _.pluck(stockArray, "dailyGain");
+    let dailyGain = sum(dailyGainArray);
+    var investmentArray = _.pluck(stockArray, "investment");
+    let investment = sum(investmentArray);
+    var currentValueArray = _.pluck(stockArray, "current");
+    let currentValue = sum(currentValueArray);
+    var profitLossArray = _.pluck(stockArray, "profitOrLoss");
+    let profitLoss = sum(profitLossArray);
+    return {
+      dailyGain,
+      investment,
+      currentValue,
+      profitLoss
+    };
+  }
+};
 const individualPosition = (positionData, ltp, change) => {
   const { buyPrice, quantity, targetPrice } = positionData;
 
@@ -100,4 +131,10 @@ const individualPosition = (positionData, ltp, change) => {
 
   return individualPositionResponse;
 };
-export { formattData, stockList, stockResponse, individualPosition };
+export {
+  formattData,
+  stockList,
+  stockResponse,
+  individualPosition,
+  stockSummary
+};

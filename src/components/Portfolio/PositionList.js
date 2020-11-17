@@ -12,7 +12,7 @@ import { formatCurrency } from "../../extensions/Formatters";
 import CircleProgresBar from "../CircularProgressBar";
 import { individualPosition } from "../../mappers/PositionDataFormatter";
 import DisplayItemSection from "./DisplayItemSection";
-
+import moment from 'moment'
 const useStyles = makeStyles(theme => ({
   root: {
     height: "100%"
@@ -65,80 +65,80 @@ const PositionList = ({ className, data, ...rest }) => {
               <MoreVertIcon />
             </IconButton>
 
-            <Box flexGrow={1}>
-              <Grid
-                container
-                justify="space-between"
-                alignItems="center"
-                spacing={1}
-              >
-                <Grid item xs={3}>
-                  <DisplayItemSection
-                    label={"Buy Price"}
-                    value={formatCurrency(buyPrice)}
-                  />
-                  <DisplayItemSection
-                    label={"Stop loss"}
-                    value={formatCurrency(stopLoss)}
-                  />
+            <Grid
+              container
+              justify="space-between"
+              alignItems="center"
+              spacing={1}
+            >
+              <Grid item xs={3}>
+                <DisplayItemSection
+                  label={"Buy Price"}
+                  value={formatCurrency(buyPrice)}
+                />
+                <DisplayItemSection
+                  label={"Stop loss"}
+                  value={formatCurrency(stopLoss)}
+                />
 
-                  <DisplayItemSection
-                    label={"Trailing Stop loss"}
-                    value={formatCurrency(trailingStopLoss)}
-                  />
-
-                  <DisplayItemSection label={"Quantity"} value={quantity} />
-                </Grid>
-                <Grid item xs={3}>
-                  <DisplayItemSection
-                    label={"Investment Value"}
-                    value={formatCurrency(
-                      individualResponse.investmentValue.toFixed(2)
-                    )}
-                  />
-                  <DisplayItemSection
-                    label={"Current Value"}
-                    value={formatCurrency(
-                      individualResponse.currentValue.toFixed(2)
-                    )}
-                  />
-                  <DisplayItemSection
-                    label={"Daily Gain / Loss"}
-                    value={`${formatCurrency(
-                      individualResponse.dailyProfitOrLoss.toFixed(2)
-                    )} (${changePercentage} %)`}
-                    textStyle={
-                      individualResponse.dailyProfitOrLoss > 0
-                        ? classes.green
-                        : classes.red
-                    }
-                    className={classes.statsItem}
-                  />
-                  <DisplayItemSection
-                    label={"Return"}
-                    value={`${formatCurrency(
-                      individualResponse.profitOrLoss.toFixed(2)
-                    )} (${individualResponse.profirOrLossPercentage} %)`}
-                    textStyle={
-                      individualResponse.profitOrLoss > 0
-                        ? classes.green
-                        : classes.red
-                    }
-                    className={classes.statsItem}
-                  />
-                </Grid>
-
-                <Grid item xs={3}>
-                  <div className={classes.progress}>
-                    <CircleProgresBar
-                      percentage={individualResponse.targetPercentage.toFixed(
-                        2
-                      )}
-                    />
-                  </div>
-                </Grid>
+                <DisplayItemSection
+                  label={"Trailing Stop loss"}
+                  value={formatCurrency(trailingStopLoss)}
+                />
+                <DisplayItemSection label={"Buy Date"} value={moment(date).format('MMMM Do YYYY')} />
+                <DisplayItemSection label={"Quantity"} value={quantity} />
               </Grid>
-            </Box>
+              <Grid item xs={3}>
+                <DisplayItemSection
+                  label={"Target Price"}
+                  value={formatCurrency(targetPrice.toFixed(2))}
+                />
+                <DisplayItemSection
+                  label={"Investment Value"}
+                  value={formatCurrency(
+                    individualResponse.investmentValue.toFixed(2)
+                  )}
+                />
+                <DisplayItemSection
+                  label={"Current Value"}
+                  value={formatCurrency(
+                    individualResponse.currentValue.toFixed(2)
+                  )}
+                />
+                <DisplayItemSection
+                  label={"Daily Gain / Loss"}
+                  value={`${formatCurrency(
+                    individualResponse.dailyProfitOrLoss.toFixed(2)
+                  )} (${changePercentage} %)`}
+                  textStyle={
+                    individualResponse.dailyProfitOrLoss > 0
+                      ? classes.green
+                      : classes.red
+                  }
+                  className={classes.statsItem}
+                />
+                <DisplayItemSection
+                  label={"Return"}
+                  value={`${formatCurrency(
+                    individualResponse.profitOrLoss.toFixed(2)
+                  )} (${individualResponse.profirOrLossPercentage} %)`}
+                  textStyle={
+                    individualResponse.profitOrLoss > 0
+                      ? classes.green
+                      : classes.red
+                  }
+                  className={classes.statsItem}
+                />
+              </Grid>
+
+              <Grid item xs={3}>
+                <div className={classes.progress}>
+                  <CircleProgresBar
+                    percentage={parseInt(individualResponse.targetPercentage.toFixed(2),10)}
+                  />
+                </div>
+              </Grid>
+            </Grid>
           </ListItem>
         );
       })}

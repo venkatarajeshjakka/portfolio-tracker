@@ -1,5 +1,11 @@
 import React, { useContext, useEffect } from "react";
-import { Container, Grid, Box, CircularProgress } from "@material-ui/core";
+import {
+  Container,
+  Grid,
+  Box,
+  CircularProgress,
+  Paper
+} from "@material-ui/core";
 import PageHeader from "../shared/PageHeader";
 import { withStyles } from "@material-ui/core/styles";
 import { Link, withRouter } from "react-router-dom";
@@ -13,8 +19,13 @@ import { AuthContext } from "../../context/AuthContext";
 import { Context as PortfolioContext } from "../../context/PortfolioContext";
 import { Context as StockContext } from "../../context/StockContext";
 import _ from "underscore";
-import { stockResponse } from "../../mappers/PositionDataFormatter";
+import {
+  stockResponse,
+  stockSummary
+} from "../../mappers/PositionDataFormatter";
 import { getFormattStockData } from "../../mappers/WatchListDataFormatter";
+import DisplayItemSection from "./DisplayItemSection";
+import { formatCurrency } from "../../extensions/Formatters";
 
 const styles = theme => ({
   button: {
@@ -30,9 +41,53 @@ const styles = theme => ({
   },
   productCard: {
     height: "100%"
+  },
+  paper: {
+    marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(2),
+    padding: theme.spacing(2),
+    [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
+      marginTop: theme.spacing(3),
+      marginBottom: theme.spacing(3),
+      padding: theme.spacing(3)
+    }
   }
 });
-
+const DisplaySummary = ({ keys, stockData, positionData }) => {
+  var stockSummaryResponse = stockSummary(keys, stockData, positionData);
+  return (
+    <Grid container justify="space-between" alignItems="center" spacing={3}>
+      <Grid item>
+        <DisplayItemSection
+          variant={"h5"}
+          label={"Total Investment"}
+          value={formatCurrency(stockSummaryResponse.investment)}
+        />
+      </Grid>
+      <Grid item>
+        <DisplayItemSection
+          variant={"h5"}
+          label={"Current Value"}
+          value={formatCurrency(stockSummaryResponse.currentValue)}
+        />
+      </Grid>
+      <Grid item>
+        <DisplayItemSection
+          variant={"h5"}
+          label={"Daily P&L"}
+          value={formatCurrency(stockSummaryResponse.dailyGain)}
+        />
+      </Grid>
+      <Grid item>
+        <DisplayItemSection
+          variant={"h5"}
+          label={"P&L"}
+          value={formatCurrency(stockSummaryResponse.profitLoss)}
+        />
+      </Grid>
+    </Grid>
+  );
+};
 const Portfolio = ({ classes }) => {
   const { currentUser } = useContext(AuthContext);
   const {
@@ -92,6 +147,19 @@ const Portfolio = ({ classes }) => {
             startIcon={<AddOutlinedIcon />}
           />
         </Grid>
+
+        <Paper className={classes.paper}>
+          {renderSection(watchListStockData, portfolioArrayService) ? (
+            <DisplaySummary
+              keys={positionsKeys}
+              stockData={watchListStockData}
+              positionData={formattedResponse}
+            />
+          ) : (
+            <CircularProgress />
+          )}
+        </Paper>
+
         <Box mt={3}>
           <Grid container spacing={4}>
             {renderSection(watchListStockData, portfolioArrayService) ? (

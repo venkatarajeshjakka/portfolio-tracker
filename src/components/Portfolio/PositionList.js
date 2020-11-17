@@ -12,7 +12,7 @@ import { formatCurrency } from "../../extensions/Formatters";
 import CircleProgresBar from "../CircularProgressBar";
 import { individualPosition } from "../../mappers/PositionDataFormatter";
 import DisplayItemSection from "./DisplayItemSection";
-import moment from 'moment'
+import moment from "moment";
 const useStyles = makeStyles(theme => ({
   root: {
     height: "100%"
@@ -85,7 +85,10 @@ const PositionList = ({ className, data, ...rest }) => {
                   label={"Trailing Stop loss"}
                   value={formatCurrency(trailingStopLoss)}
                 />
-                <DisplayItemSection label={"Buy Date"} value={moment(date).format('MMMM Do YYYY')} />
+                <DisplayItemSection
+                  label={"Buy Date"}
+                  value={moment(date).format("MMMM Do YYYY")}
+                />
                 <DisplayItemSection label={"Quantity"} value={quantity} />
               </Grid>
               <Grid item xs={3}>
@@ -134,7 +137,10 @@ const PositionList = ({ className, data, ...rest }) => {
               <Grid item xs={3}>
                 <div className={classes.progress}>
                   <CircleProgresBar
-                    percentage={parseInt(individualResponse.targetPercentage.toFixed(2),10)}
+                    percentage={parseInt(
+                      individualResponse.targetPercentage.toFixed(2),
+                      10
+                    )}
                   />
                 </div>
               </Grid>

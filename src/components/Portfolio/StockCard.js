@@ -90,9 +90,15 @@ const StockCard = props => {
                 {formatCurrency(product.ltp)}
               </Typography>
               {product.change > 0 ? (
-                <ArrowDropUpOutlinedIcon fontSize={'large'} className={classes.iconGreen} />
+                <ArrowDropUpOutlinedIcon
+                  fontSize={"large"}
+                  className={classes.iconGreen}
+                />
               ) : (
-                <ArrowDropDownOutlinedIcon fontSize={'large'} className={classes.iconRed} />
+                <ArrowDropDownOutlinedIcon
+                  fontSize={"large"}
+                  className={classes.iconRed}
+                />
               )}
             </Grid>
             <Grid className={classes.statsItem} item>

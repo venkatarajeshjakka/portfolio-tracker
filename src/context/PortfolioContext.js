@@ -36,7 +36,7 @@ const portfolioReducer = (state, action) => {
         formattedResponse: state.formattedResponse.filter(
           item => item.id !== action.payload
         ),
-        positionsKeys : []
+        positionsKeys: []
       };
     default:
       return state;

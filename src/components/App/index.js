@@ -10,6 +10,7 @@ import Portfolio from "../Portfolio";
 import AddPortfolioForm from "../Portfolio/AddPortfolioForm";
 import SellPositionForm from "../Portfolio/SellPositionForm";
 import PositionDetails from "../Portfolio/PositionDetails";
+import EditPositionForm from "../Portfolio/EditPositionForm";
 import Layout from "../shared/layout";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { CssBaseline } from "@material-ui/core";
@@ -51,6 +52,11 @@ const App = () => {
               exact
               path="/sell-position"
               component={SellPositionForm}
+            />
+            <PrivatRoute
+              exact
+              path="/edit-position"
+              component={EditPositionForm}
             />
           </Switch>
         </Layout>

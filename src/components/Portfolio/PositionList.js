@@ -18,7 +18,7 @@ import { withRouter } from "react-router-dom";
 import { Context as PortfolioContext } from "../../context/PortfolioContext";
 import { AlertDialog } from "../Dialog";
 const ITEM_HEIGHT = 48;
-const options = ["Buy", "Sell", "Delete"];
+const options = ["Buy", "Sell", "Delete", "Edit"];
 const useStyles = makeStyles(theme => ({
   root: {
     height: "100%"
@@ -65,6 +65,9 @@ const PositionList = ({ className, history, data, ...rest }) => {
       case "Delete":
         deletePositionEntry();
         break;
+      case "Edit":
+        addPositionId(poistionValue);
+        history.push("/edit-position");
       default:
     }
   };

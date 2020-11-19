@@ -38,6 +38,14 @@ const portfolioReducer = (state, action) => {
         ),
         positionsKeys: []
       };
+
+    case "edit_position":
+      return {
+        ...state,
+        portfolioArray: [],
+        portfolioArrayService: [],
+        positionsKeys: []
+      };
     default:
       return state;
   }
@@ -65,6 +73,27 @@ const clearPositionId = dispatch => () => {
   });
 };
 
+const editPosition = dispatch => async (documentId, data) => {
+  const { buyPrice, targetPrice, stopLoss, quantity, trailingStopLoss,date } = data;
+  const db = app.firestore();
+
+  await db
+    .collection("openPositions")
+    .doc(documentId)
+    .update({
+      buyPrice,
+      targetPrice,
+      stopLoss,
+      quantity,
+      trailingStopLoss,
+      date,
+      modifiedDate: Date.now()
+    });
+  dispatch({
+    type: "edit_position",
+    payload: documentId
+  });
+};
 const deletePosition = dispatch => async id => {
   const db = app.firestore();
   await db
@@ -148,7 +177,8 @@ export const { Provider, Context } = createDataContext(
     getPositionArray,
     addPositionId,
     clearPositionId,
-    deletePosition
+    deletePosition,
+    editPosition
   },
   {
     portfolioArray: [],

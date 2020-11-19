@@ -8,8 +8,8 @@ import Watchlist from "../Watchlist";
 import Dividend from "../Dividend";
 import Portfolio from "../Portfolio";
 import AddPortfolioForm from "../Portfolio/AddPortfolioForm";
-import SellPositionForm from '../Portfolio/SellPositionForm'
-import PositionDetails from '../Portfolio/PositionDetails'
+import SellPositionForm from "../Portfolio/SellPositionForm";
+import PositionDetails from "../Portfolio/PositionDetails";
 import Layout from "../shared/layout";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { CssBaseline } from "@material-ui/core";
@@ -37,11 +37,20 @@ const App = () => {
             <PrivatRoute exact path="/dividend" component={Dividend} />
             <PrivatRoute exact path="/watchlist" component={Watchlist} />
             <PrivatRoute exact path="/portfolio" component={Portfolio} />
-            <PrivatRoute exact path="/position-details/:stockCode" component={PositionDetails} />
+            <PrivatRoute
+              exact
+              path="/position-details/:stockCode"
+              component={PositionDetails}
+            />
             <PrivatRoute
               exact
               path="/add-position"
               component={AddPortfolioForm}
+            />
+            <PrivatRoute
+              exact
+              path="/sell-position"
+              component={SellPositionForm}
             />
           </Switch>
         </Layout>

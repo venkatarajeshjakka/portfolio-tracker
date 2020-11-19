@@ -75,14 +75,18 @@ const DisplaySummary = ({ keys, stockData, positionData }) => {
         <DisplayItemSection
           variant={"h5"}
           label={"Daily P&L"}
-          value={formatCurrency(stockSummaryResponse.dailyGain)}
+          value={`${formatCurrency(stockSummaryResponse.dailyGain)}(${
+            stockSummaryResponse.dailyProfitOrLossPercentage
+          }%)`}
         />
       </Grid>
       <Grid item>
         <DisplayItemSection
           variant={"h5"}
           label={"P&L"}
-          value={formatCurrency(stockSummaryResponse.profitLoss)}
+          value={`${formatCurrency(stockSummaryResponse.profitLoss)}(${
+            stockSummaryResponse.profitOrLossPercentage
+          }%)`}
         />
       </Grid>
     </Grid>

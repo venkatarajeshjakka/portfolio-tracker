@@ -20,6 +20,11 @@ const portfolioReducer = (state, action) => {
     case "position_keys":
       return { ...state, positionsKeys: action.payload };
 
+    case "add_position_Id":
+      return { ...state, positionId: action.payload };
+
+    case "clear_position_Id":
+      return { ...state, positionId: null };
     default:
       return state;
   }
@@ -31,6 +36,20 @@ const getStockCode = stockName => {
   var stockCode = response.Symbol;
 
   return stockCode;
+};
+
+const addPositionId = dispatch => id => {
+  dispatch({
+    type: "add_position_Id",
+    payload: id
+  });
+};
+
+const clearPositionId = dispatch => () => {
+  dispatch({
+    type: "clear_position_Id",
+    payload: null
+  });
 };
 
 const getPositionArray = dispatch => async authorId => {
@@ -100,7 +119,7 @@ const addPosition = dispatch => async (data, authorId) => {
 
 export const { Provider, Context } = createDataContext(
   portfolioReducer,
-  { addPosition, getPositionArray },
+  { addPosition, getPositionArray, addPositionId, clearPositionId },
   {
     portfolioArray: [],
     portfolioArrayService: [],
@@ -108,6 +127,7 @@ export const { Provider, Context } = createDataContext(
     positionsKeys: [],
     errorInFetching: false,
     errorInAdding: false,
-    duplicateEntry: false
+    duplicateEntry: false,
+    positionId: null
   }
 );

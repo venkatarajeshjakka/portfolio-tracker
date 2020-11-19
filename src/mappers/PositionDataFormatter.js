@@ -53,7 +53,7 @@ const stockResponse = (stockData, portfolioStockInfo, stockCode) => {
   var dailyGain = quantitySum * regularMarketChange;
   var currentValue = quantitySum * regularMarketPrice;
   var profitOrLoss = currentValue - investment;
-  var profirOrLossPercentage = ((profitOrLoss / investment) * 100).toFixed(2);
+  var profirOrLossPercentage = profitLossPercentage(profitOrLoss, investment);
   var cardResponse = {
     quantity: quantitySum,
     stockCode,
@@ -71,7 +71,9 @@ const stockResponse = (stockData, portfolioStockInfo, stockCode) => {
 
   return cardResponse;
 };
-
+const profitLossPercentage = (profitOrLoss, investment) => {
+  return ((profitOrLoss / investment) * 100).toFixed(2);
+};
 const stockSummary = (stockKeys, stockDataResponse, positionData) => {
   var stockArray = stockKeys.map(product => {
     var stockCode = product + ".NS";
@@ -95,11 +97,15 @@ const stockSummary = (stockKeys, stockDataResponse, positionData) => {
     let currentValue = sum(currentValueArray);
     var profitLossArray = _.pluck(stockArray, "profitOrLoss");
     let profitLoss = sum(profitLossArray);
+    let profitOrLossPercentage = profitLossPercentage(profitLoss, investment)
+    let dailyProfitOrLossPercentage = profitLossPercentage(dailyGain, currentValue)
     return {
       dailyGain,
       investment,
       currentValue,
-      profitLoss
+      profitLoss,
+      profitOrLossPercentage,
+      dailyProfitOrLossPercentage
     };
   }
 };

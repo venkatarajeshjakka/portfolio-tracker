@@ -39,7 +39,8 @@ const styles = theme => ({
   },
   button: {
     marginTop: theme.spacing(3),
-    display: "flex"
+    display: "flex",
+    alignItems: "center"
   },
   statsItem: {
     alignItems: "center",
@@ -182,7 +183,10 @@ const SellPositionForm = props => {
                       margin="normal"
                       type="number"
                     />
-
+                  </Grid>
+                </Grid>
+                <Grid container justify="center">
+                  <Grid item xs={6}>
                     <div className={classes.button}>
                       <Button
                         variant="outlined"

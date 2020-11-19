@@ -105,7 +105,7 @@ const Portfolio = ({ classes }) => {
   } = useContext(PortfolioContext);
   useEffect(() => {
     getPositionArray(currentUser.uid);
-  }, [portfolioArray]);
+  }, [portfolioArray, currentUser.uid]);
 
   const {
     getStockInfo,

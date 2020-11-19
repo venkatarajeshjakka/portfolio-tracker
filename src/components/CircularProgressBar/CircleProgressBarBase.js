@@ -33,7 +33,7 @@ const CircleProgressBarBase = ({
 
   useEffect(() => {
     if (progressBar < percentage) updatePercentage();
-  }, [progressBar]);
+  }, [progressBar,percentage]);
 
   return (
     <figure className={className}>

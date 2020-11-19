@@ -16,7 +16,7 @@ import DisplayItemSection from "./DisplayItemSection";
 import moment from "moment";
 import { withRouter } from "react-router-dom";
 import { Context as PortfolioContext } from "../../context/PortfolioContext";
-
+import { AlertDialog } from "../Dialog";
 const ITEM_HEIGHT = 48;
 const options = ["Buy", "Sell", "Delete"];
 const useStyles = makeStyles(theme => ({
@@ -49,8 +49,10 @@ const PositionList = ({ className, history, data, ...rest }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [poistionValue, setValue] = useState(null);
   const open = Boolean(anchorEl);
-
-  const { addPositionId } = useContext(PortfolioContext);
+  const [openAlert, setOpenAlert] = useState(false);
+  const { addPositionId, deletePosition, clearPositionId } = useContext(
+    PortfolioContext
+  );
   const handleRedirection = value => {
     switch (value) {
       case "Buy":
@@ -61,9 +63,23 @@ const PositionList = ({ className, history, data, ...rest }) => {
         history.push("/sell-position");
         break;
       case "Delete":
+        deletePositionEntry();
         break;
       default:
     }
+  };
+  const handleClickAlertOpen = () => {
+    setOpenAlert(true);
+  };
+
+  const handleAlertClose = () => {
+    setValue("");
+    setOpenAlert(false);
+    clearPositionId("");
+  };
+
+  const deletePositionEntry = () => {
+    handleClickAlertOpen();
   };
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
@@ -219,6 +235,16 @@ const PositionList = ({ className, history, data, ...rest }) => {
           </MenuItem>
         ))}
       </Menu>
+
+      <AlertDialog
+        onAgree={() => {
+          deletePosition(poistionValue);
+          handleAlertClose();
+          history.push("/portfolio");
+        }}
+        open={openAlert}
+        handleClose={handleAlertClose}
+      />
     </div>
   );
 };

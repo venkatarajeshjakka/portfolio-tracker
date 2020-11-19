@@ -25,6 +25,19 @@ const portfolioReducer = (state, action) => {
 
     case "clear_position_Id":
       return { ...state, positionId: null };
+
+    case "delete_position":
+      return {
+        ...state,
+        portfolioArray: [],
+        portfolioArrayService: state.portfolioArrayService.filter(
+          item => item.id !== action.payload
+        ),
+        formattedResponse: state.formattedResponse.filter(
+          item => item.id !== action.payload
+        ),
+        positionsKeys : []
+      };
     default:
       return state;
   }
@@ -52,6 +65,17 @@ const clearPositionId = dispatch => () => {
   });
 };
 
+const deletePosition = dispatch => async id => {
+  const db = app.firestore();
+  await db
+    .collection("openPositions")
+    .doc(id)
+    .delete();
+  dispatch({
+    type: "delete_position",
+    payload: id
+  });
+};
 const getPositionArray = dispatch => async authorId => {
   try {
     var collection = [];
@@ -119,7 +143,13 @@ const addPosition = dispatch => async (data, authorId) => {
 
 export const { Provider, Context } = createDataContext(
   portfolioReducer,
-  { addPosition, getPositionArray, addPositionId, clearPositionId },
+  {
+    addPosition,
+    getPositionArray,
+    addPositionId,
+    clearPositionId,
+    deletePosition
+  },
   {
     portfolioArray: [],
     portfolioArrayService: [],

@@ -83,7 +83,7 @@ const PostionDetails = props => {
   var stockCode = product + ".NS";
   var stockData = getFormattStockData(watchListStockData);
   var data = _.findWhere(stockData, { stockCode: stockCode });
-  console.log(portfolioStockInfo);
+
   if (data && portfolioStockInfo) {
     var cardResponse = {
       summary: stockResponse(data, portfolioStockInfo, product),

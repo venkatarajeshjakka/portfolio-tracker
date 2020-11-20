@@ -74,6 +74,22 @@ const stockResponse = (stockData, portfolioStockInfo, stockCode) => {
 const profitLossPercentage = (profitOrLoss, investment) => {
   return ((profitOrLoss / investment) * 100).toFixed(2);
 };
+
+const getStockDetails = (product, stockDataResponse) => {
+  var stockCode = product + ".NS";
+  var stockData = getFormattStockData(stockDataResponse);
+  var data = _.findWhere(stockData, { stockCode: stockCode });
+  const {
+    regularMarketChange,
+    regularMarketChangePercent,
+    regularMarketPrice
+  } = data.data.price;
+  return {
+    ltp: regularMarketPrice,
+    change: regularMarketChange,
+    changePercentage: (regularMarketChangePercent * 100).toFixed(2)
+  };
+};
 const stockSummary = (stockKeys, stockDataResponse, positionData) => {
   var stockArray = stockKeys.map(product => {
     var stockCode = product + ".NS";
@@ -97,8 +113,11 @@ const stockSummary = (stockKeys, stockDataResponse, positionData) => {
     let currentValue = sum(currentValueArray);
     var profitLossArray = _.pluck(stockArray, "profitOrLoss");
     let profitLoss = sum(profitLossArray);
-    let profitOrLossPercentage = profitLossPercentage(profitLoss, investment)
-    let dailyProfitOrLossPercentage = profitLossPercentage(dailyGain, currentValue)
+    let profitOrLossPercentage = profitLossPercentage(profitLoss, investment);
+    let dailyProfitOrLossPercentage = profitLossPercentage(
+      dailyGain,
+      currentValue
+    );
     return {
       dailyGain,
       investment,
@@ -142,5 +161,6 @@ export {
   stockList,
   stockResponse,
   individualPosition,
-  stockSummary
+  stockSummary,
+  getStockDetails
 };

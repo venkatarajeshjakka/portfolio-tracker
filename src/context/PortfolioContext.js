@@ -46,6 +46,20 @@ const portfolioReducer = (state, action) => {
         portfolioArrayService: [],
         positionsKeys: []
       };
+
+    case "edit_position_quantity":
+      return {
+        ...state,
+        portfolioArray: [],
+        portfolioArrayService: [],
+        positionsKeys: []
+      };
+
+    case "add_closed_position":
+      return {
+        ...state,
+        closedPoistionsArray: [...state.closedPoistionsArray, action.payload]
+      };
     default:
       return state;
   }
@@ -73,8 +87,30 @@ const clearPositionId = dispatch => () => {
   });
 };
 
+const updatePositionQuantity = dispatch => async (documentId, quantity) => {
+  const db = app.firestore();
+
+  await db
+    .collection("openPositions")
+    .doc(documentId)
+    .update({
+      quantity,
+      modifiedDate: Date.now()
+    });
+  dispatch({
+    type: "edit_position_quantity",
+    payload: documentId
+  });
+};
 const editPosition = dispatch => async (documentId, data) => {
-  const { buyPrice, targetPrice, stopLoss, quantity, trailingStopLoss,date } = data;
+  const {
+    buyPrice,
+    targetPrice,
+    stopLoss,
+    quantity,
+    trailingStopLoss,
+    date
+  } = data;
   const db = app.firestore();
 
   await db
@@ -170,6 +206,35 @@ const addPosition = dispatch => async (data, authorId) => {
   });
 };
 
+const addClosedPosition = dispatch => async (data, authorId) => {
+  const db = app.firestore();
+
+  await db.collection("closedPositions").add({
+    stockName: data.stockName,
+    stockCode: data.stockCode,
+    buyPrice: data.buyPrice,
+    sellPrice: data.sellPrice,
+    sellDate: data.sellDate,
+    quantity: data.quantity,
+    buyDate: data.buyDate,
+    authorId
+  });
+  dispatch({
+    type: "add_closed_position",
+    payload: {
+      stockName: data.stockName,
+      stockCode: data.stockCode,
+      buyPrice: data.buyPrice,
+      sellPrice: data.sellPrice,
+      sellDate: data.sellDate,
+      quantity: data.quantity,
+      modifiedDate: Date.now(),
+      buyDate: data.date,
+      authorId
+    }
+  });
+};
+
 export const { Provider, Context } = createDataContext(
   portfolioReducer,
   {
@@ -178,7 +243,9 @@ export const { Provider, Context } = createDataContext(
     addPositionId,
     clearPositionId,
     deletePosition,
-    editPosition
+    editPosition,
+    addClosedPosition,
+    updatePositionQuantity
   },
   {
     portfolioArray: [],
@@ -188,6 +255,7 @@ export const { Provider, Context } = createDataContext(
     errorInFetching: false,
     errorInAdding: false,
     duplicateEntry: false,
-    positionId: null
+    positionId: null,
+    closedPoistionsArray: []
   }
 );

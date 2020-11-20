@@ -15,7 +15,9 @@ import { Context as PortfolioContext } from "../../context/PortfolioContext";
 import _ from "underscore";
 import moment from "moment";
 import { formatCurrency } from "../../extensions/Formatters";
-
+import { AuthContext } from "../../context/AuthContext";
+import { Context as StockContext } from "../../context/StockContext";
+import { getStockDetails } from "../../mappers/PositionDataFormatter";
 const DisplaySection = ({ label, value, className }) => {
   return (
     <Grid container justify="space-between" spacing={2}>
@@ -48,11 +50,10 @@ const styles = theme => ({
   },
   paper: {
     marginTop: theme.spacing(3),
-    marginBottom: theme.spacing(3),
+
     padding: theme.spacing(2),
     [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
-      marginTop: theme.spacing(6),
-      marginBottom: theme.spacing(6),
+      marginTop: theme.spacing(3),
       padding: theme.spacing(3)
     }
   },
@@ -70,9 +71,18 @@ const SellPositionForm = props => {
   const { classes, history } = props;
 
   const {
+    addClosedPosition,
+    updatePositionQuantity,
+    deletePosition,
+    clearPositionId,
     state: { positionId, formattedResponse }
   } = useContext(PortfolioContext);
 
+  const {
+    state: { watchListStockData }
+  } = useContext(StockContext);
+
+  const { currentUser } = useContext(AuthContext);
   const [values, setValues] = useState({
     sellPrice: "",
     quantity: ""
@@ -82,14 +92,19 @@ const SellPositionForm = props => {
 
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [positionData, setPositionData] = useState(null);
+  const [stockInformation, setStockInfo] = useState(null);
   useEffect(() => {
     var response = _.findWhere(formattedResponse, { id: positionId });
 
     if (response) {
       setPositionData(response);
       setStockName(response.stockName);
+      if (watchListStockData) {
+        var stockInfo = getStockDetails(response.stockCode, watchListStockData);
+        setStockInfo(stockInfo);
+      }
     }
-  }, [positionId, formattedResponse]);
+  }, [positionId, formattedResponse, watchListStockData]);
   const handleChange = prop => event => {
     setValues({ ...values, [prop]: event.target.value });
   };
@@ -104,6 +119,24 @@ const SellPositionForm = props => {
   };
 
   const handleSubmit = () => {
+    var request = {
+      stockName: positionData.stockName,
+      stockCode: positionData.stockCode,
+      buyPrice: positionData.buyPrice,
+      sellPrice: values.sellPrice,
+      sellDate: selectedDate,
+      quantity: values.quantity,
+      buyDate: positionData.date
+    };
+    addClosedPosition(request, currentUser.uid);
+    let difference = positionData.quantity - values.quantity;
+    var parsed = parseInt(difference, 10);
+    if (parsed === 0) {
+      deletePosition(positionId);
+    } else {
+      updatePositionQuantity(positionId, parsed);
+    }
+    clearPositionId();
     history.push("/portfolio");
   };
 
@@ -245,6 +278,23 @@ const SellPositionForm = props => {
                   className={classes.statsItem}
                   label={"Profit / Loss :"}
                   value={calculateProfit()}
+                />
+              </Box>
+            </Paper>
+
+            <Paper className={classes.paper}>
+              <Box flexGrow={1}>
+                <DisplaySection
+                  className={classes.statsItem}
+                  label={"ltp :"}
+                  value={formatCurrency(stockInformation.ltp)}
+                />
+                <DisplaySection
+                  className={classes.statsItem}
+                  label={"Change"}
+                  value={`${formatCurrency(stockInformation.change)}(${
+                    stockInformation.changePercentage
+                  }%)`}
                 />
               </Box>
             </Paper>

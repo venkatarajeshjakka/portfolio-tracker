@@ -20,6 +20,46 @@ const portfolioReducer = (state, action) => {
     case "position_keys":
       return { ...state, positionsKeys: action.payload };
 
+    case "add_position_Id":
+      return { ...state, positionId: action.payload };
+
+    case "clear_position_Id":
+      return { ...state, positionId: null };
+
+    case "delete_position":
+      return {
+        ...state,
+        portfolioArray: [],
+        portfolioArrayService: state.portfolioArrayService.filter(
+          item => item.id !== action.payload
+        ),
+        formattedResponse: state.formattedResponse.filter(
+          item => item.id !== action.payload
+        ),
+        positionsKeys: []
+      };
+
+    case "edit_position":
+      return {
+        ...state,
+        portfolioArray: [],
+        portfolioArrayService: [],
+        positionsKeys: []
+      };
+
+    case "edit_position_quantity":
+      return {
+        ...state,
+        portfolioArray: [],
+        portfolioArrayService: [],
+        positionsKeys: []
+      };
+
+    case "add_closed_position":
+      return {
+        ...state,
+        closedPoistionsArray: [...state.closedPoistionsArray, action.payload]
+      };
     default:
       return state;
   }
@@ -33,6 +73,74 @@ const getStockCode = stockName => {
   return stockCode;
 };
 
+const addPositionId = dispatch => id => {
+  dispatch({
+    type: "add_position_Id",
+    payload: id
+  });
+};
+
+const clearPositionId = dispatch => () => {
+  dispatch({
+    type: "clear_position_Id",
+    payload: null
+  });
+};
+
+const updatePositionQuantity = dispatch => async (documentId, quantity) => {
+  const db = app.firestore();
+
+  await db
+    .collection("openPositions")
+    .doc(documentId)
+    .update({
+      quantity,
+      modifiedDate: Date.now()
+    });
+  dispatch({
+    type: "edit_position_quantity",
+    payload: documentId
+  });
+};
+const editPosition = dispatch => async (documentId, data) => {
+  const {
+    buyPrice,
+    targetPrice,
+    stopLoss,
+    quantity,
+    trailingStopLoss,
+    date
+  } = data;
+  const db = app.firestore();
+
+  await db
+    .collection("openPositions")
+    .doc(documentId)
+    .update({
+      buyPrice,
+      targetPrice,
+      stopLoss,
+      quantity,
+      trailingStopLoss,
+      date,
+      modifiedDate: Date.now()
+    });
+  dispatch({
+    type: "edit_position",
+    payload: documentId
+  });
+};
+const deletePosition = dispatch => async id => {
+  const db = app.firestore();
+  await db
+    .collection("openPositions")
+    .doc(id)
+    .delete();
+  dispatch({
+    type: "delete_position",
+    payload: id
+  });
+};
 const getPositionArray = dispatch => async authorId => {
   try {
     var collection = [];
@@ -98,9 +206,47 @@ const addPosition = dispatch => async (data, authorId) => {
   });
 };
 
+const addClosedPosition = dispatch => async (data, authorId) => {
+  const db = app.firestore();
+
+  await db.collection("closedPositions").add({
+    stockName: data.stockName,
+    stockCode: data.stockCode,
+    buyPrice: data.buyPrice,
+    sellPrice: data.sellPrice,
+    sellDate: data.sellDate,
+    quantity: data.quantity,
+    buyDate: data.buyDate,
+    authorId
+  });
+  dispatch({
+    type: "add_closed_position",
+    payload: {
+      stockName: data.stockName,
+      stockCode: data.stockCode,
+      buyPrice: data.buyPrice,
+      sellPrice: data.sellPrice,
+      sellDate: data.sellDate,
+      quantity: data.quantity,
+      modifiedDate: Date.now(),
+      buyDate: data.date,
+      authorId
+    }
+  });
+};
+
 export const { Provider, Context } = createDataContext(
   portfolioReducer,
-  { addPosition, getPositionArray },
+  {
+    addPosition,
+    getPositionArray,
+    addPositionId,
+    clearPositionId,
+    deletePosition,
+    editPosition,
+    addClosedPosition,
+    updatePositionQuantity
+  },
   {
     portfolioArray: [],
     portfolioArrayService: [],
@@ -108,6 +254,8 @@ export const { Provider, Context } = createDataContext(
     positionsKeys: [],
     errorInFetching: false,
     errorInAdding: false,
-    duplicateEntry: false
+    duplicateEntry: false,
+    positionId: null,
+    closedPoistionsArray: []
   }
 );

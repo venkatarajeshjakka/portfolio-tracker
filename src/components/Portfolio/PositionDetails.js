@@ -80,9 +80,9 @@ const PostionDetails = props => {
     stockCode: product
   });
 
-  var stockCode = product + ".NS";
+  var stockSymbol = product + ".NS";
   var stockData = getFormattStockData(watchListStockData);
-  var data = _.findWhere(stockData, { stockCode: stockCode });
+  var data = _.findWhere(stockData, { stockCode: stockSymbol });
 
   if (data && portfolioStockInfo) {
     var cardResponse = {

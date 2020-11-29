@@ -121,6 +121,11 @@ const Dividend = ({ classes }) => {
             ) : (
               <CircularProgress />
             )}
+            {dividendArrayService && dividendArrayService.length > 0 ? (
+              <Budget amount={totalDividendAmount(dividendArrayService)} />
+            ) : (
+              <CircularProgress />
+            )}
           </Grid>
         </Grid>
       </Container>

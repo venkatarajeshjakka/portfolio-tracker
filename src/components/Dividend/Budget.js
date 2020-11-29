@@ -15,7 +15,9 @@ import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import MoneyIcon from "@material-ui/icons/Money";
 import { formatCurrency} from '../../extensions/Formatters'
 const useStyles = makeStyles(theme => ({
-  root: {},
+  root: {
+    marginBottom : theme.spacing(3)
+  },
   avatar: {
     backgroundColor: colors.red[600],
     height: 56,

@@ -116,6 +116,10 @@ const PostionDetails = props => {
                 <Grid container justify="space-between" spacing={3}>
                   <Grid item>
                     <DisplayItemSection
+                      label={"ltp"}
+                      value={formatCurrency(cardResponse.summary.ltp)}
+                    />
+                    <DisplayItemSection
                       label={"Investment"}
                       value={formatCurrency(cardResponse.summary.investment)}
                     />
@@ -125,6 +129,12 @@ const PostionDetails = props => {
                     />
                   </Grid>
                   <Grid item>
+                    <DisplayItemSection
+                      label={"Change"}
+                      value={`${formatCurrency(cardResponse.summary.change)}(${
+                        cardResponse.summary.changePercentage
+                      }%)`}
+                    />
                     <DisplayItemSection
                       label={"Current Value"}
                       value={formatCurrency(cardResponse.summary.current)}
@@ -136,11 +146,19 @@ const PostionDetails = props => {
                   </Grid>
                   <Grid item>
                     <DisplayItemSection
+                      label={"Day High"}
+                      value={formatCurrency(cardResponse.summary.dayHigh)}
+                    />
+                    <DisplayItemSection
                       label={"Daily Profit / Loss "}
                       value={formatCurrency(cardResponse.summary.dailyGain)}
                     />
                   </Grid>
                   <Grid item>
+                    <DisplayItemSection
+                      label={"Day Low"}
+                      value={formatCurrency(cardResponse.summary.dayLow)}
+                    />
                     <DisplayItemSection
                       label={"Returns"}
                       value={formatCurrency(cardResponse.summary.profitOrLoss)}

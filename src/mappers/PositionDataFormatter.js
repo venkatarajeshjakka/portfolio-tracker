@@ -37,7 +37,10 @@ const stockResponse = (stockData, portfolioStockInfo, stockCode) => {
     longName,
     regularMarketChange,
     regularMarketChangePercent,
-    regularMarketPrice
+    regularMarketPrice,
+    regularMarketDayHigh,
+    regularMarketDayLow,
+    regularMarketPreviousClose
   } = stockData.data.price;
 
   var quantityArray = _.pluck(portfolioStockInfo, "quantity");
@@ -66,7 +69,10 @@ const stockResponse = (stockData, portfolioStockInfo, stockCode) => {
     investment: investment,
     current: currentValue,
     profitOrLoss,
-    profirOrLossPercentage
+    profirOrLossPercentage,
+    dayHigh : regularMarketDayHigh,
+    dayLow : regularMarketDayLow,
+    previousClose : regularMarketPreviousClose
   };
 
   return cardResponse;

@@ -48,8 +48,8 @@ export default function DividendHistoryTable({ data, onDelete, onEdit }) {
           <TableRow>
             <StyledTableCell>Stock Name</StyledTableCell>
             <StyledTableCell align="right">Amount</StyledTableCell>
-            <StyledTableCell align="right">Date</StyledTableCell>
-            <StyledTableCell align="right">Actions</StyledTableCell>
+            <StyledTableCell align="center">Date</StyledTableCell>
+            <StyledTableCell align="center">Actions</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -64,10 +64,10 @@ export default function DividendHistoryTable({ data, onDelete, onEdit }) {
               <StyledTableCell style={{ width: 160 }} align="right">
                 {formatCurrency(row.amount)}
               </StyledTableCell>
-              <StyledTableCell style={{ width: 160 }} align="right">
+              <StyledTableCell style={{ width: 160 }} align="center">
                 {moment(row.date).format("ll")}
               </StyledTableCell>
-              <StyledTableCell style={{ width: 160 }} align="right">
+              <StyledTableCell style={{ width: 160 }} align="center">
                 <IconButton
                   color="secondary"
                   onClick={() => {

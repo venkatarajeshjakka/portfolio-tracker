@@ -34,22 +34,36 @@ const styles = theme => ({
 
 const DisplaySummary = ({ data }) => {
   var response = dividendInformation(data);
-  var { totalAmount, currentYearAmount, yearlyChangePercentage } = response;
+  var {
+    totalAmount,
+    currentYearAmount,
+    yearlyChangePercentage,
+    currentYearQuarterlyAmount,
+    quarterlyChangePercentage
+  } = response;
   return (
     <Grid container alignItems="center" spacing={3}>
-      <Grid item>
+      <Grid item xs={4}>
         <Budget
           amount={totalAmount}
           label={"Total Amount"}
           changeLabel={"As of Today"}
         />
       </Grid>
-      <Grid item>
+      <Grid item xs={4}>
         <Budget
           amount={currentYearAmount}
           label={"Yearly Amount"}
           change={yearlyChangePercentage}
           changeLabel={"Since Previuos Year"}
+        />
+      </Grid>
+      <Grid item xs={4}>
+        <Budget
+          amount={currentYearQuarterlyAmount}
+          label={"Quarterly Amount"}
+          change={quarterlyChangePercentage}
+          changeLabel={"Since Previuos Quarter"}
         />
       </Grid>
     </Grid>

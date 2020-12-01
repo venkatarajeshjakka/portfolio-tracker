@@ -1,5 +1,5 @@
 import _ from "underscore";
-
+import moment from "moment";
 const formatDividendData = data => {
   var formattedData = data.map(item => {
     return {
@@ -14,13 +14,6 @@ const formatDividendData = data => {
   return sortedResult;
 };
 
-const totalDividendAmount = data => {
-  var response = formatDividendData(data);
-  var amountArray = _.pluck(response, "amount");
-
-  return sum(amountArray);
-};
-
 const sum = input => {
   var sum = _.reduce(
     input,
@@ -33,41 +26,89 @@ const sum = input => {
   return sum;
 };
 
-const filteredAmount = (inputValue, year) => {
-  var filteredData = _.filter(inputValue, function(input) {
-    return input.date.getFullYear() === year;
-  });
-
-  var amountArray = _.pluck(filteredData, "amount");
+const filteredAmount = input => {
+  var amountArray = _.pluck(input, "amount");
 
   var sumValue = sum(amountArray);
 
   return sumValue;
 };
+
+const filteredYearlyData = (inputValue, year) => {
+  var filteredData = _.filter(inputValue, function(input) {
+    return input.date.getFullYear() === year;
+  });
+
+  return filteredData;
+};
+
+const quarterlyFiltertedData = (data, currentQuarter) => {
+  var filteredData = _.filter(data, function(input) {
+    return moment(input.date).quarter() === currentQuarter;
+  });
+
+  return filteredData;
+};
+
+const changePercentage = (current, previous) => {
+  var yearlyChange = current - previous;
+
+  var changePercentage = ((yearlyChange / previous) * 100).toFixed(2);
+
+  return changePercentage;
+};
 const dividendInformation = data => {
   var response = formatDividendData(data);
+
   var amountArray = _.pluck(response, "amount");
   var totalAmount = sum(amountArray);
   var d = new Date();
   var n = d.getFullYear();
   var previousYear = n - 1;
 
-  var currentYearAmount = filteredAmount(response, n);
+  var currentQuarter = moment(n).quarter();
 
-  var previousYearAmount = filteredAmount(response, previousYear);
+  var currentYearFilteredData = filteredYearlyData(response, n);
 
-  var yearlyChange = currentYearAmount - previousYearAmount;
+  var quarterFilteredData = quarterlyFiltertedData(
+    currentYearFilteredData,
+    currentQuarter
+  );
 
-  var yearlyChangePercentage = (
-    (yearlyChange / previousYearAmount) *
-    100
-  ).toFixed(2);
+  var currentYearQuarterlyAmount = filteredAmount(quarterFilteredData);
+
+  var currentYearAmount = filteredAmount(currentYearFilteredData);
+
+  var previousYearFilteredData = filteredYearlyData(response, previousYear);
+
+  var previousYearQuarterFilteredData = quarterlyFiltertedData(
+    previousYearFilteredData,
+    currentQuarter
+  );
+
+  var previousYearQuarterlyAmount = filteredAmount(
+    previousYearQuarterFilteredData
+  );
+
+  var previousYearAmount = filteredAmount(previousYearFilteredData);
+
+  var yearlyChangePercentage = changePercentage(
+    currentYearAmount,
+    previousYearAmount
+  );
+  var quarterlyChangePercentage = changePercentage(
+    currentYearQuarterlyAmount,
+    previousYearQuarterlyAmount
+  );
 
   return {
     totalAmount,
     currentYearAmount,
     previousYearAmount,
-    yearlyChangePercentage
+    yearlyChangePercentage,
+    currentYearQuarterlyAmount,
+    previousYearQuarterlyAmount,
+    quarterlyChangePercentage
   };
 };
-export { formatDividendData, totalDividendAmount, dividendInformation };
+export { formatDividendData, dividendInformation };

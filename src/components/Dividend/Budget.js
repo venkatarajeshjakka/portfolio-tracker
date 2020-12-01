@@ -13,10 +13,10 @@ import {
 } from "@material-ui/core";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import MoneyIcon from "@material-ui/icons/Money";
-import { formatCurrency} from '../../extensions/Formatters'
+import { formatCurrency } from "../../extensions/Formatters";
 const useStyles = makeStyles(theme => ({
   root: {
-    marginBottom : theme.spacing(3)
+    marginBottom: theme.spacing(3)
   },
   avatar: {
     backgroundColor: colors.red[600],
@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Budget = ({ className,amount, ...rest }) => {
+const Budget = ({ className, amount, label, change, changeLabel, ...rest }) => {
   const classes = useStyles();
 
   return (
@@ -41,7 +41,7 @@ const Budget = ({ className,amount, ...rest }) => {
         <Grid container justify="space-between" spacing={3}>
           <Grid item>
             <Typography color="textSecondary" gutterBottom variant="h6">
-              AMOUNT
+              {label}
             </Typography>
             <Typography color="textPrimary" variant="h5">
               {formatCurrency(amount)}
@@ -54,12 +54,17 @@ const Budget = ({ className,amount, ...rest }) => {
           </Grid>
         </Grid>
         <Box mt={2} display="flex" alignItems="center">
-          <ArrowDownwardIcon className={classes.differenceIcon} />
-          <Typography className={classes.differenceValue} variant="body2">
-            12%
-          </Typography>
+          {change ? (
+            <ArrowDownwardIcon className={classes.differenceIcon} />
+          ) : null}
+          {change ? (
+            <Typography className={classes.differenceValue} variant="body2">
+              {change}%
+            </Typography>
+          ) : null}
+
           <Typography color="textSecondary" variant="caption">
-            Since last month
+            {changeLabel}
           </Typography>
         </Box>
       </CardContent>

@@ -15,7 +15,7 @@ import Budget from "./Budget";
 import DividendHistoryTable from "./DividendHistoryTable";
 import {
   formatDividendData,
-  totalDividendAmount
+  dividendInformation
 } from "../../mappers/DividendDataFormatter";
 
 const styles = theme => ({
@@ -32,6 +32,29 @@ const styles = theme => ({
   }
 });
 
+const DisplaySummary = ({ data }) => {
+  var response = dividendInformation(data);
+  var { totalAmount, currentYearAmount, yearlyChangePercentage } = response;
+  return (
+    <Grid container alignItems="center" spacing={3}>
+      <Grid item>
+        <Budget
+          amount={totalAmount}
+          label={"Total Amount"}
+          changeLabel={"As of Today"}
+        />
+      </Grid>
+      <Grid item>
+        <Budget
+          amount={currentYearAmount}
+          label={"Yearly Amount"}
+          change={yearlyChangePercentage}
+          changeLabel={"Since Previuos Year"}
+        />
+      </Grid>
+    </Grid>
+  );
+};
 const Dividend = ({ classes }) => {
   const {
     getDividendHistory,
@@ -77,7 +100,6 @@ const Dividend = ({ classes }) => {
     setOpen(true);
   };
 
-  console.log(dividendArrayService);
   return (
     <div className={classes.root}>
       <Container>
@@ -102,7 +124,11 @@ const Dividend = ({ classes }) => {
             startIcon={<AddOutlinedIcon />}
           />
         </Grid>
-
+        {dividendArrayService && dividendArrayService.length > 0 ? (
+          <DisplaySummary data={dividendArrayService} />
+        ) : (
+          <CircularProgress />
+        )}
         <Grid container spacing={3}>
           <Grid item lg={9} md={12} xl={9} xs={12}>
             {dividendArrayService && dividendArrayService.length > 0 ? (
@@ -111,18 +137,6 @@ const Dividend = ({ classes }) => {
                 onDelete={handleDelete}
                 onEdit={handleEdit}
               />
-            ) : (
-              <CircularProgress />
-            )}
-          </Grid>
-          <Grid item lg={3} sm={6} xl={3} xs={12}>
-            {dividendArrayService && dividendArrayService.length > 0 ? (
-              <Budget amount={totalDividendAmount(dividendArrayService)} />
-            ) : (
-              <CircularProgress />
-            )}
-            {dividendArrayService && dividendArrayService.length > 0 ? (
-              <Budget amount={totalDividendAmount(dividendArrayService)} />
             ) : (
               <CircularProgress />
             )}

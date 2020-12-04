@@ -60,6 +60,23 @@ const changePercentage = (current, previous) => {
 const dividendInformation = data => {
   var response = formatDividendData(data);
 
+  var groupedResponse = _.groupBy(response, "stockName");
+
+  var keys = Object.keys(groupedResponse);
+  var mapped = keys.map(item => {
+    var individual = _.where(response, { stockName: item });
+    return { stockName: item, data: individual };
+  });
+
+  var mappedResponse = mapped.map(item => {
+    var individualamountArray = _.pluck(item.data, "amount");
+    var response = {
+      stockName: item.stockName,
+      amount: sum(individualamountArray)
+    };
+    return response;
+  });
+
   var amountArray = _.pluck(response, "amount");
   var totalAmount = sum(amountArray);
   var d = new Date();
@@ -108,7 +125,8 @@ const dividendInformation = data => {
     yearlyChangePercentage,
     currentYearQuarterlyAmount,
     previousYearQuarterlyAmount,
-    quarterlyChangePercentage
+    quarterlyChangePercentage,
+    groupedResponse: mappedResponse
   };
 };
 export { formatDividendData, dividendInformation };

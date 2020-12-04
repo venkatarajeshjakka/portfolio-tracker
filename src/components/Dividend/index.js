@@ -13,6 +13,7 @@ import { Context as DividendContext } from "../../context/DividendContext";
 import { AuthContext } from "../../context/AuthContext";
 import Budget from "./Budget";
 import DividendHistoryTable from "./DividendHistoryTable";
+import DividenSummaryTable from "./DividendSummaryTable";
 import {
   formatDividendData,
   dividendInformation
@@ -116,7 +117,7 @@ const Dividend = ({ classes }) => {
 
   return (
     <div className={classes.root}>
-      <Container>
+    
         <PageHeader
           title="Dividend"
           subTitle="Earning from investment"
@@ -143,20 +144,23 @@ const Dividend = ({ classes }) => {
         ) : (
           <CircularProgress />
         )}
-        <Grid container spacing={3}>
-          <Grid item lg={9} md={12} xl={9} xs={12}>
-            {dividendArrayService && dividendArrayService.length > 0 ? (
+        {dividendArrayService && dividendArrayService.length > 0 ? (
+          <Grid container spacing={3}>
+            <Grid item lg={5} md={12} xl={6} xs={12}>
+              <DividenSummaryTable data={dividendInformation(dividendArrayService)} />
+            </Grid>
+            <Grid item lg={7} md={12} xl={6} xs={12}>
               <DividendHistoryTable
                 data={formatDividendData(dividendArrayService)}
                 onDelete={handleDelete}
                 onEdit={handleEdit}
               />
-            ) : (
-              <CircularProgress />
-            )}
+            </Grid>
           </Grid>
-        </Grid>
-      </Container>
+        ) : (
+          <CircularProgress />
+        )}
+      
       <AlertDialog
         onAgree={() => {
           deleteEntry(documentId);

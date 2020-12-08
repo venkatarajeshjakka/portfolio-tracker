@@ -18,7 +18,7 @@ import {
   formatDividendData,
   dividendInformation
 } from "../../mappers/DividendDataFormatter";
-
+import DividendTrend from "./DividendTrend";
 const styles = theme => ({
   button: {
     margin: theme.spacing(5),
@@ -30,6 +30,9 @@ const styles = theme => ({
     minHeight: "100%",
     paddingBottom: theme.spacing(3),
     paddingTop: theme.spacing(3)
+  },
+  table: {
+    marginTop: theme.spacing(3)
   }
 });
 
@@ -117,50 +120,57 @@ const Dividend = ({ classes }) => {
 
   return (
     <div className={classes.root}>
-    
-        <PageHeader
-          title="Dividend"
-          subTitle="Earning from investment"
-          icon={<AttachMoneyRoundedIcon fontSize="large" />}
+      <PageHeader
+        title="Dividend"
+        subTitle="Earning from investment"
+        icon={<AttachMoneyRoundedIcon fontSize="large" />}
+      />
+      <Grid
+        container
+        spacing={3}
+        direction="row"
+        justify="flex-end"
+        alignItems="center"
+        className={classes.Button}
+      >
+        <Button
+          variant="outlined"
+          color="primary"
+          onClick={handleClickOpen}
+          text={"Add"}
+          startIcon={<AddOutlinedIcon />}
         />
-        <Grid
-          container
-          spacing={3}
-          direction="row"
-          justify="flex-end"
-          alignItems="center"
-          className={classes.Button}
-        >
-          <Button
-            variant="outlined"
-            color="primary"
-            onClick={handleClickOpen}
-            text={"Add"}
-            startIcon={<AddOutlinedIcon />}
-          />
-        </Grid>
-        {dividendArrayService && dividendArrayService.length > 0 ? (
-          <DisplaySummary data={dividendArrayService} />
-        ) : (
-          <CircularProgress />
-        )}
-        {dividendArrayService && dividendArrayService.length > 0 ? (
-          <Grid container spacing={3}>
-            <Grid item lg={5} md={12} xl={6} xs={12}>
-              <DividenSummaryTable data={dividendInformation(dividendArrayService)} />
-            </Grid>
-            <Grid item lg={7} md={12} xl={6} xs={12}>
-              <DividendHistoryTable
-                data={formatDividendData(dividendArrayService)}
-                onDelete={handleDelete}
-                onEdit={handleEdit}
-              />
-            </Grid>
+      </Grid>
+      {dividendArrayService && dividendArrayService.length > 0 ? (
+        <DisplaySummary data={dividendArrayService} />
+      ) : (
+        <CircularProgress />
+      )}
+      {dividendArrayService && dividendArrayService.length > 0 ? (
+        <Grid container spacing={3}>
+          <Grid item lg={6} md={12} xl={6} xs={12}>
+            <DividenSummaryTable
+              data={dividendInformation(dividendArrayService)}
+            />
           </Grid>
-        ) : (
-          <CircularProgress />
-        )}
-      
+          <Grid item lg={6} md={12} xl={6} xs={12}>
+            <DividendTrend data={dividendInformation(dividendArrayService)} />
+          </Grid>
+        </Grid>
+      ) : (
+        <CircularProgress />
+      )}
+      {dividendArrayService && dividendArrayService.length > 0 ? (
+        <div className={classes.table}>
+          <DividendHistoryTable
+            data={formatDividendData(dividendArrayService)}
+            onDelete={handleDelete}
+            onEdit={handleEdit}
+          />
+        </div>
+      ) : (
+        <CircularProgress />
+      )}
       <AlertDialog
         onAgree={() => {
           deleteEntry(documentId);

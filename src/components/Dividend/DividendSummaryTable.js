@@ -9,7 +9,7 @@ import {
   TableContainer,
   TableBody,
   Table,
-  TableHead,
+  TableHead
 } from "@material-ui/core";
 
 import {
@@ -26,8 +26,8 @@ const useStyles = makeStyles({
 });
 
 export default function DividendSummaryTable({ data }) {
- const {groupedResponse} = data;
- console.log(groupedResponse)
+  const { groupedResponse } = data;
+
   const classes = useStyles();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -52,7 +52,10 @@ export default function DividendSummaryTable({ data }) {
         </TableHead>
         <TableBody>
           {(rowsPerPage > 0
-            ? groupedResponse.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            ? groupedResponse.slice(
+                page * rowsPerPage,
+                page * rowsPerPage + rowsPerPage
+              )
             : groupedResponse
           ).map(row => (
             <StyledTableRow key={row.stockName}>
@@ -62,7 +65,6 @@ export default function DividendSummaryTable({ data }) {
               <StyledTableCell style={{ width: 160 }} align="right">
                 {formatCurrency(row.amount)}
               </StyledTableCell>
-            
             </StyledTableRow>
           ))}
         </TableBody>

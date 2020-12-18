@@ -48,9 +48,11 @@ const styles = theme => ({
   },
 
   paper: {
+    marginTop: theme.spacing(2),
     marginBottom: theme.spacing(2),
     padding: theme.spacing(2),
     [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
+      marginTop: theme.spacing(2),
       marginBottom: theme.spacing(2),
       padding: theme.spacing(3)
     }
@@ -98,20 +100,13 @@ const PostionDetails = props => {
           icon={<AccountBalanceOutlinedIcon fontSize="large" />}
         />
 
+        <Typography component="h5" variant="h5" align="left" color="primary">
+          {cardResponse.summary.stockName}
+        </Typography>
+
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <Paper className={classes.paper}>
-              <div>
-                <Typography
-                  component="h5"
-                  variant="h5"
-                  align="left"
-                  color="primary"
-                >
-                  {cardResponse.summary.stockName}
-                </Typography>
-              </div>
-
               <Box flexGrow={1}>
                 <Grid container justify="space-between" spacing={3}>
                   <Grid item>

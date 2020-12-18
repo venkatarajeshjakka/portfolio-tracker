@@ -48,6 +48,17 @@ const styles = theme => ({
   },
 
   paper: {
+    minHeight: "90%",
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+    padding: theme.spacing(2),
+    [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
+      marginTop: theme.spacing(2),
+      marginBottom: theme.spacing(2),
+      padding: theme.spacing(3)
+    }
+  },
+  paper1: {
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(2),
     padding: theme.spacing(2),
@@ -57,8 +68,18 @@ const styles = theme => ({
       padding: theme.spacing(3)
     }
   }
+
 });
 
+const RenderPaper = ({ style, children }) => {
+  return (
+    <Paper className={style}>
+      <Grid container justify="space-between" spacing={3}>
+        {children}
+      </Grid>
+    </Paper>
+  );
+};
 const PostionDetails = props => {
   const { classes } = props;
 
@@ -105,86 +126,96 @@ const PostionDetails = props => {
         </Typography>
 
         <Grid container spacing={3}>
-          <Grid item xs={12}>
-            <Paper className={classes.paper}>
-              <Box flexGrow={1}>
-                <Grid container justify="space-between" spacing={3}>
-                  <Grid item>
-                    <DisplayItemSection
-                      label={"ltp"}
-                      value={formatCurrency(cardResponse.summary.ltp)}
-                    />
-                    <DisplayItemSection
-                      label={"Investment"}
-                      value={formatCurrency(cardResponse.summary.investment)}
-                    />
-                    <DisplayItemSection
-                      label={"Average Price"}
-                      value={formatCurrency(cardResponse.summary.avgPrice)}
-                    />
-                  </Grid>
-                  <Grid item>
-                    <DisplayItemSection
-                      label={"Change"}
-                      value={`${formatCurrency(cardResponse.summary.change)}(${
-                        cardResponse.summary.changePercentage
-                      }%)`}
-                    />
-                    <DisplayItemSection
-                      label={"Current Value"}
-                      value={formatCurrency(cardResponse.summary.current)}
-                    />
-                    <DisplayItemSection
-                      label={"Quantity"}
-                      value={cardResponse.summary.quantity}
-                    />
-                  </Grid>
-                  <Grid item>
-                    <DisplayItemSection
-                      label={"Day High"}
-                      value={formatCurrency(cardResponse.summary.dayHigh)}
-                    />
-                    <DisplayItemSection
-                      label={"Daily Profit / Loss "}
-                      value={formatCurrency(cardResponse.summary.dailyGain)}
-                    />
-                  </Grid>
-                  <Grid item>
-                    <DisplayItemSection
-                      label={"Day Low"}
-                      value={formatCurrency(cardResponse.summary.dayLow)}
-                    />
-                    <DisplayItemSection
-                      label={"Returns"}
-                      value={formatCurrency(cardResponse.summary.profitOrLoss)}
-                    />
-                  </Grid>
-                </Grid>
-              </Box>
-            </Paper>
-            <Paper className={classes.paper}>
-              <Box>
-                <Tabs
-                  value={value}
-                  onChange={handleChange}
-                  indicatorColor="primary"
-                  textColor="primary"
-                  variant="fullWidth"
-                  aria-label="full width tabs example"
-                >
-                  <Tab label="Open Position" {...a11yProps(0)} />
-                  <Tab label="Closed Postion" {...a11yProps(1)} />
-                </Tabs>
-                <TabPanel value={value} index={0}>
-                  <PositionList data={cardResponse} />
-                </TabPanel>
-                <TabPanel value={value} index={1}>
-                  Item Two
-                </TabPanel>
-              </Box>
-            </Paper>
+          <Grid item xs={9}>
+            <RenderPaper style={classes.paper}>
+              <Grid item>
+                <DisplayItemSection
+                  label={"ltp"}
+                  value={formatCurrency(cardResponse.summary.ltp)}
+                />
+              </Grid>
+              <Grid item>
+                <DisplayItemSection
+                  label={"Change"}
+                  value={`${formatCurrency(cardResponse.summary.change)}(${
+                    cardResponse.summary.changePercentage
+                  }%)`}
+                />
+              </Grid>
+              <Grid item>
+                <DisplayItemSection
+                  label={"Day High"}
+                  value={formatCurrency(cardResponse.summary.dayHigh)}
+                />
+              </Grid>
+              <Grid item>
+                <DisplayItemSection
+                  label={"Day Low"}
+                  value={formatCurrency(cardResponse.summary.dayLow)}
+                />
+              </Grid>
+            </RenderPaper>
+          </Grid>
+          <Grid item xs={3}>
+            <RenderPaper style={classes.paper1}>
+              <Grid item>
+                <DisplayItemSection
+                  label={"Investment"}
+                  value={formatCurrency(cardResponse.summary.investment)}
+                />
+                <DisplayItemSection
+                  label={"Daily Profit / Loss "}
+                  value={formatCurrency(cardResponse.summary.dailyGain)}
+                />
+              </Grid>
+              <Grid item>
+                <DisplayItemSection
+                  label={"Current Value"}
+                  value={formatCurrency(cardResponse.summary.current)}
+                />
+                <DisplayItemSection
+                  label={"Returns"}
+                  value={formatCurrency(cardResponse.summary.profitOrLoss)}
+                />
+              </Grid>
+            </RenderPaper>
+            <RenderPaper style={classes.paper1}>
+              <Grid item>
+                <DisplayItemSection
+                  label={"Quantity"}
+                  value={cardResponse.summary.quantity}
+                />
+              </Grid>
+              <Grid item>
+                <DisplayItemSection
+                  label={"Average Price"}
+                  value={formatCurrency(cardResponse.summary.avgPrice)}
+                />
+              </Grid>
+            </RenderPaper>
           </Grid>
         </Grid>
+        <Paper className={classes.paper}>
+          <Box>
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              indicatorColor="primary"
+              textColor="primary"
+              variant="fullWidth"
+              aria-label="full width tabs example"
+            >
+              <Tab label="Open Position" {...a11yProps(0)} />
+              <Tab label="Closed Postion" {...a11yProps(1)} />
+            </Tabs>
+            <TabPanel value={value} index={0}>
+              <PositionList data={cardResponse} />
+            </TabPanel>
+            <TabPanel value={value} index={1}>
+              Item Two
+            </TabPanel>
+          </Box>
+        </Paper>
       </div>
     );
   }

@@ -11,7 +11,7 @@ const DisplayItemSection = ({
   labelVariant
 }) => {
   return (
-    <Grid container direction="column" justify="center">
+    <Grid container direction="column" justify="center" spacing={1}>
       <Grid item>
         <Typography
           color="textSecondary"

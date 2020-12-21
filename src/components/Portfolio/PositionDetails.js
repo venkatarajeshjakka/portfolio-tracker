@@ -2,8 +2,6 @@ import React, { useState, useContext } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import { withRouter } from "react-router-dom";
 import { Grid, Box, Paper, Tabs, Tab, Typography } from "@material-ui/core";
-import PageHeader from "../shared/PageHeader";
-import { AccountBalanceOutlined as AccountBalanceOutlinedIcon } from "@material-ui/icons";
 import PositionList from "./PositionList";
 import { Context as PortfolioContext } from "../../context/PortfolioContext";
 import { Context as StockContext } from "../../context/StockContext";
@@ -67,8 +65,10 @@ const styles = theme => ({
       marginBottom: theme.spacing(2),
       padding: theme.spacing(3)
     }
+  },
+  header :{
+    marginTop: theme.spacing(4),
   }
-
 });
 
 const RenderPaper = ({ style, children }) => {
@@ -115,15 +115,12 @@ const PostionDetails = props => {
 
     return (
       <div className={classes.root}>
-        <PageHeader
-          title="Portfolio Details"
-          subTitle="Stocks in wallet"
-          icon={<AccountBalanceOutlinedIcon fontSize="large" />}
-        />
-
+        <div className={classes.header}>
         <Typography component="h5" variant="h5" align="left" color="primary">
           {cardResponse.summary.stockName}
         </Typography>
+        </div>
+        
 
         <Grid container spacing={3}>
           <Grid item xs={9}>
@@ -158,7 +155,7 @@ const PostionDetails = props => {
           </Grid>
           <Grid item xs={3}>
             <RenderPaper style={classes.paper1}>
-              <Grid item>
+              <Grid item spacing={3}>
                 <DisplayItemSection
                   label={"Investment"}
                   value={formatCurrency(cardResponse.summary.investment)}

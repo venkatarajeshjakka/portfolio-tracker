@@ -66,8 +66,8 @@ const styles = theme => ({
       padding: theme.spacing(3)
     }
   },
-  header :{
-    marginTop: theme.spacing(4),
+  header: {
+    marginTop: theme.spacing(4)
   }
 });
 
@@ -116,11 +116,10 @@ const PostionDetails = props => {
     return (
       <div className={classes.root}>
         <div className={classes.header}>
-        <Typography component="h5" variant="h5" align="left" color="primary">
-          {cardResponse.summary.stockName}
-        </Typography>
+          <Typography component="h5" variant="h5" align="left" color="primary">
+            {cardResponse.summary.stockName}
+          </Typography>
         </div>
-        
 
         <Grid container spacing={3}>
           <Grid item xs={9}>
@@ -155,7 +154,7 @@ const PostionDetails = props => {
           </Grid>
           <Grid item xs={3}>
             <RenderPaper style={classes.paper1}>
-              <Grid item spacing={3}>
+              <Grid item>
                 <DisplayItemSection
                   label={"Investment"}
                   value={formatCurrency(cardResponse.summary.investment)}

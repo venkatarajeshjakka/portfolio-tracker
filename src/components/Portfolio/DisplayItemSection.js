@@ -27,7 +27,7 @@ const DisplayItemSection = ({
           className={textStyle}
           color="textPrimary"
           display="inline"
-          variant={variant ? variant : "subtitle1"}
+          variant={variant ? variant : "subtitle2"}
         >
           {value}
         </Typography>

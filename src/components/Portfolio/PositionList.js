@@ -6,17 +6,22 @@ import {
   makeStyles,
   Menu,
   MenuItem,
-  Grid
+  Grid,
+  Box,
+  Typography
 } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { formatCurrency } from "../../extensions/Formatters";
-import CircleProgresBar from "../CircularProgressBar";
+import ProgressBar from "../ProgressBar";
 import { individualPosition } from "../../mappers/PositionDataFormatter";
 import DisplayItemSection from "./DisplayItemSection";
 import moment from "moment";
 import { withRouter } from "react-router-dom";
 import { Context as PortfolioContext } from "../../context/PortfolioContext";
 import { AlertDialog } from "../Dialog";
+import { Red, Green } from "../../color";
+import StockAlert from "./StockAlert";
+
 const ITEM_HEIGHT = 48;
 const options = ["Buy", "Sell", "Delete", "Edit"];
 const useStyles = makeStyles(theme => ({
@@ -24,7 +29,7 @@ const useStyles = makeStyles(theme => ({
     height: "100%"
   },
   progress: {
-    paddingBottom: theme.spacing(1)
+    marginVertical: theme.spacing(1)
   },
   moreIcon: {
     position: "absolute",
@@ -37,14 +42,161 @@ const useStyles = makeStyles(theme => ({
     display: "flex"
   },
   red: {
-    color: "#ff0000",
+    color: Red.dafault,
     paddingRight: theme.spacing(1)
   },
   green: {
-    color: "#32cd32",
+    color: Green.default,
     paddingRight: theme.spacing(1)
+  },
+  box: {
+    backgroundColor: "#E1EFFF",
+    padding: theme.spacing(3),
+    borderRadius: theme.spacing(2)
+  },
+  progress: {
+    paddingBottom: theme.spacing(2)
   }
 }));
+
+const FistColumnItem = ({
+  label,
+  value,
+  icon,
+  labelVariant,
+  className,
+  textStyle,
+  variant
+}) => {
+  return (
+    <Grid
+      container
+      direction="row"
+      justify="space-between"
+      alignItems="center"
+      spacing={4}
+    >
+      <Grid item>
+        <Typography
+          color="textSecondary"
+          display="inline"
+          variant={labelVariant ? labelVariant : "body2"}
+        >
+          {label}
+        </Typography>
+      </Grid>
+      <Grid className={className} item>
+        {icon}
+        <Typography
+          className={textStyle}
+          color="textPrimary"
+          display="inline"
+          variant={variant ? variant : "subtitle1"}
+        >
+          {value}
+        </Typography>
+      </Grid>
+    </Grid>
+  );
+};
+const FirstColumn = ({ boxStyle, values, progressClass }) => {
+  const { percentage, targetPrice, buyPrice, buyDate, quantity } = values;
+  return (
+    <Column>
+      <Box className={boxStyle}>
+        <div className={progressClass}>
+          <ProgressBar
+            bgcolor={"#6a1b9a"}
+            completed={parseInt(percentage.toFixed(2), 10)}
+          />
+        </div>
+        <FistColumnItem
+          label={"Target Price"}
+          value={formatCurrency(targetPrice.toFixed(2))}
+        />
+        <FistColumnItem
+          label={"Buy Price"}
+          value={formatCurrency(buyPrice.toFixed(2))}
+        />
+
+        <FistColumnItem
+          label={"Buy Date"}
+          value={moment(buyDate).format("MMMM Do YYYY")}
+        />
+
+        <FistColumnItem label={"Quantity"} value={quantity} />
+      </Box>
+    </Column>
+  );
+};
+
+const Column = ({ children }) => {
+  return (
+    <Grid item xs={3}>
+      {children}
+    </Grid>
+  );
+};
+
+const SecondSub = ({
+  children,
+  buyPrice,
+  targetPercentage,
+  ltp,
+  stoploss,
+  trailingStoploss
+}) => {
+  return (
+    <Grid item xs={9}>
+      <Grid container direction="column">
+        <Grid item>
+          <Grid container justify="space-between" spacing={3}>
+            {children}
+          </Grid>
+        </Grid>
+        <Grid item>
+          <StockAlert
+            buyPrice={buyPrice}
+            targetPercentage={targetPercentage}
+            ltp={ltp}
+            stoploss={stoploss}
+            trailingStoploss={trailingStoploss}
+          />
+        </Grid>
+      </Grid>
+    </Grid>
+  );
+};
+const SecondColumn = ({ stopLoss, trailingStopLoss }) => {
+  return (
+    <Column>
+      <DisplayItemSection
+        label={"Stop loss"}
+        value={formatCurrency(stopLoss)}
+      />
+      <DisplayItemSection
+        label={"Trailing Stop loss"}
+        value={formatCurrency(trailingStopLoss)}
+      />
+    </Column>
+  );
+};
+
+const ThirdColumn = ({ investmentValue, currentValue }) => {
+  return (
+    <Column>
+      <DisplayItemSection
+        label={"Investment Value"}
+        value={formatCurrency(investmentValue.toFixed(2))}
+      />
+      <DisplayItemSection
+        label={"Current Value"}
+        value={formatCurrency(currentValue.toFixed(2))}
+      />
+    </Column>
+  );
+};
+
 const PositionList = ({ className, history, data, ...rest }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [poistionValue, setValue] = useState(null);
@@ -128,85 +280,61 @@ const PositionList = ({ className, history, data, ...rest }) => {
                 <MoreVertIcon />
               </IconButton>
 
-              <Grid
-                container
-                justify="space-between"
-                alignItems="center"
-                spacing={1}
-              >
-                <Grid item xs={3}>
-                  <DisplayItemSection
-                    label={"Buy Price"}
-                    value={formatCurrency(buyPrice)}
+              <Grid container justify="space-between" spacing={3}>
+                <FirstColumn
+                  boxStyle={classes.box}
+                  progressClass={classes.progress}
+                  values={{
+                    percentage: individualResponse.targetPercentage,
+                    targetPrice,
+                    buyPrice,
+                    buyDate: date,
+                    quantity
+                  }}
+                />
+                <SecondSub
+                  buyPrice={buyPrice}
+                  stoploss={stopLoss}
+                  trailingStoploss={trailingStopLoss}
+                  targetPercentage={individualResponse.targetPercentage}
+                  ltp={ltp}
+                >
+                  <SecondColumn
+                    stopLoss={stopLoss}
+                    trailingStopLoss={trailingStopLoss}
                   />
-                  <DisplayItemSection
-                    label={"Stop loss"}
-                    value={formatCurrency(stopLoss)}
+                  <ThirdColumn
+                    investmentValue={individualResponse.investmentValue}
+                    currentValue={individualResponse.currentValue}
                   />
 
-                  <DisplayItemSection
-                    label={"Trailing Stop loss"}
-                    value={formatCurrency(trailingStopLoss)}
-                  />
-                  <DisplayItemSection
-                    label={"Buy Date"}
-                    value={moment(date).format("MMMM Do YYYY")}
-                  />
-                  <DisplayItemSection label={"Quantity"} value={quantity} />
-                </Grid>
-                <Grid item xs={3}>
-                  <DisplayItemSection
-                    label={"Target Price"}
-                    value={formatCurrency(targetPrice.toFixed(2))}
-                  />
-                  <DisplayItemSection
-                    label={"Investment Value"}
-                    value={formatCurrency(
-                      individualResponse.investmentValue.toFixed(2)
-                    )}
-                  />
-                  <DisplayItemSection
-                    label={"Current Value"}
-                    value={formatCurrency(
-                      individualResponse.currentValue.toFixed(2)
-                    )}
-                  />
-                  <DisplayItemSection
-                    label={"Daily Gain / Loss"}
-                    value={`${formatCurrency(
-                      individualResponse.dailyProfitOrLoss.toFixed(2)
-                    )} (${changePercentage} %)`}
-                    textStyle={
-                      individualResponse.dailyProfitOrLoss > 0
-                        ? classes.green
-                        : classes.red
-                    }
-                    className={classes.statsItem}
-                  />
-                  <DisplayItemSection
-                    label={"Return"}
-                    value={`${formatCurrency(
-                      individualResponse.profitOrLoss.toFixed(2)
-                    )} (${individualResponse.profirOrLossPercentage} %)`}
-                    textStyle={
-                      individualResponse.profitOrLoss > 0
-                        ? classes.green
-                        : classes.red
-                    }
-                    className={classes.statsItem}
-                  />
-                </Grid>
-
-                <Grid item xs={3}>
-                  <div className={classes.progress}>
-                    <CircleProgresBar
-                      percentage={parseInt(
-                        individualResponse.targetPercentage.toFixed(2),
-                        10
-                      )}
+                  <Grid item xs={3}>
+                    <DisplayItemSection
+                      label={"Daily Gain / Loss"}
+                      value={`${formatCurrency(
+                        individualResponse.dailyProfitOrLoss.toFixed(2)
+                      )} (${changePercentage} %)`}
+                      textStyle={
+                        individualResponse.dailyProfitOrLoss > 0
+                          ? classes.green
+                          : classes.red
+                      }
+                      className={classes.statsItem}
                     />
-                  </div>
-                </Grid>
+                    <DisplayItemSection
+                      label={"Return"}
+                      value={`${formatCurrency(
+                        individualResponse.profitOrLoss.toFixed(2)
+                      )} (${individualResponse.profirOrLossPercentage} %)`}
+                      textStyle={
+                        individualResponse.profitOrLoss > 0
+                          ? classes.green
+                          : classes.red
+                      }
+                      className={classes.statsItem}
+                    />
+                  </Grid>
+                </SecondSub>
               </Grid>
             </ListItem>
           );

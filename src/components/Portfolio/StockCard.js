@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Color from "color";
 import clsx from "clsx";
 import {
   Box,
@@ -26,13 +25,7 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     flexDirection: "column",
     borderRadius: 16,
-    boxShadow: "none",
-    "&:hover": {
-      boxShadow: `0 6px 12px 0 ${Color(color)
-        .rotate(-8)
-        .darken(0.2)
-        .fade(0.5)}`
-    }
+    boxShadow: "none"
   }),
   statsItem: {
     alignItems: "center",
@@ -57,10 +50,7 @@ const useStyles = makeStyles(theme => ({
   },
   actionArea: {
     borderRadius: 16,
-    transition: "0.2s",
-    "&:hover": {
-      transform: "scale(1.1)"
-    }
+    transition: "0.2s"
   }
 }));
 

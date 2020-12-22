@@ -1,6 +1,5 @@
 import React, { useContext, useEffect } from "react";
 import {
-  Container,
   Grid,
   Box,
   CircularProgress,
@@ -128,74 +127,72 @@ const Portfolio = ({ classes }) => {
   };
   return (
     <div className={classes.root}>
-      <Container>
-        <PageHeader
-          title="Portfolio"
-          subTitle="Add Stocks to wallet"
-          icon={<AccountBalanceOutlinedIcon fontSize="large" />}
+      <PageHeader
+        title="Portfolio"
+        subTitle="Add Stocks to wallet"
+        icon={<AccountBalanceOutlinedIcon fontSize="large" />}
+      />
+      <Grid
+        container
+        spacing={3}
+        direction="row"
+        justify="flex-end"
+        alignItems="center"
+        className={classes.Button}
+      >
+        <Button
+          variant="outlined"
+          color="primary"
+          component={Link}
+          to="/add-position"
+          text={"Add"}
+          startIcon={<AddOutlinedIcon />}
         />
-        <Grid
-          container
-          spacing={3}
-          direction="row"
-          justify="flex-end"
-          alignItems="center"
-          className={classes.Button}
-        >
-          <Button
-            variant="outlined"
-            color="primary"
-            component={Link}
-            to="/add-position"
-            text={"Add"}
-            startIcon={<AddOutlinedIcon />}
-          />
-        </Grid>
+      </Grid>
 
-        <Paper className={classes.paper}>
+      <Paper className={classes.paper}>
+        {renderSection(watchListStockData, portfolioArrayService) ? (
+          <DisplaySummary
+            keys={positionsKeys}
+            stockData={watchListStockData}
+            positionData={formattedResponse}
+          />
+        ) : (
+          <CircularProgress />
+        )}
+      </Paper>
+
+      <Box mt={3}>
+        <Grid container spacing={4}>
           {renderSection(watchListStockData, portfolioArrayService) ? (
-            <DisplaySummary
-              keys={positionsKeys}
-              stockData={watchListStockData}
-              positionData={formattedResponse}
-            />
+            positionsKeys.map(product => {
+              var stockCode = product + ".NS";
+              var stockData = getFormattStockData(watchListStockData);
+              var data = _.findWhere(stockData, { stockCode: stockCode });
+              var portfolioStockInfo = _.where(formattedResponse, {
+                stockCode: product
+              });
+              if (data) {
+                var cardResponse = stockResponse(
+                  data,
+                  portfolioStockInfo,
+                  product
+                );
+                return (
+                  <Grid item key={product} lg={4} md={6} xs={12}>
+                    <StockCard
+                      className={classes.productCard}
+                      product={cardResponse}
+                    />
+                  </Grid>
+                );
+              }
+            })
           ) : (
             <CircularProgress />
           )}
-        </Paper>
-
-        <Box mt={3}>
-          <Grid container spacing={4}>
-            {renderSection(watchListStockData, portfolioArrayService) ? (
-              positionsKeys.map(product => {
-                var stockCode = product + ".NS";
-                var stockData = getFormattStockData(watchListStockData);
-                var data = _.findWhere(stockData, { stockCode: stockCode });
-                var portfolioStockInfo = _.where(formattedResponse, {
-                  stockCode: product
-                });
-                if (data) {
-                  var cardResponse = stockResponse(
-                    data,
-                    portfolioStockInfo,
-                    product
-                  );
-                  return (
-                    <Grid item key={product} lg={4} md={6} xs={12}>
-                      <StockCard
-                        className={classes.productCard}
-                        product={cardResponse}
-                      />
-                    </Grid>
-                  );
-                }
-              })
-            ) : (
-              <CircularProgress />
-            )}
-          </Grid>
-        </Box>
-      </Container>
+        </Grid>
+      </Box>
     </div>
   );
 };

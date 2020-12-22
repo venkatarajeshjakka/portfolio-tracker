@@ -2,18 +2,14 @@ import React, { useState, useContext, useEffect } from "react";
 import { Grid, InputAdornment, Container } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import { Input, Button, DatePicker } from "../Controls";
+import { Input, DatePicker } from "../Controls";
 import { withRouter } from "react-router";
 import { stockList } from "../../data/stockList";
-import SaveIcon from "@material-ui/icons/Save";
 import BaseFormTemplate from "./BaseFormTemplate";
+import BaseFormActionButtons from "./BaseFormActionButtons";
 import { Context as PortfolioContext } from "../../context/PortfolioContext";
 import _ from "underscore";
 const styles = theme => ({
-  button: {
-    marginTop: theme.spacing(3),
-    display: "flex"
-  },
   root: {
     backgroundColor: theme.palette.background.dark,
     minHeight: "100%",
@@ -200,22 +196,10 @@ const EditPositionForm = props => {
                 value={selectedDate}
                 onChange={handleDateChange}
               />
-              <div className={classes.button}>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  size="large"
-                  text={"Reset"}
-                  onClick={handleReset}
-                />
-                <Button
-                  text={"Save"}
-                  autoFocus
-                  startIcon={<SaveIcon />}
-                  size="large"
-                  onClick={handleSubmit}
-                />
-              </div>
+              <BaseFormActionButtons
+                handleSubmit={handleSubmit}
+                handleReset={handleReset}
+              />
             </Grid>
           </Grid>
         </BaseFormTemplate>

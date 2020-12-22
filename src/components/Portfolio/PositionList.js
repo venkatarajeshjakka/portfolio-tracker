@@ -51,8 +51,11 @@ const useStyles = makeStyles(theme => ({
   },
   box: {
     backgroundColor: "#E1EFFF",
-    padding: theme.spacing(2),
+    padding: theme.spacing(3),
     borderRadius: theme.spacing(2)
+  },
+  progress: {
+    paddingBottom: theme.spacing(2)
   }
 }));
 
@@ -71,7 +74,7 @@ const FistColumnItem = ({
       direction="row"
       justify="space-between"
       alignItems="center"
-      spacing={3}
+      spacing={4}
     >
       <Grid item>
         <Typography
@@ -96,16 +99,17 @@ const FistColumnItem = ({
     </Grid>
   );
 };
-const FirstColumn = ({ boxStyle, values }) => {
+const FirstColumn = ({ boxStyle, values, progressClass }) => {
   const { percentage, targetPrice, buyPrice, buyDate, quantity } = values;
   return (
     <Column>
       <Box className={boxStyle}>
-        <ProgressBar
-          bgcolor={"#6a1b9a"}
-          completed={parseInt(percentage.toFixed(2), 10)}
-        />
-
+        <div className={progressClass}>
+          <ProgressBar
+            bgcolor={"#6a1b9a"}
+            completed={parseInt(percentage.toFixed(2), 10)}
+          />
+        </div>
         <FistColumnItem
           label={"Target Price"}
           value={formatCurrency(targetPrice.toFixed(2))}

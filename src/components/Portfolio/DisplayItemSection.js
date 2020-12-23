@@ -15,13 +15,20 @@ const DisplayItemSection = ({
   icon,
   className,
   textStyle,
-  labelVariant
+  labelVariant,
+  alignItems
 }) => {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      <Grid container direction="column" justify="center" spacing={1}>
+      <Grid
+        container
+        direction="column"
+        justify="center"
+        alignItems={alignItems}
+        spacing={1}
+      >
         <Grid item>
           <Typography
             color="textSecondary"

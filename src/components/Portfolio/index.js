@@ -1,10 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import {
-  Grid,
-  Box,
-  CircularProgress,
-  Paper
-} from "@material-ui/core";
+import { Grid, Box, CircularProgress, Paper } from "@material-ui/core";
 import PageHeader from "../shared/PageHeader";
 import { withStyles } from "@material-ui/core/styles";
 import { Link, withRouter } from "react-router-dom";
@@ -25,7 +20,7 @@ import {
 import { getFormattStockData } from "../../mappers/WatchListDataFormatter";
 import DisplayItemSection from "./DisplayItemSection";
 import { formatCurrency } from "../../extensions/Formatters";
-
+import { Red, Green } from "../../color";
 const styles = theme => ({
   button: {
     margin: theme.spacing(5),
@@ -50,24 +45,40 @@ const styles = theme => ({
       marginBottom: theme.spacing(3),
       padding: theme.spacing(3)
     }
+  },
+  red: {
+    color: Red.dafault,
+    paddingRight: theme.spacing(1)
+  },
+  green: {
+    color: Green.default,
+    paddingRight: theme.spacing(1)
   }
 });
-const DisplaySummary = ({ keys, stockData, positionData }) => {
+const DisplaySummary = ({
+  keys,
+  stockData,
+  positionData,
+  greenClass,
+  redClass
+}) => {
   var stockSummaryResponse = stockSummary(keys, stockData, positionData);
   return (
     <Grid container justify="space-between" alignItems="center" spacing={3}>
       <Grid item>
         <DisplayItemSection
           variant={"h5"}
-          label={"Total Investment"}
+          label={"Investment"}
           value={formatCurrency(stockSummaryResponse.investment)}
+          alignItems={'center'}
         />
       </Grid>
       <Grid item>
         <DisplayItemSection
           variant={"h5"}
-          label={"Current Value"}
+          label={"Current"}
           value={formatCurrency(stockSummaryResponse.currentValue)}
+          alignItems={'center'}
         />
       </Grid>
       <Grid item>
@@ -77,6 +88,8 @@ const DisplaySummary = ({ keys, stockData, positionData }) => {
           value={`${formatCurrency(stockSummaryResponse.dailyGain)}(${
             stockSummaryResponse.dailyProfitOrLossPercentage
           }%)`}
+          alignItems={'center'}
+          textStyle={stockSummaryResponse.dailyGain > 0 ? greenClass : redClass}
         />
       </Grid>
       <Grid item>
@@ -86,6 +99,8 @@ const DisplaySummary = ({ keys, stockData, positionData }) => {
           value={`${formatCurrency(stockSummaryResponse.profitLoss)}(${
             stockSummaryResponse.profitOrLossPercentage
           }%)`}
+          alignItems={'center'}
+          textStyle={stockSummaryResponse.profitLoss > 0 ? greenClass : redClass}
         />
       </Grid>
     </Grid>
@@ -156,6 +171,8 @@ const Portfolio = ({ classes }) => {
             keys={positionsKeys}
             stockData={watchListStockData}
             positionData={formattedResponse}
+            redClass={classes.red}
+            greenClass={classes.green}
           />
         ) : (
           <CircularProgress />

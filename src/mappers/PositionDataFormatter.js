@@ -44,7 +44,7 @@ const stockResponse = (stockData, portfolioStockInfo, stockCode) => {
   } = stockData.data.price;
 
   const { sector } = stockData.data.summaryProfile;
-  
+
   const {
     exDividendDate,
     dividendYield,
@@ -152,13 +152,37 @@ const stockSummary = (stockKeys, stockDataResponse, positionData) => {
       dailyGain,
       currentValue
     );
+    var groupBySector = _.groupBy(stockArray, "sector");
+    var groupedKeys = Object.keys(groupBySector);
+    var mappedGroupBySectorResponse = groupedKeys.map(item => {
+      return { sector: item, data: groupBySector[item] };
+    });
+
+    var mappedFinalSectorResponse = mappedGroupBySectorResponse.map(item => {
+      var individualCurrentAmountArray = _.pluck(item.data, "current");
+      var sectorCurrentSum = sum(individualCurrentAmountArray);
+      var newValue = currentValue - sectorCurrentSum;
+      var percentage = parseFloat(profitLossPercentage(newValue, currentValue));
+      if (percentage === 0) {
+        percentage = 100;
+      }
+      var response = {
+        sector: item.sector,
+        amount: sectorCurrentSum,
+        percentage: percentage
+      };
+      return response;
+    });
+
     return {
       dailyGain,
       investment,
       currentValue,
       profitLoss,
       profitOrLossPercentage,
-      dailyProfitOrLossPercentage
+      dailyProfitOrLossPercentage,
+      sectorResponse: mappedFinalSectorResponse,
+      stockSummary: stockArray
     };
   }
 };

@@ -13,7 +13,7 @@ const stockReducer = (state, action) => {
 const getStockInfo = dispatch => async stockCodeArray => {
   const pArray = stockCodeArray.map(async stockCode => {
     stockCode = stockCode + ".NS";
-    const baseUrl = `/get-nse-stocks-price?stockCode=${stockCode}`;
+    const baseUrl = `/get-nse-stocks?stockCode=${stockCode}`;
     var response = await Stock.get(baseUrl);
     return response.data;
   });

@@ -43,6 +43,22 @@ const stockResponse = (stockData, portfolioStockInfo, stockCode) => {
     regularMarketPreviousClose
   } = stockData.data.price;
 
+  const { sector } = stockData.data.summaryProfile;
+  
+  const {
+    exDividendDate,
+    dividendYield,
+    dividendRate,
+    fiftyDayAverage,
+    fiftyTwoWeekHigh,
+    fiftyTwoWeekLow,
+    fiveYearAvgDividendYield,
+    averageVolume,
+    averageVolume10days,
+    beta,
+    twoHundredDayAverage
+  } = stockData.data.summaryDetail;
+
   var quantityArray = _.pluck(portfolioStockInfo, "quantity");
   var quantitySum = sum(quantityArray);
   var investmentArray = portfolioStockInfo.map(item => {
@@ -70,9 +86,21 @@ const stockResponse = (stockData, portfolioStockInfo, stockCode) => {
     current: currentValue,
     profitOrLoss,
     profirOrLossPercentage,
-    dayHigh : regularMarketDayHigh,
-    dayLow : regularMarketDayLow,
-    previousClose : regularMarketPreviousClose
+    dayHigh: regularMarketDayHigh,
+    dayLow: regularMarketDayLow,
+    previousClose: regularMarketPreviousClose,
+    exDividendDate,
+    dividendYield,
+    dividendRate,
+    fiftyDayAverage,
+    fiftyTwoWeekHigh,
+    fiftyTwoWeekLow,
+    fiveYearAvgDividendYield,
+    averageVolume,
+    averageVolume10days,
+    beta,
+    twoHundredDayAverage,
+    sector
   };
 
   return cardResponse;

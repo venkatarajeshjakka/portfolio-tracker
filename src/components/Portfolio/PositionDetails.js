@@ -129,6 +129,14 @@ const PostionDetails = props => {
                   label={"ltp"}
                   value={formatCurrency(cardResponse.summary.ltp)}
                 />
+                <DisplayItemSection
+                  label={"52 Week High"}
+                  value={formatCurrency(cardResponse.summary.fiftyTwoWeekHigh)}
+                />
+                <DisplayItemSection
+                  label={"200 Day MA"}
+                  value={formatCurrency(cardResponse.summary.twoHundredDayAverage)}
+                />
               </Grid>
               <Grid item>
                 <DisplayItemSection
@@ -137,17 +145,49 @@ const PostionDetails = props => {
                     cardResponse.summary.changePercentage
                   }%)`}
                 />
+                <DisplayItemSection
+                  label={"52 Week Low"}
+                  value={formatCurrency(cardResponse.summary.fiftyTwoWeekLow)}
+                />
+                <DisplayItemSection
+                  label={"50 Day MA"}
+                  value={formatCurrency(cardResponse.summary.fiftyDayAverage)}
+                />
               </Grid>
               <Grid item>
                 <DisplayItemSection
                   label={"Day High"}
                   value={formatCurrency(cardResponse.summary.dayHigh)}
                 />
+                <DisplayItemSection
+                  label={"Dividend Yied"}
+                  value={
+                    cardResponse.summary.dividendYield
+                      ? (cardResponse.summary.dividendYield * 100).toFixed(2)
+                      : "-"
+                  }
+                />
+                <DisplayItemSection
+                  label={"Beta"}
+                  value={cardResponse.summary.beta}
+                />
               </Grid>
               <Grid item>
                 <DisplayItemSection
                   label={"Day Low"}
                   value={formatCurrency(cardResponse.summary.dayLow)}
+                />
+                <DisplayItemSection
+                  label={"Avg 5 year Dividend Yied"}
+                  value={
+                    cardResponse.summary.fiveYearAvgDividendYield
+                      ? cardResponse.summary.fiveYearAvgDividendYield
+                      : "-"
+                  }
+                />
+                <DisplayItemSection
+                  label={"Sector"}
+                  value={cardResponse.summary.sector}
                 />
               </Grid>
             </RenderPaper>

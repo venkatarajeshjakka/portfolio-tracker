@@ -12,15 +12,14 @@ import StockCard from "./StockCard";
 import { AuthContext } from "../../context/AuthContext";
 import { Context as PortfolioContext } from "../../context/PortfolioContext";
 import { Context as StockContext } from "../../context/StockContext";
-import _ from "underscore";
 import {
-  stockResponse,
   stockSummary
 } from "../../mappers/PositionDataFormatter";
-import { getFormattStockData } from "../../mappers/WatchListDataFormatter";
 import DisplayItemSection from "./DisplayItemSection";
 import { formatCurrency } from "../../extensions/Formatters";
 import { Red, Green } from "../../color";
+import SectorComposition from "./SectorComposition";
+
 const styles = theme => ({
   button: {
     margin: theme.spacing(5),
@@ -55,52 +54,51 @@ const styles = theme => ({
     paddingRight: theme.spacing(1)
   }
 });
-const DisplaySummary = ({
-  keys,
-  stockData,
-  positionData,
-  greenClass,
-  redClass
-}) => {
-  var stockSummaryResponse = stockSummary(keys, stockData, positionData);
+const DisplaySummary = ({ data, greenClass, redClass }) => {
+  const {
+    investment,
+    currentValue,
+    dailyGain,
+    dailyProfitOrLossPercentage,
+    profitLoss,
+    profitOrLossPercentage
+  } = data;
   return (
     <Grid container justify="space-between" alignItems="center" spacing={3}>
       <Grid item>
         <DisplayItemSection
           variant={"h5"}
           label={"Investment"}
-          value={formatCurrency(stockSummaryResponse.investment)}
-          alignItems={'center'}
+          value={formatCurrency(investment)}
+          alignItems={"center"}
         />
       </Grid>
       <Grid item>
         <DisplayItemSection
           variant={"h5"}
           label={"Current"}
-          value={formatCurrency(stockSummaryResponse.currentValue)}
-          alignItems={'center'}
+          value={formatCurrency(currentValue)}
+          alignItems={"center"}
         />
       </Grid>
       <Grid item>
         <DisplayItemSection
           variant={"h5"}
           label={"Daily P&L"}
-          value={`${formatCurrency(stockSummaryResponse.dailyGain)}(${
-            stockSummaryResponse.dailyProfitOrLossPercentage
-          }%)`}
-          alignItems={'center'}
-          textStyle={stockSummaryResponse.dailyGain > 0 ? greenClass : redClass}
+          value={`${formatCurrency(
+            dailyGain
+          )}(${dailyProfitOrLossPercentage}%)`}
+          alignItems={"center"}
+          textStyle={dailyGain > 0 ? greenClass : redClass}
         />
       </Grid>
       <Grid item>
         <DisplayItemSection
           variant={"h5"}
           label={"P&L"}
-          value={`${formatCurrency(stockSummaryResponse.profitLoss)}(${
-            stockSummaryResponse.profitOrLossPercentage
-          }%)`}
-          alignItems={'center'}
-          textStyle={stockSummaryResponse.profitLoss > 0 ? greenClass : redClass}
+          value={`${formatCurrency(profitLoss)}(${profitOrLossPercentage}%)`}
+          alignItems={"center"}
+          textStyle={profitLoss > 0 ? greenClass : redClass}
         />
       </Grid>
     </Grid>
@@ -140,6 +138,17 @@ const Portfolio = ({ classes }) => {
       stockData.length > 0
     );
   };
+
+  if (!renderSection(watchListStockData, portfolioArrayService)) {
+    return <CircularProgress />;
+  }
+
+  var stockSummaryResponse = stockSummary(
+    positionsKeys,
+    watchListStockData,
+    formattedResponse
+  );
+
   return (
     <div className={classes.root}>
       <PageHeader
@@ -166,48 +175,22 @@ const Portfolio = ({ classes }) => {
       </Grid>
 
       <Paper className={classes.paper}>
-        {renderSection(watchListStockData, portfolioArrayService) ? (
-          <DisplaySummary
-            keys={positionsKeys}
-            stockData={watchListStockData}
-            positionData={formattedResponse}
-            redClass={classes.red}
-            greenClass={classes.green}
-          />
-        ) : (
-          <CircularProgress />
-        )}
+        <DisplaySummary
+          data={stockSummaryResponse}
+          redClass={classes.red}
+          greenClass={classes.green}
+        />
       </Paper>
-
+      <SectorComposition />
       <Box mt={3}>
         <Grid container spacing={4}>
-          {renderSection(watchListStockData, portfolioArrayService) ? (
-            positionsKeys.map(product => {
-              var stockCode = product + ".NS";
-              var stockData = getFormattStockData(watchListStockData);
-              var data = _.findWhere(stockData, { stockCode: stockCode });
-              var portfolioStockInfo = _.where(formattedResponse, {
-                stockCode: product
-              });
-              if (data) {
-                var cardResponse = stockResponse(
-                  data,
-                  portfolioStockInfo,
-                  product
-                );
-                return (
-                  <Grid item key={product} lg={4} md={6} xs={12}>
-                    <StockCard
-                      className={classes.productCard}
-                      product={cardResponse}
-                    />
-                  </Grid>
-                );
-              }
-            })
-          ) : (
-            <CircularProgress />
-          )}
+          {stockSummaryResponse.stockSummary.map(item => {
+            return (
+              <Grid item key={item.stockCode} lg={4} md={6} xs={12}>
+                <StockCard className={classes.productCard} product={item} />
+              </Grid>
+            );
+          })}
         </Grid>
       </Box>
     </div>

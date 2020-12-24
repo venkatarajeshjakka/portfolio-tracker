@@ -12,9 +12,7 @@ import StockCard from "./StockCard";
 import { AuthContext } from "../../context/AuthContext";
 import { Context as PortfolioContext } from "../../context/PortfolioContext";
 import { Context as StockContext } from "../../context/StockContext";
-import {
-  stockSummary
-} from "../../mappers/PositionDataFormatter";
+import { stockSummary } from "../../mappers/PositionDataFormatter";
 import DisplayItemSection from "./DisplayItemSection";
 import { formatCurrency } from "../../extensions/Formatters";
 import { Red, Green } from "../../color";
@@ -117,7 +115,7 @@ const Portfolio = ({ classes }) => {
   } = useContext(PortfolioContext);
   useEffect(() => {
     getPositionArray(currentUser.uid);
-  }, [portfolioArray, currentUser.uid, portfolioArrayService]);
+  }, [currentUser.uid, portfolioArray]);
 
   const {
     getStockInfo,
@@ -149,52 +147,54 @@ const Portfolio = ({ classes }) => {
     formattedResponse
   );
 
-  return (
-    <div className={classes.root}>
-      <PageHeader
-        title="Portfolio"
-        subTitle="Add Stocks to wallet"
-        icon={<AccountBalanceOutlinedIcon fontSize="large" />}
-      />
-      <Grid
-        container
-        spacing={3}
-        direction="row"
-        justify="flex-end"
-        alignItems="center"
-        className={classes.Button}
-      >
-        <Button
-          variant="outlined"
-          color="primary"
-          component={Link}
-          to="/add-position"
-          text={"Add"}
-          startIcon={<AddOutlinedIcon />}
+  if (stockSummaryResponse) {
+    return (
+      <div className={classes.root}>
+        <PageHeader
+          title="Portfolio"
+          subTitle="Add Stocks to wallet"
+          icon={<AccountBalanceOutlinedIcon fontSize="large" />}
         />
-      </Grid>
-
-      <Paper className={classes.paper}>
-        <DisplaySummary
-          data={stockSummaryResponse}
-          redClass={classes.red}
-          greenClass={classes.green}
-        />
-      </Paper>
-      <SectorComposition />
-      <Box mt={3}>
-        <Grid container spacing={4}>
-          {stockSummaryResponse.stockSummary.map(item => {
-            return (
-              <Grid item key={item.stockCode} lg={4} md={6} xs={12}>
-                <StockCard className={classes.productCard} product={item} />
-              </Grid>
-            );
-          })}
+        <Grid
+          container
+          spacing={3}
+          direction="row"
+          justify="flex-end"
+          alignItems="center"
+          className={classes.Button}
+        >
+          <Button
+            variant="outlined"
+            color="primary"
+            component={Link}
+            to="/add-position"
+            text={"Add"}
+            startIcon={<AddOutlinedIcon />}
+          />
         </Grid>
-      </Box>
-    </div>
-  );
+
+        <Paper className={classes.paper}>
+          <DisplaySummary
+            data={stockSummaryResponse}
+            redClass={classes.red}
+            greenClass={classes.green}
+          />
+        </Paper>
+        <SectorComposition data={stockSummaryResponse.sectorResponse} />
+        <Box mt={3}>
+          <Grid container spacing={4}>
+            {stockSummaryResponse.stockSummary.map(item => {
+              return (
+                <Grid item key={item.stockCode} lg={4} md={6} xs={12}>
+                  <StockCard className={classes.productCard} product={item} />
+                </Grid>
+              );
+            })}
+          </Grid>
+        </Box>
+      </div>
+    );
+  }
 };
 
 export default withRouter(withStyles(styles)(Portfolio));

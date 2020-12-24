@@ -1,7 +1,7 @@
-import React from 'react';
-import clsx from 'clsx';
-import PropTypes from 'prop-types';
-import { Doughnut } from 'react-chartjs-2';
+import React from "react";
+import clsx from "clsx";
+import PropTypes from "prop-types";
+import { Doughnut } from "react-chartjs-2";
 import {
   Box,
   Card,
@@ -12,36 +12,45 @@ import {
   colors,
   makeStyles,
   useTheme
-} from '@material-ui/core';
-import LaptopMacIcon from '@material-ui/icons/LaptopMac';
-import PhoneIcon from '@material-ui/icons/Phone';
-import TabletIcon from '@material-ui/icons/Tablet';
-
+} from "@material-ui/core";
+import _ from "underscore";
 const useStyles = makeStyles(() => ({
   root: {
-    height: '100%'
+    height: "100%"
   }
 }));
 
-const SectorComposition = ({ className, ...rest }) => {
+const SectorComposition = ({ className, data, ...rest }) => {
   const classes = useStyles();
   const theme = useTheme();
 
-  const data = {
+  var sectors = data.map(item => {
+    var r = Math.floor(Math.random() * 200);
+    var g = Math.floor(Math.random() * 200);
+    var b = Math.floor(Math.random() * 200);
+    var color = "rgb(" + r + ", " + g + ", " + b + ")";
+    return {
+      title: item.sector,
+      value: item.percentage,
+      color: color
+    };
+  });
+
+  var labels = _.pluck(sectors, "title");
+  var values = _.pluck(sectors, "value");
+  var colorsArray = _.pluck(sectors, "color");
+
+  const dataSetResponse = {
     datasets: [
       {
-        data: [63, 15, 22],
-        backgroundColor: [
-          colors.indigo[500],
-          colors.red[600],
-          colors.orange[600]
-        ],
+        data: values,
+        backgroundColor: colorsArray,
         borderWidth: 8,
         borderColor: colors.common.white,
         hoverBorderColor: colors.common.white
       }
     ],
-    labels: ['Desktop', 'Tablet', 'Mobile']
+    labels: labels
   };
 
   const options = {
@@ -61,78 +70,27 @@ const SectorComposition = ({ className, ...rest }) => {
       enabled: true,
       footerFontColor: theme.palette.text.secondary,
       intersect: false,
-      mode: 'index',
+      mode: "index",
       titleFontColor: theme.palette.text.primary
     }
   };
 
-  const devices = [
-    {
-      title: 'Desktop',
-      value: 63,
-      icon: LaptopMacIcon,
-      color: colors.indigo[500]
-    },
-    {
-      title: 'Tablet',
-      value: 15,
-      icon: TabletIcon,
-      color: colors.red[600]
-    },
-    {
-      title: 'Mobile',
-      value: 23,
-      icon: PhoneIcon,
-      color: colors.orange[600]
-    }
-  ];
-
   return (
-    <Card
-      className={clsx(classes.root, className)}
-      {...rest}
-    >
+    <Card className={clsx(classes.root, className)} {...rest}>
       <CardHeader title="Traffic by Device" />
       <Divider />
       <CardContent>
-        <Box
-          height={300}
-          position="relative"
-        >
-          <Doughnut
-            data={data}
-            options={options}
-          />
+        <Box height={300} position="relative">
+          <Doughnut data={dataSetResponse} options={options} />
         </Box>
-        <Box
-          display="flex"
-          justifyContent="center"
-          mt={2}
-        >
-          {devices.map(({
-            color,
-            icon: Icon,
-            title,
-            value
-          }) => (
-            <Box
-              key={title}
-              p={1}
-              textAlign="center"
-            >
-              <Icon color="action" />
-              <Typography
-                color="textPrimary"
-                variant="body1"
-              >
+        <Box display="flex" justifyContent="center" mt={2}>
+          {sectors.map(({ color, title, value }) => (
+            <Box key={title} p={1} textAlign="center">
+              <Typography color="textPrimary" variant="body1">
                 {title}
               </Typography>
-              <Typography
-                style={{ color }}
-                variant="h2"
-              >
-                {value}
-                %
+              <Typography style={{ color }} variant="h2">
+                {value}%
               </Typography>
             </Box>
           ))}

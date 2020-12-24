@@ -16,10 +16,8 @@ const portfolioReducer = (state, action) => {
 
     case "formatted_position":
       return { ...state, formattedResponse: action.payload };
-
     case "position_keys":
       return { ...state, positionsKeys: action.payload };
-
     case "add_position_Id":
       return { ...state, positionId: action.payload };
 
@@ -145,39 +143,40 @@ const getPositionArray = dispatch => async authorId => {
   try {
     var collection = [];
     const db = app.firestore();
-    await db
-      .collection("openPositions")
+    var openPositionRef = db.collection("openPositions");
+    const snapshot = await openPositionRef
       .where("authorId", "==", authorId)
-      .get()
-      .then(querysnapShot => {
-        collection = querysnapShot.docs.map(doc => {
-          return {
-            id: doc.id,
-            data: doc.data()
-          };
-        });
-        dispatch({
-          type: "get_positionList",
-          payload: collection
-        });
+      .get();
 
-        dispatch({
-          type: "formatted_position",
-          payload: formattData(collection)
-        });
+    var collection = snapshot.docs.map(doc => {
+      return {
+        id: doc.id,
+        data: doc.data()
+      };
+    });
 
-        dispatch({
-          type: "position_keys",
-          payload: stockList(formattData(collection))
-        });
+    if (collection) {
+      dispatch({
+        type: "get_positionList",
+        payload: collection
       });
+
+      dispatch({
+        type: "formatted_position",
+        payload: formattData(collection)
+      });
+      dispatch({
+        type: "position_keys",
+        payload: stockList(formattData(collection))
+      });
+    }
   } catch (error) {}
 };
 const addPosition = dispatch => async (data, authorId) => {
   const db = app.firestore();
   var stockCode = getStockCode(data.stockName);
 
-  await db.collection("openPositions").add({
+  var response = await db.collection("openPositions").add({
     stockName: data.stockName,
     stockCode,
     buyPrice: data.buyPrice,
@@ -189,21 +188,23 @@ const addPosition = dispatch => async (data, authorId) => {
     date: data.date,
     authorId
   });
-  dispatch({
-    type: "add_position",
-    payload: {
-      stockName: data.stockName,
-      stockCode,
-      buyPrice: data.buyPrice,
-      targetPrice: data.targetPrice,
-      stopLoss: data.stopLoss,
-      quantity: data.quantity,
-      trailingStopLoss: data.trailingStopLoss,
-      modifiedDate: Date.now(),
-      date: data.date,
-      authorId
-    }
-  });
+  if (response.id) {
+    dispatch({
+      type: "add_position",
+      payload: {
+        stockName: data.stockName,
+        stockCode,
+        buyPrice: data.buyPrice,
+        targetPrice: data.targetPrice,
+        stopLoss: data.stopLoss,
+        quantity: data.quantity,
+        trailingStopLoss: data.trailingStopLoss,
+        modifiedDate: Date.now(),
+        date: data.date,
+        authorId
+      }
+    });
+  }
 };
 
 const addClosedPosition = dispatch => async (data, authorId) => {

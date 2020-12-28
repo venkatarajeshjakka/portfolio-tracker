@@ -163,9 +163,8 @@ const stockSummary = (stockKeys, stockDataResponse, positionData) => {
       var sectorCurrentSum = sum(individualCurrentAmountArray);
       var newValue = currentValue - sectorCurrentSum;
       var percentage = parseFloat(profitLossPercentage(newValue, currentValue));
-      if (percentage === 0) {
-        percentage = 100;
-      }
+      percentage = (100 - percentage).toFixed(2);
+
       var response = {
         sector: item.sector,
         amount: sectorCurrentSum,

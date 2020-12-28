@@ -11,15 +11,34 @@ import {
   Typography,
   colors,
   makeStyles,
-  useTheme
+  useTheme,
+  Grid
 } from "@material-ui/core";
 import _ from "underscore";
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(theme => ({
   root: {
     height: "100%"
   }
 }));
 
+const styles = makeStyles({
+  root: {
+    display: "flex",
+    alignSelf: "baseline",
+    borderStyle: "solid",
+    borderWidth: 2,
+    padding: 4,
+    borderRadius: "50%",
+    margin: 5,
+    backgroundColor: props => props.background,
+    color: props => props.background
+  }
+});
+
+const DotCircle = ({ className, ...props }) => {
+  const classes = styles(props);
+  return <span className={clsx(classes.root, className)} />;
+};
 const SectorComposition = ({ className, data, ...rest }) => {
   const classes = useStyles();
   const theme = useTheme();
@@ -80,21 +99,25 @@ const SectorComposition = ({ className, data, ...rest }) => {
       <CardHeader title="Traffic by Device" />
       <Divider />
       <CardContent>
-        <Box height={300} position="relative">
-          <Doughnut data={dataSetResponse} options={options} />
-        </Box>
-        <Box display="flex" justifyContent="center" mt={2}>
-          {sectors.map(({ color, title, value }) => (
-            <Box key={title} p={1} textAlign="center">
-              <Typography color="textPrimary" variant="body1">
-                {title}
-              </Typography>
-              <Typography style={{ color }} variant="h2">
-                {value}%
-              </Typography>
+        <Grid container justify="space-around" spacing={3}>
+          <Grid item>
+            <Box height={300} position="relative">
+              <Doughnut data={dataSetResponse} options={options} />
             </Box>
-          ))}
-        </Box>
+          </Grid>
+          <Grid item>
+            <Box display="flex" flexDirection="column" mt={2}>
+              {sectors.map(({ color, title, value }) => (
+                <Box display="flex" key={title} p={1} textAlign="left">
+                  <DotCircle background={color} />
+                  <Typography color="textPrimary" variant="body2">
+                    {title}
+                  </Typography>
+                </Box>
+              ))}
+            </Box>
+          </Grid>
+        </Grid>
       </CardContent>
     </Card>
   );

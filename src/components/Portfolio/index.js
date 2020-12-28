@@ -180,7 +180,12 @@ const Portfolio = ({ classes }) => {
             greenClass={classes.green}
           />
         </Paper>
-        <SectorComposition data={stockSummaryResponse.sectorResponse} />
+        <Grid container>
+          <Grid item xs={6}>
+            <SectorComposition data={stockSummaryResponse.sectorResponse} />
+          </Grid>
+        </Grid>
+
         <Box mt={3}>
           <Grid container spacing={4}>
             {stockSummaryResponse.stockSummary.map(item => {

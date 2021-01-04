@@ -141,7 +141,6 @@ const deletePosition = dispatch => async id => {
 };
 const getPositionArray = dispatch => async authorId => {
   try {
-    var collection = [];
     const db = app.firestore();
     var openPositionRef = db.collection("openPositions");
     const snapshot = await openPositionRef

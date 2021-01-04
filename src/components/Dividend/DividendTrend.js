@@ -38,7 +38,7 @@ const DividendTrend = ({ className, data, ...rest }) => {
   var values = _.pluck(yearlyGroupedResponse, "amount");
   const classes = useStyles();
   const theme = useTheme();
-  var data = formatData(labels, values);
+  var formattedData = formatData(labels, values);
   const options = {
     animation: false,
     cornerRadius: 20,
@@ -99,7 +99,7 @@ const DividendTrend = ({ className, data, ...rest }) => {
       <Divider />
       <CardContent>
         <Box height={525} position="relative">
-          <Bar data={data} options={options} />
+          <Bar data={formattedData} options={options} />
         </Box>
       </CardContent>
     </Card>

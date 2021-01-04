@@ -46,15 +46,15 @@ const DisplaySummary = ({ data }) => {
     quarterlyChangePercentage
   } = response;
   return (
-    <Grid container alignItems="center" spacing={3}>
-      <Grid item xs={4}>
+    <Grid container spacing={3}>
+      <Grid item sm={12} md={9} lg={4} xl={4}>
         <Budget
           amount={totalAmount}
           label={"Total Amount"}
           changeLabel={"As of Today"}
         />
       </Grid>
-      <Grid item xs={4}>
+      <Grid item sm={12} md={9} lg={4} xl={4}>
         <Budget
           amount={currentYearAmount}
           label={"Yearly Amount"}
@@ -62,7 +62,7 @@ const DisplaySummary = ({ data }) => {
           changeLabel={"Since Previuos Year"}
         />
       </Grid>
-      <Grid item xs={4}>
+      <Grid item sm={12} md={9} lg={4} xl={4}>
         <Budget
           amount={currentYearQuarterlyAmount}
           label={"Quarterly Amount"}
@@ -148,12 +148,12 @@ const Dividend = ({ classes }) => {
       )}
       {dividendArrayService && dividendArrayService.length > 0 ? (
         <Grid container spacing={3}>
-          <Grid item lg={6} md={12} xl={6} xs={12}>
+          <Grid item lg={6} md={12} xl={6} sm={12}>
             <DividenSummaryTable
               data={dividendInformation(dividendArrayService)}
             />
           </Grid>
-          <Grid item lg={6} md={12} xl={6} xs={12}>
+          <Grid item lg={6} md={12} xl={6} sm={12}>
             <DividendTrend data={dividendInformation(dividendArrayService)} />
           </Grid>
         </Grid>

@@ -40,7 +40,7 @@ const StockAlert = ({
     return (
       <AlertWithDescription
         severity={"warning"}
-        description={`Your buy price is less than today price <strong>${ltp} </strong>!`}
+        description={`Your buy price is less than today price <strong>${ltp}</strong>!`}
       />
     );
   }

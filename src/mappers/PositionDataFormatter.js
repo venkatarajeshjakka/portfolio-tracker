@@ -138,6 +138,7 @@ const stockSummary = (stockKeys, stockDataResponse, positionData) => {
     }
   });
 
+  stockArray = _.sortBy(stockArray, "stockName");
   if (stockArray) {
     var dailyGainArray = _.pluck(stockArray, "dailyGain");
     let dailyGain = sum(dailyGainArray);

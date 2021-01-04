@@ -11,11 +11,7 @@ import {
   makeStyles,
   CardActionArea
 } from "@material-ui/core";
-import {
-  WorkOutlineOutlined as WorkOutlineOutlinedIcon,
-  ArrowDropUpOutlined as ArrowDropUpOutlinedIcon,
-  ArrowDropDownOutlined as ArrowDropDownOutlinedIcon
-} from "@material-ui/icons";
+import { WorkOutlineOutlined as WorkOutlineOutlinedIcon } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import { formatCurrency } from "../../extensions/Formatters";
 import DisplayItemSection from "./DisplayItemSection";
@@ -42,11 +38,12 @@ const useStyles = makeStyles(theme => ({
     color: "#32cd32",
     paddingRight: theme.spacing(1)
   },
-  iconRed: {
-    color: "#ff0000"
+  heading: {
+    color: "#33B5FF",
+    textTransform: "uppercase"
   },
-  iconGreen: {
-    color: "#32cd32"
+  price: {
+    color: "#040E5E"
   },
   actionArea: {
     borderRadius: 16,
@@ -66,45 +63,40 @@ const StockCard = props => {
     >
       <Card className={clsx(classes.root, className)} {...rest}>
         <CardContent>
-          <Typography color="textPrimary" gutterBottom variant="h5">
+          <Typography
+            className={classes.heading}
+            align={"center"}
+            gutterBottom
+            variant="h6"
+          >
             {product.stockName}
           </Typography>
+          <Typography
+            className={classes.price}
+            align={"center"}
+            gutterBottom
+            variant="h5"
+          >
+            {formatCurrency(product.ltp)}
+          </Typography>
 
-          <Grid container justify="space-between" spacing={2}>
-            <Grid className={classes.statsItem} item>
+          <Grid container justify="center" alignItems="center" spacing={3}>
+            <Grid item>
               <Typography
                 className={product.change > 0 ? classes.green : classes.red}
-                display="inline"
-                variant="body1"
-              >
-                {formatCurrency(product.ltp)}
-              </Typography>
-              {product.change > 0 ? (
-                <ArrowDropUpOutlinedIcon
-                  fontSize={"large"}
-                  className={classes.iconGreen}
-                />
-              ) : (
-                <ArrowDropDownOutlinedIcon
-                  fontSize={"large"}
-                  className={classes.iconRed}
-                />
-              )}
-            </Grid>
-            <Grid className={classes.statsItem} item>
-              <Typography
-                className={product.change > 0 ? classes.green : classes.red}
-                display="inline"
-                variant="body1"
+                gutterBottom
+                variant="h6"
               >
                 {formatCurrency(product.change)}
               </Typography>
+            </Grid>
+            <Grid item>
               <Typography
                 className={product.change > 0 ? classes.green : classes.red}
-                display="inline"
-                variant="body1"
+                gutterBottom
+                variant="h6"
               >
-                ({product.changePercentage} %)
+                {product.changePercentage} %
               </Typography>
             </Grid>
           </Grid>

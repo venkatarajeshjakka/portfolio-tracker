@@ -181,7 +181,7 @@ const Portfolio = ({ classes }) => {
           />
         </Paper>
         <Grid container>
-          <Grid item xs={6}>
+          <Grid item sm={12} md={9} lg={6} xl={6}>
             <SectorComposition data={stockSummaryResponse.sectorResponse} />
           </Grid>
         </Grid>

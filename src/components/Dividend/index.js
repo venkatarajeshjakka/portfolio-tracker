@@ -47,14 +47,14 @@ const DisplaySummary = ({ data }) => {
   } = response;
   return (
     <Grid container spacing={3}>
-      <Grid item sm={12} md={9} lg={4} xl={4}>
+      <Grid item sm={12} md={9} lg={4} xl={4} xs={12}>
         <Budget
           amount={totalAmount}
           label={"Total Amount"}
           changeLabel={"As of Today"}
         />
       </Grid>
-      <Grid item sm={12} md={9} lg={4} xl={4}>
+      <Grid item sm={12} md={9} lg={4} xl={4} xs={12}>
         <Budget
           amount={currentYearAmount}
           label={"Yearly Amount"}
@@ -62,7 +62,7 @@ const DisplaySummary = ({ data }) => {
           changeLabel={"Since Previuos Year"}
         />
       </Grid>
-      <Grid item sm={12} md={9} lg={4} xl={4}>
+      <Grid item sm={12} md={9} lg={4} xl={4} xs={12}>
         <Budget
           amount={currentYearQuarterlyAmount}
           label={"Quarterly Amount"}

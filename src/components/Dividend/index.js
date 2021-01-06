@@ -47,14 +47,14 @@ const DisplaySummary = ({ data }) => {
   } = response;
   return (
     <Grid container spacing={3}>
-      <Grid item sm={12} md={9} lg={4} xl={4} xs={12}>
+      <Grid item sm={6} md={9} lg={4} xl={4} xs={12}>
         <Budget
           amount={totalAmount}
           label={"Total Amount"}
           changeLabel={"As of Today"}
         />
       </Grid>
-      <Grid item sm={12} md={9} lg={4} xl={4} xs={12}>
+      <Grid item sm={6} md={9} lg={4} xl={4} xs={12}>
         <Budget
           amount={currentYearAmount}
           label={"Yearly Amount"}
@@ -62,7 +62,7 @@ const DisplaySummary = ({ data }) => {
           changeLabel={"Since Previuos Year"}
         />
       </Grid>
-      <Grid item sm={12} md={9} lg={4} xl={4} xs={12}>
+      <Grid item sm={6} md={4} lg={4} xl={4} xs={12}>
         <Budget
           amount={currentYearQuarterlyAmount}
           label={"Quarterly Amount"}
@@ -148,12 +148,12 @@ const Dividend = ({ classes }) => {
       )}
       {dividendArrayService && dividendArrayService.length > 0 ? (
         <Grid container spacing={3}>
-          <Grid item lg={6} md={12} xl={6} sm={12}>
+          <Grid item sm={12} md={9} lg={6} xl={6}>
             <DividenSummaryTable
               data={dividendInformation(dividendArrayService)}
             />
           </Grid>
-          <Grid item lg={6} md={12} xl={6} sm={12}>
+          <Grid item sm={12} md={9} lg={6} xl={6}>
             <DividendTrend data={dividendInformation(dividendArrayService)} />
           </Grid>
         </Grid>
@@ -161,13 +161,15 @@ const Dividend = ({ classes }) => {
         <CircularProgress />
       )}
       {dividendArrayService && dividendArrayService.length > 0 ? (
-        <div className={classes.table}>
-          <DividendHistoryTable
-            data={formatDividendData(dividendArrayService)}
-            onDelete={handleDelete}
-            onEdit={handleEdit}
-          />
-        </div>
+        <Grid container spacing={3}>
+          <Grid item sm={12} md={9} lg={6} xl={6}>
+            <DividendHistoryTable
+              data={formatDividendData(dividendArrayService)}
+              onDelete={handleDelete}
+              onEdit={handleEdit}
+            />
+          </Grid>
+        </Grid>
       ) : (
         <CircularProgress />
       )}

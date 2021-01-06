@@ -16,7 +16,11 @@ import MoneyIcon from "@material-ui/icons/Money";
 import { formatCurrency } from "../../extensions/Formatters";
 const useStyles = makeStyles(theme => ({
   root: {
-    marginBottom: theme.spacing(3)
+    height : '100%',
+    marginBottom: theme.spacing(3),
+    padding : theme.spacing(3),
+    boxShadow: "0 8px 24px 0 rgba(0,0,0,0.12)",
+    borderRadius: '1.5rem',
   },
   avatar: {
     backgroundColor: colors.red[600],

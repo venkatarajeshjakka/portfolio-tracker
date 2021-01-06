@@ -17,7 +17,7 @@ import DisplayItemSection from "./DisplayItemSection";
 import { formatCurrency } from "../../extensions/Formatters";
 import { Red, Green } from "../../color";
 import SectorComposition from "./SectorComposition";
-
+import ColoredCircularProgress from '../UtilityComponents/ColoredCircularProgress'
 const styles = theme => ({
   button: {
     margin: theme.spacing(5),
@@ -140,7 +140,7 @@ const Portfolio = ({ classes }) => {
   };
 
   if (!renderSection(watchListStockData, portfolioArrayService)) {
-    return <CircularProgress />;
+    return <ColoredCircularProgress />;
   }
 
   var stockSummaryResponse = stockSummary(

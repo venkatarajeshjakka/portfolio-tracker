@@ -37,6 +37,8 @@ const styles = theme => ({
     marginTop: theme.spacing(3),
     marginBottom: theme.spacing(2),
     padding: theme.spacing(2),
+    boxShadow: "0 8px 24px 0 rgba(0,0,0,0.12)",
+    borderRadius: '1.5rem',
     [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
       marginTop: theme.spacing(3),
       marginBottom: theme.spacing(3),
@@ -190,7 +192,7 @@ const Portfolio = ({ classes }) => {
           <Grid container spacing={4}>
             {stockSummaryResponse.stockSummary.map(item => {
               return (
-                <Grid item key={item.stockCode} lg={4} md={6} xs={12}>
+                <Grid item key={item.stockCode} lg={3} md={3} xl={3} sm={6} xs={12}>
                   <StockCard className={classes.productCard} product={item} />
                 </Grid>
               );

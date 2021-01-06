@@ -20,8 +20,8 @@ const useStyles = makeStyles(theme => ({
   root: ({ color }) => ({
     display: "flex",
     flexDirection: "column",
-    borderRadius: 16,
-    boxShadow: "none"
+    borderRadius: '1.5rem',
+    boxShadow: "0 8px 24px 0 rgba(0,0,0,0.12)"
   }),
   statsItem: {
     alignItems: "center",
@@ -46,7 +46,7 @@ const useStyles = makeStyles(theme => ({
     color: "#040E5E"
   },
   actionArea: {
-    borderRadius: 16,
+    borderRadius: '1.5rem',
     transition: "0.2s"
   }
 }));

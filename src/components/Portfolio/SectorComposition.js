@@ -17,7 +17,9 @@ import {
 import _ from "underscore";
 const useStyles = makeStyles(theme => ({
   root: {
-    height: "100%"
+    height: "100%",
+    boxShadow: "0 8px 24px 0 rgba(0,0,0,0.12)",
+    borderRadius: '1.5rem',
   }
 }));
 
@@ -31,7 +33,8 @@ const styles = makeStyles({
     borderRadius: "50%",
     margin: 5,
     backgroundColor: props => props.background,
-    color: props => props.background
+    color: props => props.background,
+    
   }
 });
 
@@ -96,7 +99,7 @@ const SectorComposition = ({ className, data, ...rest }) => {
 
   return (
     <Card className={clsx(classes.root, className)} {...rest}>
-      <CardHeader title="Traffic by Device" />
+      <CardHeader title="Sector Composition" />
       <Divider />
       <CardContent>
         <Grid container justify="space-around" spacing={3}>

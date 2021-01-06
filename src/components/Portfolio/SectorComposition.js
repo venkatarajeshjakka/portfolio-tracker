@@ -19,11 +19,12 @@ const useStyles = makeStyles(theme => ({
   root: {
     height: "100%",
     boxShadow: "0 8px 24px 0 rgba(0,0,0,0.12)",
-    borderRadius: '1.5rem',
-  }
+    borderRadius: "1.5rem"
+  },
+  labelStyle: { paddingLeft: theme.spacing(1) }
 }));
 
-const styles = makeStyles({
+const styles = makeStyles(theme => ({
   root: {
     display: "flex",
     alignSelf: "baseline",
@@ -33,10 +34,9 @@ const styles = makeStyles({
     borderRadius: "50%",
     margin: 5,
     backgroundColor: props => props.background,
-    color: props => props.background,
-    
+    color: props => props.background
   }
-});
+}));
 
 const DotCircle = ({ className, ...props }) => {
   const classes = styles(props);
@@ -116,6 +116,12 @@ const SectorComposition = ({ className, data, ...rest }) => {
                   <Typography color="textPrimary" variant="body2">
                     {title}
                   </Typography>
+
+                  <div className={classes.labelStyle}>
+                    <Typography color="textPrimary" variant="body2">
+                      {value}%
+                    </Typography>
+                  </div>
                 </Box>
               ))}
             </Box>

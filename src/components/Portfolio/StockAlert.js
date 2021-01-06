@@ -1,5 +1,7 @@
 import React from "react";
 import { AlertWithDescription } from "../Alert";
+import parse from "html-react-parser";
+
 const StockAlert = ({
   ltp,
   stoploss,
@@ -36,11 +38,15 @@ const StockAlert = ({
     );
   }
 
+  console.log('buy',buyPrice)
+  console.log('ltp',ltp)
   if (buyPrice < ltp) {
     return (
       <AlertWithDescription
         severity={"warning"}
-        description={`Your buy price is less than today price <strong>${ltp}</strong>!`}
+        description={parse(
+          `Your buy price is less than today price <strong>${ltp}</strong>!`
+        )}
       />
     );
   }

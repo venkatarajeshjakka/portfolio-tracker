@@ -38,9 +38,7 @@ const StockAlert = ({
     );
   }
 
-  console.log('buy',buyPrice)
-  console.log('ltp',ltp)
-  if (buyPrice < ltp) {
+  if (ltp < buyPrice) {
     return (
       <AlertWithDescription
         severity={"warning"}

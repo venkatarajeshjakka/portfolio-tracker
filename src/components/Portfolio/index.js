@@ -65,7 +65,7 @@ const DisplaySummary = ({ data, greenClass, redClass }) => {
     profitOrLossPercentage
   } = data;
   return (
-    <Grid container justify="space-between" alignItems="center" spacing={3}>
+    <Grid container justify="space-evenly" alignItems="center" spacing={3}>
       <Grid item>
         <DisplayItemSection
           variant={"h5"}

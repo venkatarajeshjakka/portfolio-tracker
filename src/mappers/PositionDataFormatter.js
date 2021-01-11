@@ -174,6 +174,22 @@ const stockSummary = (stockKeys, stockDataResponse, positionData) => {
       return response;
     });
 
+    mappedFinalSectorResponse = _.sortBy(
+      mappedFinalSectorResponse,
+      "amount"
+    ).reverse();
+    var stockClassification = stockArray.map(item => {
+      var newValue = currentValue - item.current;
+      var percentage = parseFloat(profitLossPercentage(newValue, currentValue));
+      percentage = (100 - percentage).toFixed(2);
+      return {
+        stockName: item.stockName,
+        amount: item.current,
+        percentage
+      };
+    });
+
+    stockClassification = _.sortBy(stockClassification, "amount").reverse();
     return {
       dailyGain,
       investment,
@@ -182,7 +198,8 @@ const stockSummary = (stockKeys, stockDataResponse, positionData) => {
       profitOrLossPercentage,
       dailyProfitOrLossPercentage,
       sectorResponse: mappedFinalSectorResponse,
-      stockSummary: stockArray
+      stockSummary: stockArray,
+      stockClassification
     };
   }
 };

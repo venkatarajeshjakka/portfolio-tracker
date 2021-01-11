@@ -50,6 +50,8 @@ const styles = theme => ({
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(2),
     padding: theme.spacing(2),
+    boxShadow: "0 8px 24px 0 rgba(0,0,0,0.12)",
+    borderRadius: "1.5rem",
     [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
       marginTop: theme.spacing(2),
       marginBottom: theme.spacing(2),
@@ -60,6 +62,8 @@ const styles = theme => ({
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(2),
     padding: theme.spacing(2),
+    boxShadow: "0 8px 24px 0 rgba(0,0,0,0.12)",
+    borderRadius: "1.5rem",
     [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
       marginTop: theme.spacing(2),
       marginBottom: theme.spacing(2),
@@ -67,7 +71,8 @@ const styles = theme => ({
     }
   },
   header: {
-    marginTop: theme.spacing(4)
+    marginTop: theme.spacing(4),
+    marginLeft: theme.spacing(2)
   }
 });
 
@@ -119,6 +124,39 @@ const PostionDetails = props => {
           <Typography component="h5" variant="h5" align="left" color="primary">
             {cardResponse.summary.stockName}
           </Typography>
+          <Typography
+            className={classes.price}
+            align={"left"}
+            gutterBottom
+            variant="h5"
+          >
+            {formatCurrency(cardResponse.summary.ltp)}
+          </Typography>
+
+          <Grid container alignItems="center" spacing={3}>
+            <Grid item>
+              <Typography
+                className={
+                  cardResponse.summary.change > 0 ? classes.green : classes.red
+                }
+                gutterBottom
+                variant="h6"
+              >
+                {formatCurrency(cardResponse.summary.change)}
+              </Typography>
+            </Grid>
+            <Grid item>
+              <Typography
+                className={
+                  cardResponse.summary.change > 0 ? classes.green : classes.red
+                }
+                gutterBottom
+                variant="h6"
+              >
+                {cardResponse.summary.changePercentage} %
+              </Typography>
+            </Grid>
+          </Grid>
         </div>
 
         <Grid container spacing={3}>
@@ -135,7 +173,9 @@ const PostionDetails = props => {
                 />
                 <DisplayItemSection
                   label={"200 Day MA"}
-                  value={formatCurrency(cardResponse.summary.twoHundredDayAverage)}
+                  value={formatCurrency(
+                    cardResponse.summary.twoHundredDayAverage
+                  )}
                 />
               </Grid>
               <Grid item>

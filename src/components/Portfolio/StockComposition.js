@@ -3,14 +3,14 @@ import PropTypes from "prop-types";
 import _ from "underscore";
 import BasePieChart from "./BasePieChart";
 
-const SectorComposition = ({ className, data, ...rest }) => {
+const StockComposition = ({ className, data, ...rest }) => {
   var sectors = data.map(item => {
     var r = Math.floor(Math.random() * 200);
     var g = Math.floor(Math.random() * 200);
     var b = Math.floor(Math.random() * 200);
     var color = "rgb(" + r + ", " + g + ", " + b + ")";
     return {
-      title: item.sector,
+      title: item.stockName,
       value: item.percentage,
       color: color
     };
@@ -22,7 +22,7 @@ const SectorComposition = ({ className, data, ...rest }) => {
 
   return (
     <BasePieChart
-      title={"Sector Weightage"}
+      title={"Stock Weightage"}
       values={values}
       labels={labels}
       colorsArray={colorsArray}
@@ -31,8 +31,8 @@ const SectorComposition = ({ className, data, ...rest }) => {
   );
 };
 
-SectorComposition.propTypes = {
+StockComposition.propTypes = {
   className: PropTypes.string
 };
 
-export default SectorComposition;
+export default StockComposition;

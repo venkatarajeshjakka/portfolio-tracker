@@ -17,7 +17,8 @@ import DisplayItemSection from "./DisplayItemSection";
 import { formatCurrency } from "../../extensions/Formatters";
 import { Red, Green } from "../../color";
 import SectorComposition from "./SectorComposition";
-import ColoredCircularProgress from '../UtilityComponents/ColoredCircularProgress'
+import StockComposition from './StockComposition'
+import ColoredCircularProgress from "../UtilityComponents/ColoredCircularProgress";
 const styles = theme => ({
   button: {
     margin: theme.spacing(5),
@@ -38,7 +39,7 @@ const styles = theme => ({
     marginBottom: theme.spacing(2),
     padding: theme.spacing(2),
     boxShadow: "0 8px 24px 0 rgba(0,0,0,0.12)",
-    borderRadius: '1.5rem',
+    borderRadius: "1.5rem",
     [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
       marginTop: theme.spacing(3),
       marginBottom: theme.spacing(3),
@@ -182,9 +183,12 @@ const Portfolio = ({ classes }) => {
             greenClass={classes.green}
           />
         </Paper>
-        <Grid container>
+        <Grid container spacing={3}>
           <Grid item sm={12} md={9} lg={6} xl={6}>
             <SectorComposition data={stockSummaryResponse.sectorResponse} />
+          </Grid>
+          <Grid item sm={12} md={9} lg={6} xl={6}>
+            <StockComposition data={stockSummaryResponse.stockClassification} />
           </Grid>
         </Grid>
 
@@ -192,7 +196,15 @@ const Portfolio = ({ classes }) => {
           <Grid container spacing={4}>
             {stockSummaryResponse.stockSummary.map(item => {
               return (
-                <Grid item key={item.stockCode} lg={3} md={3} xl={3} sm={6} xs={12}>
+                <Grid
+                  item
+                  key={item.stockCode}
+                  lg={3}
+                  md={3}
+                  xl={3}
+                  sm={6}
+                  xs={12}
+                >
                   <StockCard className={classes.productCard} product={item} />
                 </Grid>
               );

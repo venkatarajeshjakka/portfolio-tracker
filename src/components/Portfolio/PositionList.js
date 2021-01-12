@@ -132,7 +132,7 @@ const FirstColumn = ({ boxStyle, values, progressClass }) => {
 
 const Column = ({ children }) => {
   return (
-    <Grid item xs={3}>
+    <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
       {children}
     </Grid>
   );
@@ -147,7 +147,7 @@ const SecondSub = ({
   trailingStoploss
 }) => {
   return (
-    <Grid item xs={9}>
+    <Grid item xs={12} sm={9} md={9} lg={9} xl={9}>
       <Grid container direction="column">
         <Grid item>
           <Grid container justify="space-between" spacing={3}>
@@ -308,7 +308,7 @@ const PositionList = ({ className, history, data, ...rest }) => {
                     currentValue={individualResponse.currentValue}
                   />
 
-                  <Grid item xs={3}>
+                  <Grid item xs={12} sm={3} md={3} lg={3} xl={3}>
                     <DisplayItemSection
                       label={"Daily Gain / Loss"}
                       value={`${formatCurrency(

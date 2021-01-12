@@ -10,6 +10,7 @@ import _ from "underscore";
 import { stockResponse } from "../../mappers/PositionDataFormatter";
 import { formatCurrency } from "../../extensions/Formatters";
 import DisplayItemSection from "./DisplayItemSection";
+import { Red, Green } from "../../color";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -73,16 +74,69 @@ const styles = theme => ({
   header: {
     marginTop: theme.spacing(4),
     marginLeft: theme.spacing(2)
-  }
+  },
+  red: {
+    color: Red.dafault,
+  },
+  green: {
+    color: Green.default,
+  },
 });
 
 const RenderPaper = ({ style, children }) => {
   return (
     <Paper className={style}>
-      <Grid container justify="space-between" spacing={3}>
+      <Grid container justify="space-between" alignItems={'center'} spacing={3}>
         {children}
       </Grid>
     </Paper>
+  );
+};
+const TopSection = ({
+  headerClass,
+  stockName,
+  priceClass,
+  ltp,
+  change,
+  changePercentage,
+  greenClass,
+  redClass
+}) => {
+  return (
+    <div className={headerClass}>
+      <Typography component="h5" variant="h5" align="left" color="primary">
+        {stockName}
+      </Typography>
+      <Typography
+        className={priceClass}
+        align={"left"}
+        gutterBottom
+        variant="h5"
+      >
+        {formatCurrency(ltp)}
+      </Typography>
+
+      <Grid container alignItems="center" spacing={3}>
+        <Grid item>
+          <Typography
+            className={change > 0 ? greenClass : redClass}
+            gutterBottom
+            variant="h6"
+          >
+            {formatCurrency(change)}
+          </Typography>
+        </Grid>
+        <Grid item>
+          <Typography
+            className={change > 0 ? greenClass : redClass}
+            gutterBottom
+            variant="h6"
+          >
+            {changePercentage} %
+          </Typography>
+        </Grid>
+      </Grid>
+    </div>
   );
 };
 const PostionDetails = props => {
@@ -120,47 +174,19 @@ const PostionDetails = props => {
 
     return (
       <div className={classes.root}>
-        <div className={classes.header}>
-          <Typography component="h5" variant="h5" align="left" color="primary">
-            {cardResponse.summary.stockName}
-          </Typography>
-          <Typography
-            className={classes.price}
-            align={"left"}
-            gutterBottom
-            variant="h5"
-          >
-            {formatCurrency(cardResponse.summary.ltp)}
-          </Typography>
+        <TopSection
+          headerClass={classes.header}
+          stockName={cardResponse.summary.stockName}
+          priceClass={classes.price}
+          ltp={cardResponse.summary.ltp}
+          change={cardResponse.summary.change}
+          changePercentage={cardResponse.summary.changePercentage}
+          greenClass={classes.green}
+          redClass={classes.red}
+        />
 
-          <Grid container alignItems="center" spacing={3}>
-            <Grid item>
-              <Typography
-                className={
-                  cardResponse.summary.change > 0 ? classes.green : classes.red
-                }
-                gutterBottom
-                variant="h6"
-              >
-                {formatCurrency(cardResponse.summary.change)}
-              </Typography>
-            </Grid>
-            <Grid item>
-              <Typography
-                className={
-                  cardResponse.summary.change > 0 ? classes.green : classes.red
-                }
-                gutterBottom
-                variant="h6"
-              >
-                {cardResponse.summary.changePercentage} %
-              </Typography>
-            </Grid>
-          </Grid>
-        </div>
-
-        <Grid container spacing={3}>
-          <Grid item xs={9}>
+        <Grid container justify="space-between" spacing={3}>
+          <Grid item xs={12} sm={12} md={9} lg={9} xl={9}>
             <RenderPaper style={classes.paper}>
               <Grid item>
                 <DisplayItemSection
@@ -218,7 +244,7 @@ const PostionDetails = props => {
                   value={formatCurrency(cardResponse.summary.dayLow)}
                 />
                 <DisplayItemSection
-                  label={"Avg 5 year Dividend Yied"}
+                  label={"Avg 5year Div.Yield"}
                   value={
                     cardResponse.summary.fiveYearAvgDividendYield
                       ? cardResponse.summary.fiveYearAvgDividendYield
@@ -232,7 +258,7 @@ const PostionDetails = props => {
               </Grid>
             </RenderPaper>
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
             <RenderPaper style={classes.paper1}>
               <Grid item>
                 <DisplayItemSection

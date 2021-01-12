@@ -18,6 +18,8 @@ import { formatCurrency } from "../../extensions/Formatters";
 import { AuthContext } from "../../context/AuthContext";
 import { Context as StockContext } from "../../context/StockContext";
 import { getStockDetails } from "../../mappers/PositionDataFormatter";
+import BaseFormTemplate from "./BaseFormTemplate";
+import BaseFormActionButtons from "./BaseFormActionButtons";
 const DisplaySection = ({ label, value, className }) => {
   return (
     <Grid container justify="space-between" spacing={2}>
@@ -159,86 +161,60 @@ const SellPositionForm = props => {
       <div className={classes.root}>
         <Grid container justify={"space-between"} spacing={3}>
           <Grid item xs={12} sm={9} md={9} xl={9} lg={9}>
-            <Paper className={classes.paper}>
-              <Typography component="h5" variant="h5" align="left">
-                Sell Position
-              </Typography>
-              <form
-                className={classes.form}
-                noValidate
-                autoComplete="off"
-                onSubmit={e => e.preventDefault() && false}
-              >
-                <Grid container spacing={3}>
-                  <Grid item xs={12} sm={9} md={6} lg={6} xl={6}>
-                    <Input
-                      name="stockName"
-                      label="Stock Name"
-                      value={stockName}
-                      fullWidth={true}
-                      id="outlined-adornment-amount"
-                      margin="normal"
-                    />
-                  </Grid>
+            <BaseFormTemplate title={"Sell Position"}>
+              <Grid container spacing={3}>
+                <Grid item xs={12} sm={9} md={6} lg={6} xl={6}>
+                  <Input
+                    name="stockName"
+                    label="Stock Name"
+                    value={stockName}
+                    fullWidth={true}
+                    id="outlined-adornment-amount"
+                    margin="normal"
+                  />
                 </Grid>
-                <Grid container justify='space-between' spacing={3}>
-                  <Grid item xs={12} sm={9} md={6} lg={6} xl={6}>
-                    <Input
-                      name="sellPrice"
-                      label="Sell Price"
-                      onChange={handleChange("sellPrice")}
-                      value={values.sellPrice}
-                      fullWidth={true}
-                      id="outlined-adornment-amount"
-                      margin="normal"
-                      type="number"
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">₹</InputAdornment>
-                        )
-                      }}
-                    />
-                    <DatePicker
-                      label="Date"
-                      value={selectedDate}
-                      onChange={handleDateChange}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={9} md={6} lg={6} xl={6}>
-                    <Input
-                      name="quantity"
-                      label="Quantity"
-                      onChange={handleChange("quantity")}
-                      value={values.quantity}
-                      fullWidth={true}
-                      id="outlined-adornment-amount"
-                      margin="normal"
-                      type="number"
-                    />
-                  </Grid>
+              </Grid>
+              <Grid container justify="space-between" spacing={3}>
+                <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
+                  <Input
+                    name="sellPrice"
+                    label="Sell Price"
+                    onChange={handleChange("sellPrice")}
+                    value={values.sellPrice}
+                    fullWidth={true}
+                    id="outlined-adornment-amount"
+                    margin="normal"
+                    type="number"
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">₹</InputAdornment>
+                      )
+                    }}
+                  />
+                  <Input
+                    name="quantity"
+                    label="Quantity"
+                    onChange={handleChange("quantity")}
+                    value={values.quantity}
+                    fullWidth={true}
+                    id="outlined-adornment-amount"
+                    margin="normal"
+                    type="number"
+                  />
                 </Grid>
-                <Grid container justify="center">
-                  <Grid item xs={6}>
-                    <div className={classes.button}>
-                      <Button
-                        variant="outlined"
-                        color="primary"
-                        size="large"
-                        text={"Reset"}
-                        onClick={handleReset}
-                      />
-                      <Button
-                        text={"Save"}
-                        autoFocus
-                        startIcon={<SaveIcon />}
-                        size="large"
-                        onClick={handleSubmit}
-                      />
-                    </div>
-                  </Grid>
+                <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
+                  <DatePicker
+                    label="Date"
+                    value={selectedDate}
+                    onChange={handleDateChange}
+                  />
+                  <BaseFormActionButtons
+                    handleSubmit={handleSubmit}
+                    handleReset={handleReset}
+                  />
                 </Grid>
-              </form>
-            </Paper>
+              </Grid>
+            </BaseFormTemplate>
           </Grid>
           <Grid item xs={12} sm={3} lg={3} md={3} xl={3}>
             <Paper className={classes.paper}>

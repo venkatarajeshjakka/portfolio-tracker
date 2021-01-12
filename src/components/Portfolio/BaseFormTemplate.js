@@ -25,7 +25,7 @@ const BaseFormTemplate = ({ title, children }) => {
 
   return (
     <Paper className={classes.paper}>
-      <Typography component="h5" variant="h5" align="center">
+      <Typography component="h5" variant="h5" align="left">
         {title}
       </Typography>
       <form

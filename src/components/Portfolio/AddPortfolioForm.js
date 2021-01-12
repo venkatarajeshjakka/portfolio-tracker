@@ -72,118 +72,116 @@ const AddPortfolioForm = props => {
 
   return (
     <div className={classes.root}>
-      <Container>
-        <BaseFormTemplate title={"Add Position"}>
-          <Grid container justify="center">
-            <Grid item xs={6}>
-              <Autocomplete
-                id="free-solo-demo"
-                freeSolo
-                value={stockName}
-                options={stockList.map(option => option.StockName)}
-                onChange={(event, newValue) => {
-                  setStockName(newValue);
-                }}
-                renderInput={params => (
-                  <Input
-                    {...params}
-                    name="stockName"
-                    label="Stock Name"
-                    fullWidth={true}
-                    id="outlined-full-width"
-                    margin="normal"
-                  />
-                )}
-              />
-            </Grid>
+      <BaseFormTemplate title={"Add Position"}>
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={9} md={6} lg={6} xl={6}>
+            <Autocomplete
+              id="free-solo-demo"
+              freeSolo
+              value={stockName}
+              options={stockList.map(option => option.StockName)}
+              onChange={(event, newValue) => {
+                setStockName(newValue);
+              }}
+              renderInput={params => (
+                <Input
+                  {...params}
+                  name="stockName"
+                  label="Stock Name"
+                  fullWidth={true}
+                  id="outlined-full-width"
+                  margin="normal"
+                />
+              )}
+            />
           </Grid>
-          <Grid container justify="center" spacing={3}>
-            <Grid item xs={3}>
-              <Input
-                name="buyPrice"
-                label="Buy Price"
-                onChange={handleChange("buyPrice")}
-                value={values.buyPrice}
-                fullWidth={true}
-                id="outlined-adornment-amount"
-                margin="normal"
-                type="number"
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">₹</InputAdornment>
-                  )
-                }}
-              />
-              <Input
-                name="targetPrice"
-                label="Target Price"
-                onChange={handleChange("targetPrice")}
-                value={values.targetPrice}
-                fullWidth={true}
-                id="outlined-adornment-amount"
-                margin="normal"
-                type="number"
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">₹</InputAdornment>
-                  )
-                }}
-              />
-              <Input
-                name="stopLoss"
-                label="Stop Loss"
-                onChange={handleChange("stopLoss")}
-                value={values.stopLoss}
-                fullWidth={true}
-                id="outlined-adornment-amount"
-                margin="normal"
-                type="number"
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">₹</InputAdornment>
-                  )
-                }}
-              />
-            </Grid>
-            <Grid item xs={3}>
-              <Input
-                name="quantity"
-                label="Quantity"
-                onChange={handleChange("quantity")}
-                value={values.quantity}
-                fullWidth={true}
-                id="outlined-adornment-amount"
-                margin="normal"
-                type="number"
-              />
-              <Input
-                name="trailingStopLoss"
-                label=" Trailing Stop Loss"
-                onChange={handleChange("trailingStopLoss")}
-                value={values.trailingStopLoss}
-                fullWidth={true}
-                id="outlined-adornment-amount"
-                margin="normal"
-                type="number"
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">₹</InputAdornment>
-                  )
-                }}
-              />
-              <DatePicker
-                label="Date"
-                value={selectedDate}
-                onChange={handleDateChange}
-              />
-              <BaseFormActionButtons
-                handleSubmit={handleSubmit}
-                handleReset={handleReset}
-              />
-            </Grid>
+        </Grid>
+        <Grid container justify="space-between" spacing={3}>
+          <Grid item xs={12} sm={9} md={6} lg={6} xl={6}>
+            <Input
+              name="quantity"
+              label="Quantity"
+              onChange={handleChange("quantity")}
+              value={values.quantity}
+              fullWidth={true}
+              id="outlined-adornment-amount"
+              margin="normal"
+              type="number"
+            />
+            <Input
+              name="buyPrice"
+              label="Buy Price"
+              onChange={handleChange("buyPrice")}
+              value={values.buyPrice}
+              fullWidth={true}
+              id="outlined-adornment-amount"
+              margin="normal"
+              type="number"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">₹</InputAdornment>
+                )
+              }}
+            />
+            <Input
+              name="targetPrice"
+              label="Target Price"
+              onChange={handleChange("targetPrice")}
+              value={values.targetPrice}
+              fullWidth={true}
+              id="outlined-adornment-amount"
+              margin="normal"
+              type="number"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">₹</InputAdornment>
+                )
+              }}
+            />
           </Grid>
-        </BaseFormTemplate>
-      </Container>
+          <Grid item xs={12} sm={9} md={6} lg={6} xl={6}>
+            <Input
+              name="stopLoss"
+              label="Stop Loss"
+              onChange={handleChange("stopLoss")}
+              value={values.stopLoss}
+              fullWidth={true}
+              id="outlined-adornment-amount"
+              margin="normal"
+              type="number"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">₹</InputAdornment>
+                )
+              }}
+            />
+            <Input
+              name="trailingStopLoss"
+              label=" Trailing Stop Loss"
+              onChange={handleChange("trailingStopLoss")}
+              value={values.trailingStopLoss}
+              fullWidth={true}
+              id="outlined-adornment-amount"
+              margin="normal"
+              type="number"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">₹</InputAdornment>
+                )
+              }}
+            />
+            <DatePicker
+              label="Date"
+              value={selectedDate}
+              onChange={handleDateChange}
+            />
+            <BaseFormActionButtons
+              handleSubmit={handleSubmit}
+              handleReset={handleReset}
+            />
+          </Grid>
+        </Grid>
+      </BaseFormTemplate>
     </div>
   );
 };

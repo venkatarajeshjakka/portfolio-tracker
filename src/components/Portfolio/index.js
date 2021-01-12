@@ -103,7 +103,7 @@ const DisplayTopMovers = ({ data, greenClass, redClass }) => {
       <MoverItem
         stockName={topGainer.stockCode}
         ltp={topGainer.ltp}
-        dailyGain={topGainer.dailyGain}
+        dailyGain={topGainer.change}
         changePercentage={topGainer.changePercentage}
         redClass={redClass}
         greenClass={greenClass}
@@ -112,7 +112,7 @@ const DisplayTopMovers = ({ data, greenClass, redClass }) => {
       <MoverItem
         stockName={topLoser.stockCode}
         ltp={topLoser.ltp}
-        dailyGain={topLoser.dailyGain}
+        dailyGain={topLoser.change}
         changePercentage={topLoser.changePercentage}
         redClass={redClass}
         greenClass={greenClass}

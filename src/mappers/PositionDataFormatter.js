@@ -43,6 +43,7 @@ const stockResponse = (stockData, portfolioStockInfo, stockCode) => {
     regularMarketPreviousClose
   } = stockData.data.price;
 
+  console.log('stock',stockData.data)
   const { sector } = stockData.data.summaryProfile;
 
   const {
@@ -198,7 +199,7 @@ const stockSummary = (stockKeys, stockDataResponse, positionData) => {
         return item.dailyGain;
       })
     };
-    console.log('topMovers',topMovers)
+    
     stockClassification = _.sortBy(stockClassification, "amount").reverse();
     return {
       dailyGain,

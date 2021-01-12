@@ -50,7 +50,6 @@ const styles = theme => ({
   },
   paper: {
     marginTop: theme.spacing(3),
-
     padding: theme.spacing(2),
     [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
       marginTop: theme.spacing(3),
@@ -158,10 +157,10 @@ const SellPositionForm = props => {
   } else {
     return (
       <div className={classes.root}>
-        <Grid container spacing={3}>
-          <Grid item xs={8}>
+        <Grid container justify={"space-between"} spacing={3}>
+          <Grid item xs={12} sm={9} md={9} xl={9} lg={9}>
             <Paper className={classes.paper}>
-              <Typography component="h1" variant="h4" align="center">
+              <Typography component="h5" variant="h5" align="left">
                 Sell Position
               </Typography>
               <form
@@ -170,8 +169,8 @@ const SellPositionForm = props => {
                 autoComplete="off"
                 onSubmit={e => e.preventDefault() && false}
               >
-                <Grid container justify="center">
-                  <Grid item xs={6}>
+                <Grid container spacing={3}>
+                  <Grid item xs={12} sm={9} md={6} lg={6} xl={6}>
                     <Input
                       name="stockName"
                       label="Stock Name"
@@ -182,8 +181,8 @@ const SellPositionForm = props => {
                     />
                   </Grid>
                 </Grid>
-                <Grid container justify="center" spacing={3}>
-                  <Grid item xs={3}>
+                <Grid container justify='space-between' spacing={3}>
+                  <Grid item xs={12} sm={9} md={6} lg={6} xl={6}>
                     <Input
                       name="sellPrice"
                       label="Sell Price"
@@ -205,7 +204,7 @@ const SellPositionForm = props => {
                       onChange={handleDateChange}
                     />
                   </Grid>
-                  <Grid item xs={3}>
+                  <Grid item xs={12} sm={9} md={6} lg={6} xl={6}>
                     <Input
                       name="quantity"
                       label="Quantity"
@@ -241,7 +240,7 @@ const SellPositionForm = props => {
               </form>
             </Paper>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={12} sm={3} lg={3} md={3} xl={3}>
             <Paper className={classes.paper}>
               <Typography
                 component="h1"

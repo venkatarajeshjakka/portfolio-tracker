@@ -185,10 +185,20 @@ const stockSummary = (stockKeys, stockDataResponse, positionData) => {
       return {
         stockName: item.stockName,
         amount: item.current,
+        stockCode : item.stockCode,
         percentage
       };
     });
 
+    var topMovers = {
+      topGainer: _.max(stockArray, function(item) {
+        return item.dailyGain;
+      }),
+      topLoser: _.min(stockArray, function(item) {
+        return item.dailyGain;
+      })
+    };
+    console.log('topMovers',topMovers)
     stockClassification = _.sortBy(stockClassification, "amount").reverse();
     return {
       dailyGain,
@@ -199,7 +209,8 @@ const stockSummary = (stockKeys, stockDataResponse, positionData) => {
       dailyProfitOrLossPercentage,
       sectorResponse: mappedFinalSectorResponse,
       stockSummary: stockArray,
-      stockClassification
+      stockClassification,
+      topMovers
     };
   }
 };

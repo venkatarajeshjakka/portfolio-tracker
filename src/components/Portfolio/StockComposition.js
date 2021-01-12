@@ -10,13 +10,13 @@ const StockComposition = ({ className, data, ...rest }) => {
     var b = Math.floor(Math.random() * 200);
     var color = "rgb(" + r + ", " + g + ", " + b + ")";
     return {
-      title: item.stockName,
+      title: item.stockCode,
       value: item.percentage,
       color: color
     };
   });
 
-  var labels = _.pluck(sectors, "title");
+  var labels = _.pluck(data, "stockName");
   var values = _.pluck(sectors, "value");
   var colorsArray = _.pluck(sectors, "color");
 

@@ -14,7 +14,7 @@ import {
   useTheme,
   Grid
 } from "@material-ui/core";
-import _ from "underscore";
+
 const useStyles = makeStyles(theme => ({
   root: {
     height: "100%",

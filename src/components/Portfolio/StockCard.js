@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
   root: ({ color }) => ({
     display: "flex",
     flexDirection: "column",
-    borderRadius: '1.5rem',
+    borderRadius: "1.5rem",
     boxShadow: "0 8px 24px 0 rgba(0,0,0,0.12)"
   }),
   statsItem: {
@@ -46,9 +46,9 @@ const useStyles = makeStyles(theme => ({
     color: "#040E5E"
   },
   actionArea: {
-    borderRadius: '1.5rem',
+    borderRadius: "1.5rem",
     transition: "0.2s",
-    height : '100%'
+    height: "100%"
   }
 }));
 
@@ -102,6 +102,7 @@ const StockCard = props => {
             </Grid>
           </Grid>
 
+          
           <Box flexGrow={1}>
             <Grid container justify="space-between" spacing={2}>
               <Grid item>

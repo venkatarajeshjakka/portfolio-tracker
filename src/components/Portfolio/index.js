@@ -39,8 +39,8 @@ const styles = theme => ({
   },
   paper: {
     minHeight: "80%",
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(2),
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
     padding: theme.spacing(2),
     boxShadow: "0 8px 24px 0 rgba(0,0,0,0.12)",
     borderRadius: "1.5rem",
@@ -72,18 +72,10 @@ const MoverItem = ({
 }) => {
   return (
     <Grid item>
-      <Typography
-        className={headingClass}
-        gutterBottom
-        variant="h6"
-      >
+      <Typography className={headingClass} gutterBottom variant="h6">
         {stockName}
       </Typography>
-      <Typography
-        className={priceClass}
-        gutterBottom
-        variant="subtitle2"
-      >
+      <Typography className={priceClass} gutterBottom variant="subtitle2">
         {formatCurrency(ltp)}
       </Typography>
       <Typography
@@ -243,9 +235,12 @@ const Portfolio = ({ classes }) => {
         <Grid container justify="space-between" spacing={3}>
           <Grid item sm={12} md={9} lg={9} xl={9}>
             <Paper className={classes.paper}>
-              <Typography 
-              className={classes.paperHeading}
-              align={"left"} gutterBottom variant="h6">
+              <Typography
+                className={classes.paperHeading}
+                align={"left"}
+                gutterBottom
+                variant="h6"
+              >
                 Investment overview
               </Typography>
               <DisplaySummary
@@ -257,8 +252,7 @@ const Portfolio = ({ classes }) => {
           </Grid>
           <Grid item sm={12} md={3} lg={3} xl={3} xs={12}>
             <Paper className={classes.paper}>
-            <Typography
-              align={"left"} gutterBottom variant="h6">
+              <Typography align={"left"} gutterBottom variant="h6">
                 Top movers
               </Typography>
               <DisplayTopMovers
@@ -279,7 +273,7 @@ const Portfolio = ({ classes }) => {
         </Grid>
 
         <Box mt={3}>
-          <Grid container spacing={4}>
+          <Grid container spacing={3}>
             {stockSummaryResponse.stockSummary.map(item => {
               return (
                 <Grid

@@ -51,7 +51,7 @@ const useStyles = makeStyles(theme => ({
   },
   box: {
     backgroundColor: "#E1EFFF",
-    padding: theme.spacing(3),
+    padding: theme.spacing(2),
     borderRadius: theme.spacing(2)
   },
   progress: {
@@ -132,7 +132,7 @@ const FirstColumn = ({ boxStyle, values, progressClass }) => {
 
 const Column = ({ children }) => {
   return (
-    <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
+    <Grid item xs={12} sm={3} md={3} lg={3} xl={3}>
       {children}
     </Grid>
   );
@@ -280,7 +280,7 @@ const PositionList = ({ className, history, data, ...rest }) => {
                 <MoreVertIcon />
               </IconButton>
 
-              <Grid container justify="space-between" spacing={3}>
+              <Grid container justify="space-between" spacing={2}>
                 <FirstColumn
                   boxStyle={classes.box}
                   progressClass={classes.progress}

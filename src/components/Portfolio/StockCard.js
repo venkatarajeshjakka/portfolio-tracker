@@ -47,7 +47,8 @@ const useStyles = makeStyles(theme => ({
   },
   actionArea: {
     borderRadius: '1.5rem',
-    transition: "0.2s"
+    transition: "0.2s",
+    height : '100%'
   }
 }));
 

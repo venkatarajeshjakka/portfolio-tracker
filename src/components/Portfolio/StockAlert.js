@@ -48,6 +48,8 @@ const StockAlert = ({
       />
     );
   }
+
+  return null
 };
 
 export default StockAlert;

@@ -11,7 +11,7 @@ import { stockResponse } from "../../mappers/PositionDataFormatter";
 import { formatCurrency } from "../../extensions/Formatters";
 import DisplayItemSection from "./DisplayItemSection";
 import { Red, Green } from "../../color";
-
+import StockSentiment from "./StockSentiment";
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
   return (
@@ -100,7 +100,9 @@ const TopSection = ({
   change,
   changePercentage,
   greenClass,
-  redClass
+  redClass,
+  fiftyMA,
+  twoHundredMA
 }) => {
   return (
     <div className={headerClass}>
@@ -134,6 +136,15 @@ const TopSection = ({
           >
             {changePercentage} %
           </Typography>
+        </Grid>
+      </Grid>
+      <Grid container>
+        <Grid item>
+          <StockSentiment
+            ltp={ltp}
+            fiftyMA={fiftyMA}
+            twoHundredMA={twoHundredMA}
+          />
         </Grid>
       </Grid>
     </div>
@@ -183,6 +194,8 @@ const PostionDetails = props => {
           changePercentage={cardResponse.summary.changePercentage}
           greenClass={classes.green}
           redClass={classes.red}
+          fiftyMA={cardResponse.summary.fiftyDayAverage}
+          twoHundredMA={cardResponse.summary.twoHundredDayAverage}
         />
 
         <Grid container justify="space-between" spacing={3}>
@@ -201,7 +214,9 @@ const PostionDetails = props => {
                 />
                 <DisplayItemSection
                   label={"Beta"}
-                  value={cardResponse.summary.beta}
+                  value={
+                    cardResponse.summary.beta ? cardResponse.summary.beta : "-"
+                  }
                 />
               </Grid>
               <Grid item>

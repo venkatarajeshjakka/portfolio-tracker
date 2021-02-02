@@ -7,18 +7,21 @@ const styles = makeStyles(theme => ({
     display: "flex",
     backgroundColor: props => props.background,
     flexDirection: "row",
-    justifyContent: 'space-evenly',
+    justifyContent: 'center',
     paddingLeft : theme.spacing(1),
     paddingRight : theme.spacing(1),
     paddingTop : theme.spacing(1),
-    color: "black"
+    color: props => props.background ? 'white': "black",
+    textTransform : 'uppercase',
+    fontWeight : 'bold',
+    borderRadius: "1rem"
   }
 }));
 const Chip = ({ className, children, label, ...props }) => {
   const classes = styles(props);
   return (
     <div className={clsx(classes.root, className)}>
-      <Typography variant="subtitle1" display="block" gutterBottom>
+      <Typography variant="subtitle2" display="block" gutterBottom>
         {label}
       </Typography>
       <div>{children}</div>

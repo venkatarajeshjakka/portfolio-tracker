@@ -22,13 +22,7 @@ const DisplayItemSection = ({
 
   return (
     <div className={classes.root}>
-      <Grid
-        container
-        direction="column"
-        justify="center"
-        alignItems={alignItems}
-        spacing={1}
-      >
+      <Grid container direction="column" alignItems={alignItems} spacing={1}>
         <Grid item>
           <Typography
             color="textSecondary"

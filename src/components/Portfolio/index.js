@@ -273,7 +273,7 @@ const Portfolio = ({ classes }) => {
         </Grid>
 
         <Box mt={3}>
-          <Grid container spacing={3}>
+          <Grid container spacing={2}>
             {stockSummaryResponse.stockSummary.map(item => {
               return (
                 <Grid

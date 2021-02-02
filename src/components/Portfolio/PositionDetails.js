@@ -76,17 +76,17 @@ const styles = theme => ({
     marginLeft: theme.spacing(2)
   },
   red: {
-    color: Red.dafault,
+    color: Red.dafault
   },
   green: {
-    color: Green.default,
-  },
+    color: Green.default
+  }
 });
 
 const RenderPaper = ({ style, children }) => {
   return (
     <Paper className={style}>
-      <Grid container justify="space-between" alignItems={'center'} spacing={3}>
+      <Grid container justify="space-between" spacing={3}>
         {children}
       </Grid>
     </Paper>
@@ -116,7 +116,7 @@ const TopSection = ({
         {formatCurrency(ltp)}
       </Typography>
 
-      <Grid container alignItems="center" spacing={3}>
+      <Grid container alignItems="center" spacing={2}>
         <Grid item>
           <Typography
             className={change > 0 ? greenClass : redClass}
@@ -190,10 +190,6 @@ const PostionDetails = props => {
             <RenderPaper style={classes.paper}>
               <Grid item>
                 <DisplayItemSection
-                  label={"ltp"}
-                  value={formatCurrency(cardResponse.summary.ltp)}
-                />
-                <DisplayItemSection
                   label={"52 Week High"}
                   value={formatCurrency(cardResponse.summary.fiftyTwoWeekHigh)}
                 />
@@ -203,14 +199,12 @@ const PostionDetails = props => {
                     cardResponse.summary.twoHundredDayAverage
                   )}
                 />
+                <DisplayItemSection
+                  label={"Beta"}
+                  value={cardResponse.summary.beta}
+                />
               </Grid>
               <Grid item>
-                <DisplayItemSection
-                  label={"Change"}
-                  value={`${formatCurrency(cardResponse.summary.change)}(${
-                    cardResponse.summary.changePercentage
-                  }%)`}
-                />
                 <DisplayItemSection
                   label={"52 Week Low"}
                   value={formatCurrency(cardResponse.summary.fiftyTwoWeekLow)}
@@ -218,6 +212,10 @@ const PostionDetails = props => {
                 <DisplayItemSection
                   label={"50 Day MA"}
                   value={formatCurrency(cardResponse.summary.fiftyDayAverage)}
+                />
+                <DisplayItemSection
+                  label={"Sector"}
+                  value={cardResponse.summary.sector}
                 />
               </Grid>
               <Grid item>
@@ -233,10 +231,6 @@ const PostionDetails = props => {
                       : "-"
                   }
                 />
-                <DisplayItemSection
-                  label={"Beta"}
-                  value={cardResponse.summary.beta}
-                />
               </Grid>
               <Grid item>
                 <DisplayItemSection
@@ -250,10 +244,6 @@ const PostionDetails = props => {
                       ? cardResponse.summary.fiveYearAvgDividendYield
                       : "-"
                   }
-                />
-                <DisplayItemSection
-                  label={"Sector"}
-                  value={cardResponse.summary.sector}
                 />
               </Grid>
             </RenderPaper>

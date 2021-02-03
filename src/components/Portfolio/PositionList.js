@@ -147,10 +147,10 @@ const SecondSub = ({
   trailingStoploss
 }) => {
   return (
-    <Grid item xs={12} sm={6} md={6} lg={9} xl={9}>
+    <Grid item xs={12} sm={9} md={9} lg={9} xl={9}>
       <Grid container direction="column">
         <Grid item>
-          <Grid container justify="space-between" spacing={3}>
+          <Grid container justify="space-evenly" spacing={3}>
             {children}
           </Grid>
         </Grid>

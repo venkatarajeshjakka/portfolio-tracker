@@ -23,7 +23,7 @@ function TabPanel(props) {
       {...other}
     >
       {value === index && (
-        <Box p={3}>
+        <Box>
           <div>{children}</div>
         </Box>
       )}
@@ -303,25 +303,23 @@ const PostionDetails = props => {
           </Grid>
         </Grid>
         <Paper className={classes.paper}>
-          <Box>
-            <Tabs
-              value={value}
-              onChange={handleChange}
-              indicatorColor="primary"
-              textColor="primary"
-              variant="fullWidth"
-              aria-label="full width tabs example"
-            >
-              <Tab label="Open Position" {...a11yProps(0)} />
-              <Tab label="Closed Postion" {...a11yProps(1)} />
-            </Tabs>
-            <TabPanel value={value} index={0}>
-              <PositionList data={cardResponse} />
-            </TabPanel>
-            <TabPanel value={value} index={1}>
-              Item Two
-            </TabPanel>
-          </Box>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            indicatorColor="primary"
+            textColor="primary"
+            variant="fullWidth"
+            aria-label="full width tabs example"
+          >
+            <Tab label="Open Position" {...a11yProps(0)} />
+            <Tab label="Closed Postion" {...a11yProps(1)} />
+          </Tabs>
+          <TabPanel value={value} index={0}>
+            <PositionList data={cardResponse} />
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+            Item Two
+          </TabPanel>
         </Paper>
       </div>
     );

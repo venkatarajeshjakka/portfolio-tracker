@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Grid, InputAdornment } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import Autocomplete from "@material-ui/lab/Autocomplete";
@@ -7,6 +7,8 @@ import { withRouter } from "react-router";
 import { stockList } from "../../data/stockList";
 import { AuthContext } from "../../context/AuthContext";
 import { Context as PortfolioContext } from "../../context/PortfolioContext";
+import { Context as StockContext } from "../../context/StockContext";
+import _ from "underscore";
 import { BaseFormTemplate, BaseFormActionButtons } from "./Base";
 
 const styles = theme => ({
@@ -22,6 +24,10 @@ const AddPortfolioForm = props => {
   const { classes, history } = props;
   const { currentUser } = useContext(AuthContext);
   const { addPosition } = useContext(PortfolioContext);
+  const {
+    getStockData,
+    state: { stockData }
+  } = useContext(StockContext);
   const [values, setValues] = useState({
     buyPrice: "",
     targetPrice: "",
@@ -29,7 +35,13 @@ const AddPortfolioForm = props => {
     quantity: "",
     trailingStopLoss: ""
   });
+  const getStockCode = stockName => {
+    var response = _.findWhere(stockList, { StockName: stockName });
 
+    var stockCode = response.Symbol;
+
+    return stockCode;
+  };
   const [stockName, setStockName] = useState("");
 
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -37,6 +49,21 @@ const AddPortfolioForm = props => {
   const handleChange = prop => event => {
     setValues({ ...values, [prop]: event.target.value });
   };
+
+  useEffect(() => {
+    if (stockName) {
+      var stockCode = getStockCode(stockName);
+      getStockData(stockCode);
+    }
+  }, [stockName]);
+
+  useEffect(() => {
+    if (stockData) {
+      const { regularMarketPrice } = stockData.price;
+
+      setValues({ ...values, buyPrice: regularMarketPrice });
+    }
+  }, [stockData]);
 
   const handleReset = () => {
     setSelectedDate(new Date());
@@ -81,6 +108,9 @@ const AddPortfolioForm = props => {
               options={stockList.map(option => option.StockName)}
               onChange={(event, newValue) => {
                 setStockName(newValue);
+                if (!newValue) {
+                  setValues({ ...values, buyPrice: "" });
+                }
               }}
               renderInput={params => (
                 <Input

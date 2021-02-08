@@ -8,9 +8,8 @@ import {
   CircularProgress
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
-import { Input, Button, DatePicker } from "../Controls";
+import { Input, DatePicker } from "../Controls";
 import { withRouter } from "react-router";
-import SaveIcon from "@material-ui/icons/Save";
 import { Context as PortfolioContext } from "../../context/PortfolioContext";
 import _ from "underscore";
 import moment from "moment";

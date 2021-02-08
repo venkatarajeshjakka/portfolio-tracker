@@ -53,9 +53,6 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: "#E1EFFF",
     padding: theme.spacing(2),
     borderRadius: theme.spacing(2)
-  },
-  progress: {
-    paddingBottom: theme.spacing(2)
   }
 }));
 
@@ -220,7 +217,9 @@ const PositionList = ({ className, history, data, ...rest }) => {
       case "Edit":
         addPositionId(poistionValue);
         history.push("/edit-position");
+        break;
       default:
+      
     }
   };
   const handleClickAlertOpen = () => {

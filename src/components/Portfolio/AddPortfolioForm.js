@@ -7,8 +7,7 @@ import { withRouter } from "react-router";
 import { stockList } from "../../data/stockList";
 import { AuthContext } from "../../context/AuthContext";
 import { Context as PortfolioContext } from "../../context/PortfolioContext";
-import BaseFormTemplate from "./BaseFormTemplate";
-import BaseFormActionButtons from "./BaseFormActionButtons";
+import { BaseFormTemplate, BaseFormActionButtons } from "./Base";
 
 const styles = theme => ({
   root: {

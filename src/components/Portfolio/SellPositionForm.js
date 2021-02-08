@@ -17,8 +17,8 @@ import { formatCurrency } from "../../extensions/Formatters";
 import { AuthContext } from "../../context/AuthContext";
 import { Context as StockContext } from "../../context/StockContext";
 import { getStockDetails } from "../../mappers/PositionDataFormatter";
-import BaseFormTemplate from "./BaseFormTemplate";
-import BaseFormActionButtons from "./BaseFormActionButtons";
+import { BaseFormTemplate, BaseFormActionButtons } from "./Base";
+
 const DisplaySection = ({ label, value, className }) => {
   return (
     <Grid container justify="space-between" spacing={2}>

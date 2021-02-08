@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import _ from "underscore";
-import BasePieChart from "./BasePieChart";
+import { BasePieChart } from "./Base";
 
 const StockComposition = ({ className, data, ...rest }) => {
   var sectors = data.map(item => {

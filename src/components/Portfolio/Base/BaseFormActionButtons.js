@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Button } from "../Controls";
+import { Button } from "../../Controls";
 import SaveIcon from "@material-ui/icons/Save";
 
 const useStyles = makeStyles(theme => ({
@@ -33,3 +33,4 @@ const BaseFormActionButtons = ({ handleReset, handleSubmit }) => {
 };
 
 export default BaseFormActionButtons;
+export { BaseFormActionButtons };

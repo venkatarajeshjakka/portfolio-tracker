@@ -131,3 +131,4 @@ BasePieChart.propTypes = {
 };
 
 export default BasePieChart;
+export {BasePieChart}

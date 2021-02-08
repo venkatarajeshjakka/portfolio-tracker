@@ -19,6 +19,7 @@ import { Red, Green } from "../../color";
 import SectorComposition from "./SectorComposition";
 import StockComposition from "./StockComposition";
 import ColoredCircularProgress from "../UtilityComponents/ColoredCircularProgress";
+import { DisplayTopMovers } from "./LandingPage";
 const styles = theme => ({
   button: {
     margin: theme.spacing(5),
@@ -60,84 +61,6 @@ const styles = theme => ({
   }
 });
 
-const MoverItem = ({
-  stockName,
-  ltp,
-  dailyGain,
-  changePercentage,
-  redClass,
-  greenClass,
-  priceClass,
-  headingClass
-}) => {
-  return (
-    <Grid item>
-      <Typography className={headingClass} gutterBottom variant="h6">
-        {stockName}
-      </Typography>
-      <Typography className={priceClass} gutterBottom variant="subtitle2">
-        {formatCurrency(ltp)}
-      </Typography>
-      <Typography
-        className={dailyGain > 0 ? greenClass : redClass}
-        gutterBottom
-        variant="subtitle2"
-      >
-        {`${formatCurrency(dailyGain)}(${changePercentage}%)`}
-      </Typography>
-    </Grid>
-  );
-};
-const DisplayTopLoser = ({ topLoser, redClass, greenClass }) => {
-  return (
-    <>
-      <Divider orientation="vertical" flexItem variant="middle" />
-      <MoverItem
-        stockName={topLoser.stockCode}
-        ltp={topLoser.ltp}
-        dailyGain={topLoser.change}
-        changePercentage={topLoser.changePercentage}
-        redClass={redClass}
-        greenClass={greenClass}
-      />
-    </>
-  );
-};
-const DisplayTopMovers = ({ data, greenClass, redClass }) => {
-  const { topGainer, topLoser } = data.topMovers;
-  if (topLoser.change < 0) {
-    return (
-      <Grid container justify="space-between" alignItems="center" spacing={3}>
-        <MoverItem
-          stockName={topGainer.stockCode}
-          ltp={topGainer.ltp}
-          dailyGain={topGainer.change}
-          changePercentage={topGainer.changePercentage}
-          redClass={redClass}
-          greenClass={greenClass}
-        />
-
-        <DisplayTopLoser
-          topLoser={topLoser}
-          redClass={redClass}
-          greenClass={greenClass}
-        />
-      </Grid>
-    );
-  }
-  return (
-    <Grid container alignItems="center" spacing={3}>
-      <MoverItem
-        stockName={topGainer.stockCode}
-        ltp={topGainer.ltp}
-        dailyGain={topGainer.change}
-        changePercentage={topGainer.changePercentage}
-        redClass={redClass}
-        greenClass={greenClass}
-      />
-    </Grid>
-  );
-};
 const DisplaySummary = ({ data, greenClass, redClass }) => {
   const {
     investment,

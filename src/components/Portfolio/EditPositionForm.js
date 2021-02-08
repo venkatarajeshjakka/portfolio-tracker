@@ -5,8 +5,7 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import { Input, DatePicker } from "../Controls";
 import { withRouter } from "react-router";
 import { stockList } from "../../data/stockList";
-import BaseFormTemplate from "./BaseFormTemplate";
-import BaseFormActionButtons from "./BaseFormActionButtons";
+import { BaseFormTemplate, BaseFormActionButtons } from "./Base";
 import { Context as PortfolioContext } from "../../context/PortfolioContext";
 import _ from "underscore";
 const styles = theme => ({

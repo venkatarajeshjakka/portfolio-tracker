@@ -41,3 +41,4 @@ const BaseFormTemplate = ({ title, children }) => {
 };
 
 export default BaseFormTemplate;
+export { BaseFormTemplate };

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { Grid, Box, Paper, Typography, Divider } from "@material-ui/core";
+import { Grid, Box, Paper, Typography } from "@material-ui/core";
 import PageHeader from "../shared/PageHeader";
 import { withStyles } from "@material-ui/core/styles";
 import { Link, withRouter } from "react-router-dom";
@@ -8,18 +8,19 @@ import {
   AccountBalanceOutlined as AccountBalanceOutlinedIcon
 } from "@material-ui/icons";
 import { Button } from "../Controls";
-import StockCard from "./StockCard";
 import { AuthContext } from "../../context/AuthContext";
 import { Context as PortfolioContext } from "../../context/PortfolioContext";
 import { Context as StockContext } from "../../context/StockContext";
 import { stockSummary } from "../../mappers/PositionDataFormatter";
-import DisplayItemSection from "./DisplayItemSection";
-import { formatCurrency } from "../../extensions/Formatters";
 import { Red, Green } from "../../color";
-import SectorComposition from "./SectorComposition";
-import StockComposition from "./StockComposition";
 import ColoredCircularProgress from "../UtilityComponents/ColoredCircularProgress";
-import { DisplayTopMovers } from "./LandingPage";
+import {
+  DisplayTopMovers,
+  DisplaySummary,
+  SectorComposition,
+  StockCard,
+  StockComposition
+} from "./LandingPage";
 const styles = theme => ({
   button: {
     margin: theme.spacing(5),
@@ -61,56 +62,6 @@ const styles = theme => ({
   }
 });
 
-const DisplaySummary = ({ data, greenClass, redClass }) => {
-  const {
-    investment,
-    currentValue,
-    dailyGain,
-    dailyProfitOrLossPercentage,
-    profitLoss,
-    profitOrLossPercentage
-  } = data;
-  return (
-    <Grid container justify="space-evenly" alignItems="center" spacing={3}>
-      <Grid item>
-        <DisplayItemSection
-          variant={"h5"}
-          label={"Investment"}
-          alignItems={"center"}
-          value={formatCurrency(investment)}
-        />
-      </Grid>
-      <Grid item>
-        <DisplayItemSection
-          variant={"h5"}
-          label={"Current"}
-          alignItems={"center"}
-          value={formatCurrency(currentValue)}
-        />
-      </Grid>
-      <Grid item>
-        <DisplayItemSection
-          variant={"h5"}
-          label={"Daily P&L"}
-          value={`${formatCurrency(
-            dailyGain
-          )}(${dailyProfitOrLossPercentage}%)`}
-          alignItems={"center"}
-          textStyle={dailyGain > 0 ? greenClass : redClass}
-        />
-      </Grid>
-      <Grid item>
-        <DisplayItemSection
-          variant={"h5"}
-          label={"P&L"}
-          value={`${formatCurrency(profitLoss)}(${profitOrLossPercentage}%)`}
-          alignItems={"center"}
-          textStyle={profitLoss > 0 ? greenClass : redClass}
-        />
-      </Grid>
-    </Grid>
-  );
-};
 const Portfolio = ({ classes }) => {
   const { currentUser } = useContext(AuthContext);
   const {

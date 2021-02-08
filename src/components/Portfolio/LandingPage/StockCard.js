@@ -13,8 +13,8 @@ import {
 } from "@material-ui/core";
 import { WorkOutlineOutlined as WorkOutlineOutlinedIcon } from "@material-ui/icons";
 import { Link } from "react-router-dom";
-import { formatCurrency } from "../../extensions/Formatters";
-import DisplayItemSection from "./DisplayItemSection";
+import { formatCurrency } from "../../../extensions/Formatters";
+import DisplayItemSection from "../DisplayItemSection";
 
 const useStyles = makeStyles(theme => ({
   root: ({ color }) => ({
@@ -102,7 +102,6 @@ const StockCard = props => {
             </Grid>
           </Grid>
 
-          
           <Box flexGrow={1}>
             <Grid container justify="space-between" spacing={2}>
               <Grid item>
@@ -176,3 +175,4 @@ StockCard.propTypes = {
 };
 
 export default StockCard;
+export { StockCard };

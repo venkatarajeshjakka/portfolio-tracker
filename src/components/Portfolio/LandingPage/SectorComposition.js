@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import _ from "underscore";
-import { BasePieChart } from "./Base";
+import { BasePieChart } from "../Base";
 
 const SectorComposition = ({ className, data, ...rest }) => {
   var sectors = data.map(item => {
@@ -36,3 +36,4 @@ SectorComposition.propTypes = {
 };
 
 export default SectorComposition;
+export { SectorComposition };

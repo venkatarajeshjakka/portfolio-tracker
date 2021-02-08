@@ -219,7 +219,6 @@ const PositionList = ({ className, history, data, ...rest }) => {
         history.push("/edit-position");
         break;
       default:
-      
     }
   };
   const handleClickAlertOpen = () => {

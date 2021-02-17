@@ -1,6 +1,6 @@
 import React from "react";
 import DisplayItemSection from "../DisplayItemSection";
-import { Grid } from "@material-ui/core";
+import { Grid, Typography } from "@material-ui/core";
 import { formatCurrency } from "../../../extensions/Formatters";
 
 const DisplaySummary = ({ data, greenClass, redClass }) => {
@@ -14,6 +14,16 @@ const DisplaySummary = ({ data, greenClass, redClass }) => {
   } = data;
   return (
     <Grid container justify="space-evenly" alignItems="center" spacing={3}>
+      <Grid item>
+        <div>
+          <Typography color="textPrimary" variant="h5">
+            Your Investments
+          </Typography>
+          <Typography color="textSecondary" display="inline" variant="body2">
+            As of Today
+          </Typography>
+        </div>
+      </Grid>
       <Grid item>
         <DisplayItemSection
           variant={"h5"}

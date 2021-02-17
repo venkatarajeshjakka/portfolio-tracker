@@ -28,7 +28,7 @@ const styles = theme => ({
     paddingTop: theme.spacing(3)
   },
   root: {
-    backgroundColor: theme.palette.background.dark,
+    backgroundColor: "white",
     minHeight: "100%",
     paddingBottom: theme.spacing(3),
     paddingTop: theme.spacing(3)
@@ -44,8 +44,8 @@ const styles = theme => ({
     marginTop: theme.spacing(1),
     marginBottom: theme.spacing(1),
     padding: theme.spacing(2),
-    boxShadow: "0 8px 24px 0 rgba(0,0,0,0.12)",
-    borderRadius: "1.5rem",
+    backgroundColor: "#f9fafb",
+    borderRadius: "0.625rem",
     [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
       marginTop: theme.spacing(3),
       marginBottom: theme.spacing(3),
@@ -132,23 +132,17 @@ const Portfolio = ({ classes }) => {
             startIcon={<AddOutlinedIcon />}
           />
         </Grid>
-        <Grid container justify="space-between" spacing={3}>
+        <Grid container justify="space-between" 
+        alignItems='center'
+        spacing={3}>
           <Grid item sm={12} md={9} lg={9} xl={9}>
-            <Paper className={classes.paper}>
-              <Typography
-                className={classes.paperHeading}
-                align={"left"}
-                gutterBottom
-                variant="h6"
-              >
-                Investment overview
-              </Typography>
+            <div className={classes.paper}>
               <DisplaySummary
                 data={stockSummaryResponse}
                 redClass={classes.red}
                 greenClass={classes.green}
               />
-            </Paper>
+            </div>
           </Grid>
           <Grid item sm={12} md={3} lg={3} xl={3} xs={12}>
             <Paper className={classes.paper}>

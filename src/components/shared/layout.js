@@ -12,7 +12,7 @@ import SideBar from "./sideBar";
 import { AuthContext } from "../../context/AuthContext";
 import { Link } from "react-router-dom";
 import app from "../../config/firebase";
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from "@material-ui/core/styles";
 
 const drawerWidth = 240;
 
@@ -34,7 +34,8 @@ const LoginButton = () => {
 
 const styles = theme => ({
   root: {
-    display: "flex"
+    display: "flex",
+    backgroundColor: "white"
   },
   menuButton: {
     marginRight: theme.spacing(2)

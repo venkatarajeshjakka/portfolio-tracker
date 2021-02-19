@@ -18,8 +18,8 @@ import {
   DisplayTopMovers,
   DisplaySummary,
   SectorComposition,
-  StockCard,
-  StockComposition
+  StockComposition,
+  StockListItem
 } from "./LandingPage";
 const styles = theme => ({
   button: {
@@ -59,6 +59,9 @@ const styles = theme => ({
   green: {
     color: Green.default,
     paddingRight: theme.spacing(1)
+  },
+  stockList :{
+    margin: theme.spacing(1),
   }
 });
 
@@ -132,9 +135,7 @@ const Portfolio = ({ classes }) => {
             startIcon={<AddOutlinedIcon />}
           />
         </Grid>
-        <Grid container justify="space-between" 
-        alignItems='center'
-        spacing={3}>
+        <Grid container justify="space-between" alignItems="center" spacing={3}>
           <Grid item sm={12} md={9} lg={9} xl={9}>
             <div className={classes.paper}>
               <DisplaySummary
@@ -166,25 +167,11 @@ const Portfolio = ({ classes }) => {
           </Grid>
         </Grid>
 
-        <Box mt={3}>
-          <Grid container spacing={2}>
-            {stockSummaryResponse.stockSummary.map(item => {
-              return (
-                <Grid
-                  item
-                  key={item.stockCode}
-                  lg={3}
-                  md={3}
-                  xl={3}
-                  sm={6}
-                  xs={12}
-                >
-                  <StockCard className={classes.productCard} product={item} />
-                </Grid>
-              );
-            })}
-          </Grid>
-        </Box>
+        <div className={classes.stockList}>
+          {stockSummaryResponse.stockSummary.map(item => {
+            return <StockListItem key={item.stockCode} data={item} />;
+          })}
+        </div>
       </div>
     );
   }

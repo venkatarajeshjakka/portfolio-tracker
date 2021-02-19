@@ -6,7 +6,9 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(1)
   },
   label: {
-    textTransform: "none"
+    textTransform: "none",
+    paddingLeft: theme.spacing(1),
+    paddingRight: theme.spacing(1),
   },
   button: {
     margin: theme.spacing(1),

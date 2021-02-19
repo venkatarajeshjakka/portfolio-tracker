@@ -2,16 +2,20 @@ import React, { useContext } from "react";
 import { Typography, Paper, Avatar, Button } from "@material-ui/core";
 import VerifiedUserOutlined from "@material-ui/icons/VerifiedUserOutlined";
 import { withRouter } from "react-router-dom";
-
 import app from "../../config/firebase";
 import { AuthContext } from "../../context/AuthContext";
 import { withStyles } from "@material-ui/core/styles";
+
 const styles = theme => ({
+  root: {
+    backgroundColor: "white"
+  },
   main: {
     width: "auto",
     display: "block", // Fix IE 11 issue.
     marginLeft: theme.spacing(3),
     marginRight: theme.spacing(3),
+    backgroundColor: "white",
     [theme.breakpoints.up(400 + theme.spacing(6))]: {
       width: 400,
       marginLeft: "auto",

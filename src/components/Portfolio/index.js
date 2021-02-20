@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Grid, Paper, Typography, Tabs,Tab } from "@material-ui/core";
+import { Grid, Paper, Typography, Tabs, Tab } from "@material-ui/core";
 import PageHeader from "../shared/PageHeader";
 import { withStyles } from "@material-ui/core/styles";
 import { Link, withRouter } from "react-router-dom";
@@ -69,7 +69,7 @@ const styles = theme => ({
     paddingRight: theme.spacing(1)
   },
   stockList: {
-    margin: theme.spacing(1)
+    margin: theme.spacing(2)
   }
 });
 
@@ -180,29 +180,29 @@ const Portfolio = ({ classes }) => {
           aria-label="full width tabs example"
         >
           <Tab label="Portfolio" {...a11yProps(0)} />
-          <Tab label="Insight" {...a11yProps(1)} />
+          <Tab label="Insights" {...a11yProps(1)} />
         </Tabs>
         <TabPanel value={value} index={0}>
-        <div className={classes.stockList}>
-          {stockSummaryResponse.stockSummary.map(item => {
-            return <StockListItem key={item.stockCode} data={item} />;
-          })}
-        </div>
+          <div className={classes.stockList}>
+            {stockSummaryResponse.stockSummary.map(item => {
+              return <StockListItem key={item.stockCode} data={item} />;
+            })}
+          </div>
         </TabPanel>
         <TabPanel value={value} index={1}>
-        <Grid container spacing={3}>
-          <Grid item sm={12} md={9} lg={6} xl={6}>
-            <SectorComposition data={stockSummaryResponse.sectorResponse} />
-          </Grid>
-          <Grid item sm={12} md={9} lg={6} xl={6}>
-            <StockComposition data={stockSummaryResponse.stockClassification} />
-          </Grid>
-        </Grid>
+          <div className={classes.stockList}>
+            <Grid container spacing={3}>
+              <Grid item sm={12} md={9} lg={6} xl={6}>
+                <SectorComposition data={stockSummaryResponse.sectorResponse} />
+              </Grid>
+              <Grid item sm={12} md={9} lg={6} xl={6}>
+                <StockComposition
+                  data={stockSummaryResponse.stockClassification}
+                />
+              </Grid>
+            </Grid>
+          </div>
         </TabPanel>
-
-        
-
-        
       </div>
     );
   }

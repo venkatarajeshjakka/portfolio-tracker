@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import { withRouter } from "react-router-dom";
-import { Grid, Box, Paper, Tabs, Tab, Typography } from "@material-ui/core";
+import { Grid, Paper, Tabs, Tab, Typography } from "@material-ui/core";
 import PositionList from "./PositionList";
 import { Context as PortfolioContext } from "../../context/PortfolioContext";
 import { Context as StockContext } from "../../context/StockContext";
@@ -12,24 +12,7 @@ import { formatCurrency } from "../../extensions/Formatters";
 import DisplayItemSection from "./DisplayItemSection";
 import { Red, Green } from "../../color";
 import StockSentiment from "./StockSentiment";
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`scrollable-auto-tabpanel-${index}`}
-      aria-labelledby={`scrollable-auto-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box>
-          <div>{children}</div>
-        </Box>
-      )}
-    </div>
-  );
-}
+import { TabPanel } from "../Tab";
 
 function a11yProps(index) {
   return {

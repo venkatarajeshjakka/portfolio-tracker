@@ -14,10 +14,11 @@ const useStyles = makeStyles(theme => ({
     borderBottomColor: "#dde0e4",
     display: "block",
     position: "relative",
+    transition: 'opacity 0.4s ease-in-out',
     "&:hover": {
-      border: "1px solid",
+      border: "2px solid",
       borderRadius: "4px",
-      borderColor: "#0078ff"
+      borderColor: "#0078ff",
     }
   },
   title_section: {
@@ -172,7 +173,7 @@ const StockListItem = ({ data }) => {
             value={`${formatCurrency(data.profitOrLoss)}(${
               data.profirOrLossPercentage
             } %)`}
-            alignItems={"left"}
+            alignItems={"flex-start"}
             textStyle={data.profitOrLoss > 0 ? classes.green : classes.red}
           />
         </Grid>

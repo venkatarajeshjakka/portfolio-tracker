@@ -1,5 +1,5 @@
-import React, { useContext, useEffect } from "react";
-import { Grid, Box, Paper, Typography } from "@material-ui/core";
+import React, { useContext, useEffect, useState } from "react";
+import { Grid, Paper, Typography, Tabs,Tab } from "@material-ui/core";
 import PageHeader from "../shared/PageHeader";
 import { withStyles } from "@material-ui/core/styles";
 import { Link, withRouter } from "react-router-dom";
@@ -21,6 +21,14 @@ import {
   StockComposition,
   StockListItem
 } from "./LandingPage";
+import { TabPanel } from "../Tab";
+
+function a11yProps(index) {
+  return {
+    id: `scrollable-auto-tab-${index}`,
+    "aria-controls": `scrollable-auto-tabpanel-${index}`
+  };
+}
 const styles = theme => ({
   button: {
     margin: theme.spacing(5),
@@ -60,8 +68,8 @@ const styles = theme => ({
     color: Green.default,
     paddingRight: theme.spacing(1)
   },
-  stockList :{
-    margin: theme.spacing(1),
+  stockList: {
+    margin: theme.spacing(1)
   }
 });
 
@@ -91,6 +99,10 @@ const Portfolio = ({ classes }) => {
     }
   }, [positionsKeys]);
 
+  const [value, setValue] = useState(0);
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
   const renderSection = (positionData, stockData) => {
     return (
       positionData &&
@@ -158,6 +170,26 @@ const Portfolio = ({ classes }) => {
             </Paper>
           </Grid>
         </Grid>
+
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          indicatorColor="primary"
+          textColor="primary"
+          variant="fullWidth"
+          aria-label="full width tabs example"
+        >
+          <Tab label="Portfolio" {...a11yProps(0)} />
+          <Tab label="Insight" {...a11yProps(1)} />
+        </Tabs>
+        <TabPanel value={value} index={0}>
+        <div className={classes.stockList}>
+          {stockSummaryResponse.stockSummary.map(item => {
+            return <StockListItem key={item.stockCode} data={item} />;
+          })}
+        </div>
+        </TabPanel>
+        <TabPanel value={value} index={1}>
         <Grid container spacing={3}>
           <Grid item sm={12} md={9} lg={6} xl={6}>
             <SectorComposition data={stockSummaryResponse.sectorResponse} />
@@ -166,12 +198,11 @@ const Portfolio = ({ classes }) => {
             <StockComposition data={stockSummaryResponse.stockClassification} />
           </Grid>
         </Grid>
+        </TabPanel>
 
-        <div className={classes.stockList}>
-          {stockSummaryResponse.stockSummary.map(item => {
-            return <StockListItem key={item.stockCode} data={item} />;
-          })}
-        </div>
+        
+
+        
       </div>
     );
   }

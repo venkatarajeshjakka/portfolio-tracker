@@ -1,11 +1,24 @@
-import React from "react";
-import { Typography, IconButton, Grid, makeStyles } from "@material-ui/core";
+import React, { useState } from "react";
+import {
+  Typography,
+  IconButton,
+  Grid,
+  makeStyles,
+  Menu,
+  MenuItem
+} from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { WorkOutlineOutlined as WorkOutlineOutlinedIcon } from "@material-ui/icons";
 import { Button as OutlineButton } from "../../Controls";
 import DisplayItemSection from "../DisplayItemSection";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import { formatCurrency } from "../../../extensions/Formatters";
+import _ from "underscore";
+import { AlertDialog, FormDialog } from "../../Dialog";
+import Breakdown from "./Breakdown";
+
+const ITEM_HEIGHT = 48;
+const options = ["Details", "Sell", "BreakDown"];
 const useStyles = makeStyles(theme => ({
   item: {
     padding: theme.spacing(1),
@@ -14,11 +27,9 @@ const useStyles = makeStyles(theme => ({
     borderBottomColor: "#dde0e4",
     display: "block",
     position: "relative",
-    transition: 'opacity 0.4s ease-in-out',
     "&:hover": {
-      border: "2px solid",
-      borderRadius: "4px",
-      borderColor: "#0078ff",
+      position : 'relative',
+      boxShadow : '0 0.625rem 0.875rem rgba(0,116,129,0.32)'
     }
   },
   title_section: {
@@ -85,17 +96,49 @@ const useStyles = makeStyles(theme => ({
     alignItems: "center"
   }
 }));
-const StockListItem = ({ data }) => {
+const StockListItem = ({ data, historyData }) => {
   const classes = useStyles();
   const history = useHistory();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const [openAlert, setOpenAlert] = useState(false);
+  const [stock, setStock] = useState("");
+  const [breakDownValue, setBreakDownValue] = useState(null);
+  console.log(historyData);
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleClickAlertOpen = () => {
+    setOpenAlert(true);
+  };
+
+  const handleAlertClose = () => {
+    setStock("");
+    setOpenAlert(false);
+    setBreakDownValue(null);
+  };
+
+  const handleClick = event => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleRedirection = value => {
+    switch (value) {
+      case "Details":
+        history.push(`/position-details/${data.stockCode}`);
+        break;
+
+      case "BreakDown":
+        setBreakDownValue(_.where(historyData, { stockCode: stock }));
+        handleClickAlertOpen();
+        break;
+      default:
+    }
+  };
 
   return (
-    <div
-      onClick={() => {
-        history.push(`/position-details/${data.stockCode}`);
-      }}
-      className={classes.item}
-    >
+    <div className={classes.item}>
       <Grid container justify="space-between" alignItems="center">
         <Grid item>
           <div className={classes.heading}>
@@ -104,7 +147,13 @@ const StockListItem = ({ data }) => {
               align={"left"}
               variant="h6"
             >
-              <span>{data.stockName}</span>
+              <span
+                onClick={() => {
+                  history.push(`/position-details/${data.stockCode}`);
+                }}
+              >
+                {data.stockName}
+              </span>
               <span className={classes.title_tag}>SIP over due</span>
             </Typography>
             <div className={classes.price_section}>
@@ -124,7 +173,13 @@ const StockListItem = ({ data }) => {
         <Grid item>
           <Grid container justify="flex-start">
             <Grid item>
-              <OutlineButton variant="outlined" color="primary" text={"Add"} />
+              <OutlineButton
+                component={Link}
+                to="/add-position"
+                variant="outlined"
+                color="primary"
+                text={"Add"}
+              />
             </Grid>
             <Grid item>
               <IconButton
@@ -132,7 +187,10 @@ const StockListItem = ({ data }) => {
                 aria-label="more"
                 aria-controls="long-menu"
                 aria-haspopup="true"
-                onClick={event => {}}
+                onClick={event => {
+                  setStock(data.stockCode);
+                  handleClick(event);
+                }}
                 edge="end"
                 size="small"
               >
@@ -189,6 +247,36 @@ const StockListItem = ({ data }) => {
           </div>
         </Grid>
       </Grid>
+      <Menu
+        id="long-menu"
+        anchorEl={anchorEl}
+        keepMounted
+        open={open}
+        onClose={handleClose}
+        PaperProps={{
+          style: {
+            maxHeight: ITEM_HEIGHT * 4.5,
+            width: "20ch"
+          }
+        }}
+      >
+        {options.map(option => (
+          <MenuItem
+            key={option}
+            selected={option === "Pyxis"}
+            onClick={() => {
+              handleClose();
+              handleRedirection(option);
+            }}
+          >
+            {option}
+          </MenuItem>
+        ))}
+      </Menu>
+
+      <FormDialog open={openAlert} onClose={handleAlertClose}>
+        <Breakdown data={breakDownValue} />
+      </FormDialog>
     </div>
   );
 };

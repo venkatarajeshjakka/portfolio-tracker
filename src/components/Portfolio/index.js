@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Grid, Paper, Typography, Tabs, Tab } from "@material-ui/core";
+import { Grid, Typography, Tabs, Tab } from "@material-ui/core";
 import PageHeader from "../shared/PageHeader";
 import { withStyles } from "@material-ui/core/styles";
 import { Link, withRouter } from "react-router-dom";
@@ -147,18 +147,18 @@ const Portfolio = ({ classes }) => {
             startIcon={<AddOutlinedIcon />}
           />
         </Grid>
-        <Grid container justify="space-between" alignItems="center" spacing={3}>
-          <Grid item sm={12} md={9} lg={9} xl={9}>
+
+        <div className={classes.paper}>
+          <DisplaySummary
+            data={stockSummaryResponse}
+            redClass={classes.red}
+            greenClass={classes.green}
+          />
+        </div>
+
+        <Grid container justify="space-between" alignItems="center">
+          <Grid item xs={12} sm={12} md={3} lg={3} xl={3}>
             <div className={classes.paper}>
-              <DisplaySummary
-                data={stockSummaryResponse}
-                redClass={classes.red}
-                greenClass={classes.green}
-              />
-            </div>
-          </Grid>
-          <Grid item sm={12} md={3} lg={3} xl={3} xs={12}>
-            <Paper className={classes.paper}>
               <Typography align={"left"} gutterBottom variant="h6">
                 Top movers
               </Typography>
@@ -167,7 +167,7 @@ const Portfolio = ({ classes }) => {
                 redClass={classes.red}
                 greenClass={classes.green}
               />
-            </Paper>
+            </div>
           </Grid>
         </Grid>
 
@@ -185,7 +185,13 @@ const Portfolio = ({ classes }) => {
         <TabPanel value={value} index={0}>
           <div className={classes.stockList}>
             {stockSummaryResponse.stockSummary.map(item => {
-              return <StockListItem key={item.stockCode} data={item} />;
+              return (
+                <StockListItem
+                  key={item.stockCode}
+                  data={item}
+                  historyData={formattedResponse}
+                />
+              );
             })}
           </div>
         </TabPanel>

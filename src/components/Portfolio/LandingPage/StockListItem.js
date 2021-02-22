@@ -27,9 +27,10 @@ const useStyles = makeStyles(theme => ({
     borderBottomColor: "#dde0e4",
     display: "block",
     position: "relative",
+    tansition: "all 0.3s",
     "&:hover": {
-      position : 'relative',
-      boxShadow : '0 0.625rem 0.875rem rgba(0,116,129,0.32)'
+      position: "relative",
+      boxShadow: "0 0.625rem 0.875rem rgba(0,116,129,0.32)"
     }
   },
   title_section: {
@@ -114,9 +115,7 @@ const StockListItem = ({ data, historyData }) => {
   };
 
   const handleAlertClose = () => {
-    setStock("");
     setOpenAlert(false);
-    setBreakDownValue(null);
   };
 
   const handleClick = event => {

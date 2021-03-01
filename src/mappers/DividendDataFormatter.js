@@ -7,7 +7,8 @@ const formatDividendData = data => {
       stockName: item.data.stockName,
       amount: Number(item.data.amount),
       date: new Date(item.data.date.seconds * 1000),
-      year: new Date(item.data.date.seconds * 1000).getFullYear()
+      year: new Date(item.data.date.seconds * 1000).getFullYear(),
+      quarter: moment(new Date(item.data.date.seconds * 1000)).quarter()
     };
   });
 
@@ -45,7 +46,7 @@ const filteredYearlyData = (inputValue, year) => {
 
 const quarterlyFiltertedData = (data, currentQuarter) => {
   var filteredData = _.filter(data, function(input) {
-    return moment(input.date).quarter() === currentQuarter;
+    return input.quarter === currentQuarter;
   });
 
   return filteredData;
@@ -109,51 +110,48 @@ const dividendInformation = data => {
   var n = d.getFullYear();
   var previousYear = n - 1;
 
-  var currentQuarter = moment(n).quarter();
+  var currentQuarter = moment(d).quarter();
 
   var currentYearFilteredData = filteredYearlyData(response, n);
-
-  var quarterFilteredData = quarterlyFiltertedData(
-    currentYearFilteredData,
-    currentQuarter
-  );
-
-  var currentYearQuarterlyAmount = filteredAmount(quarterFilteredData);
-
-  var currentYearAmount = filteredAmount(currentYearFilteredData);
-
   var previousYearFilteredData = filteredYearlyData(response, previousYear);
 
-  var previousYearQuarterFilteredData = quarterlyFiltertedData(
-    previousYearFilteredData,
-    currentQuarter
-  );
+  if (currentYearFilteredData && previousYearFilteredData) {
+    var quarterFilteredData = quarterlyFiltertedData(
+      currentYearFilteredData,
+      currentQuarter
+    );
 
-  var previousYearQuarterlyAmount = filteredAmount(
-    previousYearQuarterFilteredData
-  );
+    var currentYearQuarterlyAmount = filteredAmount(quarterFilteredData);
+    var currentYearAmount = filteredAmount(currentYearFilteredData);
 
-  var previousYearAmount = filteredAmount(previousYearFilteredData);
+    var previousYearQuarterFilteredData = quarterlyFiltertedData(
+      previousYearFilteredData,
+      currentQuarter
+    );
+    var previousYearQuarterlyAmount = filteredAmount(
+      previousYearQuarterFilteredData
+    );
+    var previousYearAmount = filteredAmount(previousYearFilteredData);
 
-  var yearlyChangePercentage = changePercentage(
-    currentYearAmount,
-    previousYearAmount
-  );
-  var quarterlyChangePercentage = changePercentage(
-    currentYearQuarterlyAmount,
-    previousYearQuarterlyAmount
-  );
-
-  return {
-    totalAmount,
-    currentYearAmount,
-    previousYearAmount,
-    yearlyChangePercentage,
-    currentYearQuarterlyAmount,
-    previousYearQuarterlyAmount,
-    quarterlyChangePercentage,
-    groupedResponse: mappedResponse,
-    yearlyGroupedResponse
-  };
+    var yearlyChangePercentage = changePercentage(
+      currentYearAmount,
+      previousYearAmount
+    );
+    var quarterlyChangePercentage = changePercentage(
+      currentYearQuarterlyAmount,
+      previousYearQuarterlyAmount
+    );
+    return {
+      totalAmount,
+      currentYearAmount,
+      previousYearAmount,
+      yearlyChangePercentage,
+      currentYearQuarterlyAmount,
+      previousYearQuarterlyAmount,
+      quarterlyChangePercentage,
+      groupedResponse: mappedResponse,
+      yearlyGroupedResponse
+    };
+  }
 };
 export { formatDividendData, dividendInformation };

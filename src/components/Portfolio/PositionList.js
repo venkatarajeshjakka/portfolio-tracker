@@ -18,7 +18,8 @@ import DisplayItemSection from "./DisplayItemSection";
 import moment from "moment";
 import { withRouter } from "react-router-dom";
 import { Context as PortfolioContext } from "../../context/PortfolioContext";
-import { AlertDialog } from "../Dialog";
+import { AlertDialog, FormDialog } from "../Dialog";
+import AddPortfolioForm from "./AddPortfolioForm";
 import { Red, Green } from "../../color";
 import StockAlert from "./StockAlert";
 
@@ -195,17 +196,21 @@ const ThirdColumn = ({ investmentValue, currentValue }) => {
 };
 
 const PositionList = ({ className, history, data, ...rest }) => {
+  const { ltp, change, changePercentage, stockCode } = data.summary;
   const [anchorEl, setAnchorEl] = useState(null);
   const [poistionValue, setValue] = useState(null);
   const open = Boolean(anchorEl);
   const [openAlert, setOpenAlert] = useState(false);
+  const [openAddAlert, setOpenAddAlert] = useState(false);
+
   const { addPositionId, deletePosition, clearPositionId } = useContext(
     PortfolioContext
   );
   const handleRedirection = value => {
     switch (value) {
       case "Buy":
-        history.push("/add-position");
+        handleClickAddAlertOpen();
+
         break;
       case "Sell":
         addPositionId(poistionValue);
@@ -231,6 +236,13 @@ const PositionList = ({ className, history, data, ...rest }) => {
     clearPositionId("");
   };
 
+  const handleClickAddAlertOpen = () => {
+    setOpenAddAlert(true);
+  };
+
+  const handleAddAlertClose = () => {
+    setOpenAddAlert(false);
+  };
   const deletePositionEntry = () => {
     handleClickAlertOpen();
   };
@@ -242,8 +254,6 @@ const PositionList = ({ className, history, data, ...rest }) => {
     setAnchorEl(null);
   };
   const classes = useStyles();
-
-  const { ltp, change, changePercentage } = data.summary;
 
   return (
     <div>
@@ -374,6 +384,15 @@ const PositionList = ({ className, history, data, ...rest }) => {
         open={openAlert}
         handleClose={handleAlertClose}
       />
+      <FormDialog open={openAddAlert} onClose={handleAddAlertClose}>
+        <AddPortfolioForm
+          onClose={() =>{
+            handleAddAlertClose()
+            history.push("/portfolio");
+          }}
+          stockCode={stockCode}
+        />
+      </FormDialog>
     </div>
   );
 };

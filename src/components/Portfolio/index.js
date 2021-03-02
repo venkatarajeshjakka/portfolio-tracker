@@ -22,6 +22,8 @@ import {
   StockListItem
 } from "./LandingPage";
 import { TabPanel } from "../Tab";
+import AddPortfolioForm from "./AddPortfolioForm";
+import { FormDialog } from "../Dialog";
 
 function a11yProps(index) {
   return {
@@ -100,6 +102,14 @@ const Portfolio = ({ classes }) => {
   }, [positionsKeys]);
 
   const [value, setValue] = useState(0);
+  const [openAddAlert, setOpenAddAlert] = useState(false);
+  const handleClickAddAlertOpen = () => {
+    setOpenAddAlert(true);
+  };
+
+  const handleAddAlertClose = () => {
+    setOpenAddAlert(false);
+  };
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -141,8 +151,9 @@ const Portfolio = ({ classes }) => {
           <Button
             variant="outlined"
             color="primary"
-            component={Link}
-            to="/add-position"
+            onClick={() => {
+              handleClickAddAlertOpen();
+            }}
             text={"Add"}
             startIcon={<AddOutlinedIcon />}
           />
@@ -209,6 +220,9 @@ const Portfolio = ({ classes }) => {
             </Grid>
           </div>
         </TabPanel>
+        <FormDialog open={openAddAlert} onClose={handleAddAlertClose}>
+          <AddPortfolioForm onClose={handleAddAlertClose} />
+        </FormDialog>
       </div>
     );
   }

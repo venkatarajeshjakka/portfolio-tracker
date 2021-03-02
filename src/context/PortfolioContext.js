@@ -9,7 +9,10 @@ const portfolioReducer = (state, action) => {
     case "add_position":
       return {
         ...state,
-        portfolioArray: [...state.portfolioArray, action.payload]
+        portfolioArray: [...state.portfolioArray, action.payload],
+        portfolioArrayService: [],
+        positionsKeys: [],
+        formattedResponse : []
       };
     case "get_positionList":
       return { ...state, portfolioArrayService: action.payload };
@@ -42,7 +45,8 @@ const portfolioReducer = (state, action) => {
         ...state,
         portfolioArray: [],
         portfolioArrayService: [],
-        positionsKeys: []
+        positionsKeys: [],
+        formattedResponse : []
       };
 
     case "edit_position_quantity":

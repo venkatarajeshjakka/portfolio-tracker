@@ -56,6 +56,7 @@ const DisplayTopMovers = ({ data, greenClass, redClass }) => {
       </Grid>
     );
   }
+  return null;
 };
 
 export default DisplayTopMovers;

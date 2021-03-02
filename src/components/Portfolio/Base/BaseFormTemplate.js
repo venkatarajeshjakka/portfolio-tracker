@@ -11,12 +11,12 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
       marginTop: theme.spacing(6),
       marginBottom: theme.spacing(6),
-      padding: theme.spacing(3)
+      padding: theme.spacing(3),
     }
   },
   form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(1)
+    marginTop: theme.spacing(1),
+    marginRight : theme.spacing(1)
   }
 }));
 

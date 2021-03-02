@@ -11,12 +11,12 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { WorkOutlineOutlined as WorkOutlineOutlinedIcon } from "@material-ui/icons";
 import { Button as OutlineButton } from "../../Controls";
 import DisplayItemSection from "../DisplayItemSection";
-import { useHistory, Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { formatCurrency } from "../../../extensions/Formatters";
 import _ from "underscore";
-import { AlertDialog, FormDialog } from "../../Dialog";
+import { FormDialog } from "../../Dialog";
 import Breakdown from "./Breakdown";
-
+import AddPortfolioForm from "../AddPortfolioForm";
 const ITEM_HEIGHT = 48;
 const options = ["Details", "Sell", "BreakDown"];
 const useStyles = makeStyles(theme => ({
@@ -105,7 +105,8 @@ const StockListItem = ({ data, historyData }) => {
   const [openAlert, setOpenAlert] = useState(false);
   const [stock, setStock] = useState("");
   const [breakDownValue, setBreakDownValue] = useState(null);
-  console.log(historyData);
+  const [openAddAlert, setOpenAddAlert] = useState(false);
+
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -116,6 +117,14 @@ const StockListItem = ({ data, historyData }) => {
 
   const handleAlertClose = () => {
     setOpenAlert(false);
+  };
+
+  const handleClickAddAlertOpen = () => {
+    setOpenAddAlert(true);
+  };
+
+  const handleAddAlertClose = () => {
+    setOpenAddAlert(false);
   };
 
   const handleClick = event => {
@@ -132,6 +141,7 @@ const StockListItem = ({ data, historyData }) => {
         setBreakDownValue(_.where(historyData, { stockCode: stock }));
         handleClickAlertOpen();
         break;
+
       default:
     }
   };
@@ -173,8 +183,9 @@ const StockListItem = ({ data, historyData }) => {
           <Grid container justify="flex-start">
             <Grid item>
               <OutlineButton
-                component={Link}
-                to="/add-position"
+                onClick={() => {
+                  handleClickAddAlertOpen();
+                }}
                 variant="outlined"
                 color="primary"
                 text={"Add"}
@@ -275,6 +286,11 @@ const StockListItem = ({ data, historyData }) => {
 
       <FormDialog open={openAlert} onClose={handleAlertClose}>
         <Breakdown data={breakDownValue} />
+      </FormDialog>
+      <FormDialog open={openAddAlert} onClose={handleAddAlertClose}>
+        <AddPortfolioForm 
+        onClose={handleAddAlertClose}
+        stockCode={data.stockCode} />
       </FormDialog>
     </div>
   );

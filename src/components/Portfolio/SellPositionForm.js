@@ -1,14 +1,12 @@
 import React, { useState, useContext, useEffect } from "react";
 import {
   Grid,
-  InputAdornment,
   Paper,
   Typography,
   Box,
   CircularProgress
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
-import { Input, DatePicker } from "../Controls";
 import { withRouter } from "react-router";
 import { Context as PortfolioContext } from "../../context/PortfolioContext";
 import _ from "underscore";
@@ -17,7 +15,7 @@ import { formatCurrency } from "../../extensions/Formatters";
 import { AuthContext } from "../../context/AuthContext";
 import { Context as StockContext } from "../../context/StockContext";
 import { getStockDetails } from "../../mappers/PositionDataFormatter";
-import { BaseFormTemplate, BaseFormActionButtons } from "./Base";
+import {  SellBaseForm } from "./Base";
 
 const DisplaySection = ({ label, value, className }) => {
   return (
@@ -50,10 +48,10 @@ const styles = theme => ({
     display: "flex"
   },
   paper: {
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing(4),
     padding: theme.spacing(2),
     [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
-      marginTop: theme.spacing(3),
+      marginTop: theme.spacing(4),
       padding: theme.spacing(3)
     }
   },
@@ -159,63 +157,20 @@ const SellPositionForm = props => {
     return (
       <div className={classes.root}>
         <Grid container justify={"space-between"} spacing={3}>
-          <Grid item xs={12} sm={9} md={9} xl={9} lg={9}>
-            <BaseFormTemplate title={"Sell Position"}>
-              <Grid container spacing={3}>
-                <Grid item xs={12} sm={9} md={6} lg={6} xl={6}>
-                  <Input
-                    name="stockName"
-                    label="Stock Name"
-                    value={stockName}
-                    fullWidth={true}
-                    id="outlined-adornment-amount"
-                    margin="normal"
-                  />
-                </Grid>
-              </Grid>
-              <Grid container justify="space-between" spacing={3}>
-                <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                  <Input
-                    name="sellPrice"
-                    label="Sell Price"
-                    onChange={handleChange("sellPrice")}
-                    value={values.sellPrice}
-                    fullWidth={true}
-                    id="outlined-adornment-amount"
-                    margin="normal"
-                    type="number"
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">₹</InputAdornment>
-                      )
-                    }}
-                  />
-                  <Input
-                    name="quantity"
-                    label="Quantity"
-                    onChange={handleChange("quantity")}
-                    value={values.quantity}
-                    fullWidth={true}
-                    id="outlined-adornment-amount"
-                    margin="normal"
-                    type="number"
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                  <DatePicker
-                    label="Date"
-                    value={selectedDate}
-                    onChange={handleDateChange}
-                  />
-                  <BaseFormActionButtons
-                    handleSubmit={handleSubmit}
-                    handleReset={handleReset}
-                  />
-                </Grid>
-              </Grid>
-            </BaseFormTemplate>
+          <Grid item xs={12} sm={6} md={6} xl={6} lg={6}>
+            <Paper className={classes.paper}>
+              <SellBaseForm
+                stockName={stockName}
+                handleChange={handleChange}
+                values={values}
+                handleDateChange={handleDateChange}
+                selectedDate={selectedDate}
+                handleReset={handleReset}
+                handleSubmit={handleSubmit}
+              />
+            </Paper>
           </Grid>
-          <Grid item xs={12} sm={3} lg={3} md={3} xl={3}>
+          <Grid item xs={12} sm={6} lg={6} md={6} xl={6}>
             <Paper className={classes.paper}>
               <Typography
                 component="h1"

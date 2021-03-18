@@ -7,10 +7,10 @@ import Home from "../HomePage";
 import Watchlist from "../Watchlist";
 import Dividend from "../Dividend";
 import Portfolio from "../Portfolio";
-import AddPortfolioForm from "../Portfolio/AddPortfolioForm";
 import SellPositionForm from "../Portfolio/SellPositionForm";
 import PositionDetails from "../Portfolio/PositionDetails";
 import EditPositionForm from "../Portfolio/EditPositionForm";
+import SellPostion from "../Portfolio/SellPosition";
 import Layout from "../shared/layout";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { CssBaseline } from "@material-ui/core";
@@ -20,7 +20,7 @@ import { Provider as DividendProvider } from "../../context/DividendContext";
 import { Provider as WatchListProvider } from "../../context/WatchListContext";
 import { Provider as StockProvider } from "../../context/StockContext";
 import { Provider as PortfolioProvider } from "../../context/PortfolioContext";
-
+import { Provider as SellTransactionProvider } from "../../context/SellTransactionContext";
 import PrivatRoute from "../../config/PrivateRoute";
 const theme = createMuiTheme();
 
@@ -45,13 +45,13 @@ const App = () => {
             />
             <PrivatRoute
               exact
-              path="/add-position"
-              component={AddPortfolioForm}
+              path="/sell-position"
+              component={SellPositionForm}
             />
             <PrivatRoute
               exact
-              path="/sell-position"
-              component={SellPositionForm}
+              path="/sell-positions/:stockCode"
+              component={SellPostion}
             />
             <PrivatRoute
               exact
@@ -72,7 +72,9 @@ export default () => {
         <StockProvider>
           <DividendProvider>
             <PortfolioProvider>
-              <App />
+              <SellTransactionProvider>
+                <App />
+              </SellTransactionProvider>
             </PortfolioProvider>
           </DividendProvider>
         </StockProvider>

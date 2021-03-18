@@ -141,7 +141,8 @@ const StockListItem = ({ data, historyData }) => {
         setBreakDownValue(_.where(historyData, { stockCode: stock }));
         handleClickAlertOpen();
         break;
-
+      case "Sell":
+        history.push(`/sell-Positions/${data.stockCode}`);
       default:
     }
   };
@@ -288,9 +289,10 @@ const StockListItem = ({ data, historyData }) => {
         <Breakdown data={breakDownValue} />
       </FormDialog>
       <FormDialog open={openAddAlert} onClose={handleAddAlertClose}>
-        <AddPortfolioForm 
-        onClose={handleAddAlertClose}
-        stockCode={data.stockCode} />
+        <AddPortfolioForm
+          onClose={handleAddAlertClose}
+          stockCode={data.stockCode}
+        />
       </FormDialog>
     </div>
   );

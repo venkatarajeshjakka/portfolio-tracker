@@ -18,6 +18,7 @@ const SellBaseForm = ({
   handleReset
 }) => {
   const classes = useStyles();
+  
   return (
     <form
       className={classes.form}
@@ -72,4 +73,4 @@ const SellBaseForm = ({
 };
 
 export default SellBaseForm;
-export { SellBaseForm }
+export { SellBaseForm };

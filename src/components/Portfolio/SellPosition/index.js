@@ -1,16 +1,19 @@
 import React, { useContext, useState } from "react";
 import { withStyles } from "@material-ui/core/styles";
-import { Grid, Typography } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import { withRouter } from "react-router-dom";
 import DisplayItemSection from "../DisplayItemSection";
 import { Context as PortfolioContext } from "../../../context/PortfolioContext";
 import { Context as StockContext } from "../../../context/StockContext";
+import { Context as TransactionContext } from "../../../context/SellTransactionContext";
 import { formatCurrency } from "../../../extensions/Formatters";
 import { getFormattStockData } from "../../../mappers/WatchListDataFormatter";
 import { stockResponse } from "../../../mappers/PositionDataFormatter";
+import { Button } from "../../Controls";
 import _ from "underscore";
 import moment from "moment";
-import { Red, Green } from "../../../color";
+import StockSummary from "./StockSummary";
+import KeyboardBackspaceOutlinedIcon from "@material-ui/icons/KeyboardBackspaceOutlined";
 const styles = theme => ({
   container: {
     flexGrow: 1,
@@ -45,11 +48,10 @@ const styles = theme => ({
     borderRadius: theme.spacing(1),
     cursor: "pointer"
   },
-  red: {
-    color: Red.dafault
-  },
-  green: {
-    color: Green.default
+  button: {
+    marginTop: theme.spacing(3),
+    display: "flex",
+    justifyContent: "flex-end"
   }
 });
 
@@ -69,55 +71,27 @@ const SellPosition = props => {
     state: { watchListStockData }
   } = useContext(StockContext);
 
+  const { addSellPosition } = useContext(TransactionContext);
+
   var stockSymbol = stockCode + ".NS";
   var stockData = getFormattStockData(watchListStockData);
   var data = _.findWhere(stockData, { stockCode: stockSymbol });
 
   const [value, setValue] = useState("");
   var cardResponse = {
-    summary: stockResponse(data, portfolioStockInfo, stockCode),
-    history: portfolioStockInfo
+    summary: stockResponse(data, portfolioStockInfo, stockCode)
   };
 
-  const { stockName, ltp, change, changePercentage } = cardResponse.summary;
+  const onClickOfNext = event => {
+    addSellPosition(value);
+    props.history.push("/sell-position-summary");
+  };
+
   return (
     <main className={classes.container}>
       <Grid container direction="row" justify="space-between" spacing={2}>
         <Grid item lg={6} xl={6} sm={12} xs={12}>
-          <div>
-            <Typography
-              component="h5"
-              variant="h5"
-              align="left"
-              color="primary"
-            >
-              {stockName}
-            </Typography>
-            <Typography align={"left"} gutterBottom variant="h5">
-              {formatCurrency(ltp)}
-            </Typography>
-
-            <Grid container alignItems="center" spacing={2}>
-              <Grid item>
-                <Typography
-                  className={change > 0 ? classes.green : classes.red}
-                  gutterBottom
-                  variant="h6"
-                >
-                  {formatCurrency(change)}
-                </Typography>
-              </Grid>
-              <Grid item>
-                <Typography
-                  className={change > 0 ? classes.green : classes.red}
-                  gutterBottom
-                  variant="h6"
-                >
-                  {changePercentage} %
-                </Typography>
-              </Grid>
-            </Grid>
-          </div>
+          <StockSummary data={cardResponse.summary} />
         </Grid>
         <Grid item lg={6} xl={6} sm={12} xs={12}>
           {portfolioStockInfo.map(item => {
@@ -140,7 +114,7 @@ const SellPosition = props => {
                   alignItems="center"
                   spacing={2}
                 >
-                  <Grid item lg={3} xl={3} md={3} sm={6} xs={6} >
+                  <Grid item lg={3} xl={3} md={3} sm={6} xs={6}>
                     <DisplayItemSection
                       label={"Buy Price"}
                       value={formatCurrency(item.buyPrice)}
@@ -172,6 +146,16 @@ const SellPosition = props => {
           })}
         </Grid>
       </Grid>
+      <div className={classes.button}>
+        <Button startIcon={<KeyboardBackspaceOutlinedIcon />} size="large" />
+        <Button
+          onClick={event => {
+            onClickOfNext(event);
+          }}
+          text={"Next"}
+          size="large"
+        />
+      </div>
     </main>
   );
 };

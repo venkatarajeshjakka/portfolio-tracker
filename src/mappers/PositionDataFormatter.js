@@ -117,12 +117,14 @@ const getStockDetails = (product, stockDataResponse) => {
   const {
     regularMarketChange,
     regularMarketChangePercent,
-    regularMarketPrice
+    regularMarketPrice,
+    longName
   } = data.data.price;
   return {
     ltp: regularMarketPrice,
     change: regularMarketChange,
-    changePercentage: (regularMarketChangePercent * 100).toFixed(2)
+    changePercentage: (regularMarketChangePercent * 100).toFixed(2),
+    stockName : longName
   };
 };
 const stockSummary = (stockKeys, stockDataResponse, positionData) => {

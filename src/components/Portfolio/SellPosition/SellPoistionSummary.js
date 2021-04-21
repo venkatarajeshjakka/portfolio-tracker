@@ -17,11 +17,12 @@ const styles = theme => ({
     flexGrow: 1,
     marginTop: theme.spacing(7),
     padding: theme.spacing(1),
-    backgroundColor: theme.palette.background.paper
+    backgroundColor: theme.palette.background.paper,
+    marginLeft: theme.spacing(2),
+    marginRight: theme.spacing(2)
   },
   form: {
-    marginRight: theme.spacing(2),
-    
+    marginRight: theme.spacing(2)
   }
 });
 
@@ -39,6 +40,7 @@ const SellPositionSummary = props => {
   } = useContext(StockContext);
 
   const {
+    addTransaction,
     state: { position }
   } = useContext(TransactionContext);
 
@@ -103,16 +105,18 @@ const SellPositionSummary = props => {
       quantity: values.quantity,
       buyDate: positionData.date
     };
-    addClosedPosition(request, currentUser.uid);
+    addTransaction(request);
+    //addClosedPosition(request, currentUser.uid);
     let difference = positionData.quantity - values.quantity;
     var parsed = parseInt(difference, 10);
-    if (parsed === 0) {
-      deletePosition(position);
-    } else {
-      updatePositionQuantity(position, parsed);
-    }
+    //if (parsed === 0) {
+    //deletePosition(position);
+    //} else {
+    //updatePositionQuantity(position, parsed);
+    //}
 
-    history.push("/portfolio");
+    //history.push("/portfolio");
+    history.push("/sell-position-summary-final");
   };
 
   const handleDateChange = date => {

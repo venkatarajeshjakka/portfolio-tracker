@@ -11,6 +11,7 @@ import SellPositionForm from "../Portfolio/SellPositionForm";
 import PositionDetails from "../Portfolio/PositionDetails";
 import EditPositionForm from "../Portfolio/EditPositionForm";
 import SellPositionSummary from "../Portfolio/SellPosition/SellPoistionSummary";
+import SellFinalStep from '../Portfolio/SellPosition/SellFinalStep'
 import SellPostion from "../Portfolio/SellPosition";
 import Layout from "../shared/layout";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
@@ -53,6 +54,11 @@ const App = () => {
               exact
               path="/sell-position-summary"
               component={SellPositionSummary}
+            />
+            <PrivatRoute
+              exact
+              path="/sell-position-summary-final"
+              component={SellFinalStep}
             />
             <PrivatRoute
               exact

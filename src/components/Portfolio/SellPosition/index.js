@@ -19,7 +19,9 @@ const styles = theme => ({
     flexGrow: 1,
     marginTop: theme.spacing(7),
     padding: theme.spacing(1),
-    backgroundColor: theme.palette.background.paper
+    backgroundColor: theme.palette.background.paper,
+    marginRight: theme.spacing(2),
+    marginLeft: theme.spacing(2),
   },
   item: {
     width: "100%",
